@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="960" viewBox="0 0 1100 960">
+  <defs>
+    <!-- Arrow marker for open dependency arrowhead (<<include>>, <<extend>>) -->
+    <marker id="arrOpen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9" fill="none" stroke="#222" stroke-width="1.2"/>
+    </marker>
+    <style>
+      .box{fill:#fff;stroke:#222;stroke-width:1.2}
+      .ln{fill:none;stroke:#222;stroke-width:1.2}
+      .dash-arr{fill:none;stroke:#222;stroke-width:1.1;stroke-dasharray:4 3;marker-end:url(#arrOpen)}
+      text{font-family:Arial,Helvetica,sans-serif;font-size:11px;text-anchor:middle;dominant-baseline:middle;fill:#111}
+      .sm{font-size:10px}
+      .lbl{font-size:10px;fill:#333}
+      .tag{font-size:9.5px;font-style:italic;fill:#444}
+      .title{font-size:15px;font-weight:bold;fill:#111}
+      .actor-lbl{font-size:13px;font-weight:bold;fill:#111}
+      .header-bar{fill:#f8f9fa;stroke:#222;stroke-width:1.2}
+    </style>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect x="0" y="0" width="1100" height="960" fill="#fff"/>
+
+  <!-- ================= SYSTEM BOUNDARY ================= -->
+  <rect class="box" x="180" y="30" width="880" height="895" rx="3" ry="3"/>
+  <rect class="header-bar" x="180" y="30" width="880" height="42"/>
+  <text class="title" x="620" y="52">Sistem Aplikasi T2C (Trash-to-Cash)</text>
+
+  <!-- ================= ACTOR: PENGGUNA ================= -->
+  <!-- Stick figure Pengguna -->
+  <circle class="box" cx="85" cy="450" r="18"/>
+  <line class="ln" x1="85" y1="468" x2="85" y2="525"/>
+  <line class="ln" x1="50" y1="485" x2="120" y2="485"/>
+  <line class="ln" x1="85" y1="525" x2="55" y2="575"/>
+  <line class="ln" x1="85" y1="525" x2="115" y2="575"/>
+  <text class="actor-lbl" x="85" y="598">Pengguna</text>
+
+  <!-- Association Connection from Actor to Spine -->
+  <line class="ln" x1="120" y1="485" x2="230" y2="485"/>
+  <text class="lbl" x="150" y="477">*</text>
+
+  <!-- Vertical Distribution Spine -->
+  <line class="ln" x1="230" y1="130" x2="230" y2="830"/>
+
+  <!-- Branch lines from Spine to Primary Use Cases -->
+  <line class="ln" x1="230" y1="130" x2="270" y2="130"/>
+  <text class="lbl" x="245" y="122">*</text>
+
+  <line class="ln" x1="230" y1="230" x2="270" y2="230"/>
+  <text class="lbl" x="245" y="222">*</text>
+
+  <line class="ln" x1="230" y1="335" x2="265" y2="335"/>
+  <text class="lbl" x="245" y="327">*</text>
+
+  <line class="ln" x1="230" y1="460" x2="265" y2="460"/>
+  <text class="lbl" x="245" y="452">*</text>
+
+  <line class="ln" x1="230" y1="585" x2="265" y2="585"/>
+  <text class="lbl" x="245" y="577">*</text>
+
+  <line class="ln" x1="230" y1="705" x2="265" y2="705"/>
+  <text class="lbl" x="245" y="697">*</text>
+
+  <line class="ln" x1="230" y1="830" x2="265" y2="830"/>
+  <text class="lbl" x="245" y="822">*</text>
+
+  <!-- ================= PRIMARY USE CASES ================= -->
+
+  <!-- UC-01: Sign Up -->
+  <ellipse class="box" cx="370" cy="130" rx="100" ry="26"/>
+  <text x="370" y="130">Sign Up</text>
+
+  <!-- UC-02: Sign In -->
+  <ellipse class="box" cx="370" cy="230" rx="100" ry="26"/>
+  <text x="370" y="230">Sign In</text>
+
+  <!-- UC-03: Dashboard -->
+  <ellipse class="box" cx="370" cy="335" rx="105" ry="28"/>
+  <text x="370" y="328">Melihat Dashboard &amp;</text>
+  <text x="370" y="342">Statistik Lingkungan</text>
+
+  <!-- UC-04: AI Pre-Scan Sampah -->
+  <ellipse class="box" cx="370" cy="460" rx="105" ry="28"/>
+  <text x="370" y="453">Melakukan AI</text>
+  <text x="370" y="467">Pre-Scan Sampah</text>
+
+  <!-- UC-05: Menyetor Sampah -->
+  <ellipse class="box" cx="370" cy="585" rx="105" ry="28"/>
+  <text x="370" y="578">Menyetor Sampah</text>
+  <text x="370" y="592">(Simulasi Smart Bin)</text>
+
+  <!-- UC-06: Marketplace Eco-Coins -->
+  <ellipse class="box" cx="370" cy="705" rx="105" ry="28"/>
+  <text x="370" y="698">Menukar Eco-Coins</text>
+  <text x="370" y="712">(Marketplace)</text>
+
+  <!-- UC-07: Gamifikasi -->
+  <ellipse class="box" cx="370" cy="830" rx="105" ry="28"/>
+  <text x="370" y="823">Mengakses Fitur</text>
+  <text x="370" y="837">Gamifikasi &amp; Misi</text>
+
+  <!-- ================= SECONDARY / EXTENDED / INCLUDED USE CASES ================= -->
+
+  <!-- ================= RELASI UC-04 (AI Pre-Scan) ================= -->
+  <!-- UC-04a: Menerbitkan Drop Pass (include) -->
+  <ellipse class="box" cx="815" cy="415" rx="105" ry="26"/>
+  <text x="815" y="408">Menerbitkan</text>
+  <text x="815" y="422">Drop Pass (QR)</text>
+  <path class="dash-arr" d="M470,448 L715,419"/>
+  <rect x="560" y="420" width="68" height="15" fill="#fff" opacity="0.9"/>
+  <text class="tag" x="594" y="428">&lt;&lt;include&gt;&gt;</text>
+
+  <!-- UC-04b: Panduan & Saran Pemilahan (extend) -->
+  <ellipse class="box" cx="815" cy="485" rx="105" ry="26"/>
+  <text x="815" y="478">Melihat Saran</text>
+  <text x="815" y="492">Koreksi Sampah</text>
+  <!-- Extended arrow points from extension back to base -->
+  <path class="dash-arr" d="M715,481 L470,468"/>
+  <rect x="560" y="466" width="68" height="15" fill="#fff" opacity="0.9"/>
+  <text class="tag" x="594" y="474">&lt;&lt;extend&gt;&gt;</text>
+
+  <!-- ================= RELASI UC-05 (Smart Bin) ================= -->
+  <!-- UC-05a: Kredit Koin & XP Instan (include) -->
+  <ellipse class="box" cx="815" cy="585" rx="105" ry="26"/>
+  <text x="815" y="578">Mendapatkan</text>
+  <text x="815" y="592">Eco-Coins &amp; XP</text>
+  <path class="dash-arr" d="M475,585 L710,585"/>
+  <rect x="560" y="577" width="68" height="15" fill="#fff" opacity="0.9"/>
+  <text class="tag" x="594" y="585">&lt;&lt;include&gt;&gt;</text>
+
+  <!-- ================= RELASI UC-06 (Marketplace) ================= -->
+  <!-- UC-06a: E-Wallet (extend) -->
+  <ellipse class="box" cx="815" cy="655" rx="105" ry="24"/>
+  <text x="815" y="655">Tukar Saldo E-Wallet</text>
+  <path class="dash-arr" d="M715,662 L470,696"/>
+  <rect x="560" y="669" width="68" height="15" fill="#fff" opacity="0.9"/>
+  <text class="tag" x="594" y="677">&lt;&lt;extend&gt;&gt;</text>
+
+  <!-- UC-06b: Voucher Ritel (extend) -->
+  <ellipse class="box" cx="815" cy="710" rx="105" ry="24"/>
+  <text x="815" y="710">Tukar Voucher Mitra</text>
+  <path class="dash-arr" d="M710,709 L475,706"/>
+  <rect x="560" y="700" width="68" height="15" fill="#fff" opacity="0.9"/>
+  <text class="tag" x="594" y="708">&lt;&lt;extend&gt;&gt;</text>
+
+  <!-- UC-06c: Donasi Pohon (extend) -->
+  <ellipse class="box" cx="815" cy="765" rx="105" ry="24"/>
+  <text x="815" y="765">Donasi Adopsi Pohon</text>
+  <path class="dash-arr" d="M715,757 L470,714"/>
+  <rect x="560" y="728" width="68" height="15" fill="#fff" opacity="0.9"/>
+  <text class="tag" x="594" y="736">&lt;&lt;extend&gt;&gt;</text>
+
+  <!-- ================= RELASI UC-07 (Gamifikasi) ================= -->
+  <!-- UC-07a: EcoTree (extend) -->
+  <ellipse class="box" cx="815" cy="820" rx="105" ry="24"/>
+  <text x="815" y="820">Merawat &amp; Panen EcoTree</text>
+  <path class="dash-arr" d="M710,822 L475,828"/>
+  <rect x="560" y="818" width="68" height="15" fill="#fff" opacity="0.9"/>
+  <text class="tag" x="594" y="826">&lt;&lt;extend&gt;&gt;</text>
+
+  <!-- UC-07b: Misi / Quests (extend) -->
+  <ellipse class="box" cx="815" cy="875" rx="105" ry="24"/>
+  <text x="815" y="875">Klaim Hadiah Misi (Quests)</text>
+  <path class="dash-arr" d="M715,867 L470,838"/>
+  <rect x="560" y="845" width="68" height="15" fill="#fff" opacity="0.9"/>
+  <text class="tag" x="594" y="853">&lt;&lt;extend&gt;&gt;</text>
+</svg>

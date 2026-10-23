@@ -1,0 +1,232 @@
+============================================================
+PENJELASAN PROTOTIPE TRASH-TO-CASH (T2C)
+Alasan Pembuatan, Logika Alur, dan Penjelasan Fitur
+============================================================
+
+Catatan penggunaan:
+- Teks dalam tanda [ ... ] adalah bagian yang perlu diisi/diverifikasi
+  dengan data sekunder dan sumber rujukan yang Anda gunakan.
+- Ruang lingkup prototipe: website (aplikasi web mobile) dan fitur AI Scan.
+  Prototipe TIDAK mencakup perangkat IoT fisik.
+
+
+------------------------------------------------------------
+A. ALASAN PEMBUATAN APLIKASI
+------------------------------------------------------------
+
+1. Permasalahan volume sampah perkotaan
+   Kota Bogor menghasilkan timbulan sampah sekitar [isi angka] ton per hari
+   (sumber: [SIPSN KLHK / DLH Kota Bogor, tahun]). Sebagian besar sampah
+   tersebut berakhir di TPA Galuga yang kapasitasnya semakin terbatas
+   [isi data/rujukan]. Padahal, sebagian dari sampah tersebut merupakan
+   sampah anorganik yang masih bernilai ekonomi, seperti plastik PET,
+   kardus/kertas, kaleng aluminium, dan barang elektronik bekas
+   [isi persentase komposisi sampah jika tersedia].
+
+2. Rendahnya kebiasaan memilah sampah di masyarakat
+   Berdasarkan data dan literatur yang dikaji, masyarakat cenderung enggan
+   memilah sampah karena beberapa alasan:
+   a. Tidak ada imbalan yang dirasakan secara langsung.
+   b. Layanan bank sampah konvensional masih manual, terjadwal (mingguan
+      atau bulanan), dan pencatatannya lambat.
+   c. Masyarakat tidak mengetahui sampah mana yang layak didaur ulang dan
+      bagaimana kondisi sampah yang dapat diterima (bersih, kering, pipih).
+
+3. Sampah daur ulang yang kotor menurunkan nilai jual
+   Sampah anorganik yang masih tercampur sisa makanan, minyak, atau cairan
+   akan turun nilainya bahkan ditolak oleh pengepul/industri daur ulang
+   [isi rujukan]. Artinya, masalah tidak hanya pada "mau memilah atau
+   tidak", tetapi juga pada "apakah sampah yang dipilah sudah layak".
+
+4. Peluang teknologi
+   Penggunaan smartphone yang luas di masyarakat, perkembangan teknologi
+   kecerdasan buatan (AI) untuk pengenalan citra, serta keberhasilan
+   konsep gamifikasi dalam membentuk kebiasaan menjadi peluang untuk
+   membuat proses memilah dan menyetor sampah menjadi lebih mudah,
+   menyenangkan, dan menguntungkan.
+
+Kesimpulan alasan:
+   Aplikasi T2C dibuat untuk menjembatani kesenjangan antara niat
+   masyarakat untuk peduli lingkungan dengan kenyataan bahwa memilah sampah
+   dianggap merepotkan dan tidak memberi manfaat langsung. T2C memberikan
+   (1) panduan kelayakan sampah melalui AI Scan, (2) imbalan ekonomi yang
+   jelas dan instan melalui Eco-Coins, dan (3) motivasi berkelanjutan
+   melalui gamifikasi.
+
+
+------------------------------------------------------------
+B. ALASAN ALUR APLIKASI DIRANCANG SEPERTI INI
+------------------------------------------------------------
+
+Alur utama aplikasi:
+   Masuk/Daftar -> AI Scan sampah -> Hasil verifikasi -> Drop Pass (QR)
+   -> Setor sampah di titik setor -> Eco-Coins & XP bertambah
+   -> Tukar hadiah di Marketplace
+
+Alasan setiap tahap:
+
+1. Masuk / Daftar akun terlebih dahulu
+   Setiap transaksi sampah dan koin harus tercatat atas nama pengguna
+   agar saldo, riwayat setoran, dan dampak lingkungan dapat dihitung
+   secara pribadi dan tidak dapat diklaim oleh orang lain.
+
+2. AI Scan dilakukan SEBELUM sampah disetor (bukan saat menyetor)
+   Ini adalah inti logika T2C. Pemeriksaan dilakukan di rumah karena:
+   a. Pengguna langsung tahu apakah sampahnya layak atau tidak sebelum
+      repot membawanya ke titik setor, sehingga tidak ada rasa kecewa
+      karena ditolak di lokasi.
+   b. Jika sampah kotor, pengguna mendapat saran perbaikan (dibilas,
+      dikeringkan, dipipihkan, atau dipisahkan) lalu dapat memindai ulang.
+      Proses ini sekaligus mengedukasi masyarakat tentang standar sampah
+      daur ulang.
+   c. Titik setor tidak perlu melakukan pemeriksaan ulang yang lama
+      sehingga tidak terjadi antrean.
+
+3. Sampah yang ditolak tidak dapat dilanjutkan
+   Jika AI mendeteksi sampah tercemar (misalnya kotak makanan berminyak),
+   tombol penerbitan tiket dinonaktifkan dan nilai koin = 0. Hal ini
+   menjaga kualitas sampah yang masuk ke rantai daur ulang.
+
+4. Penerbitan Drop Pass (tiket QR) setelah lolos verifikasi
+   Drop Pass berfungsi sebagai "bukti" bahwa sampah telah lolos
+   verifikasi, sekaligus mengunci estimasi nilai koin. Tiket berlaku
+   24 jam agar pengguna segera menyetor sampahnya dan tiket tidak
+   disalahgunakan di kemudian hari.
+
+5. Penyetoran di titik setor dengan memindai Drop Pass
+   Pengguna cukup menunjukkan QR Drop Pass. Pada prototipe, proses ini
+   disimulasikan di dalam website (halaman simulasi titik setor), tanpa
+   perangkat IoT fisik.
+
+6. Koin langsung masuk setelah setor (imbalan instan)
+   Imbalan diberikan segera, berbeda dengan bank sampah konvensional yang
+   pencairannya tertunda. Imbalan instan disertai efek suara, getaran,
+   dan animasi agar pengguna merasakan kepuasan langsung, yang menurut
+   literatur gamifikasi memperkuat pembentukan kebiasaan [isi rujukan].
+
+7. Penukaran hadiah sebagai tujuan akhir
+   Koin yang terkumpul dapat ditukar menjadi saldo e-wallet, voucher,
+   atau donasi penanaman pohon, sehingga nilai ekonomi dari memilah
+   sampah benar-benar dirasakan masyarakat.
+
+Keterkaitan dengan Design Thinking:
+   Alur di atas merupakan hasil tahapan Design Thinking pada Gambar 1.
+   Tahap Empathize (survei masyarakat, studi literatur, dan data
+   sekunder) menghasilkan tiga masalah utama: sampah kotor, proses
+   setor yang lambat, dan tidak adanya imbalan langsung. Tahap Define
+   merumuskan masalah tersebut, dan tahap Ideate menghasilkan solusi
+   berupa AI Scan (menjawab masalah sampah kotor), Drop Pass (menjawab
+   masalah proses yang lambat), serta Eco-Coins dan gamifikasi (menjawab
+   masalah tidak adanya imbalan). Solusi tersebut diwujudkan dalam
+   prototipe website (Prototype), kemudian divalidasi oleh pakar
+   persampahan dan TI (Expert Review). Tahap pengujian kepada masyarakat
+   (Testing) dirancang sebagai rencana riset lanjutan (future work).
+
+
+------------------------------------------------------------
+C. PENJELASAN FITUR-FITUR APLIKASI
+------------------------------------------------------------
+
+1. Autentikasi (Sign In / Sign Up)
+   Halaman masuk dan pendaftaran akun pengguna. Seluruh data saldo
+   koin, riwayat, dan progres tersimpan pada akun masing-masing.
+
+2. Dashboard (Beranda)
+   Halaman utama yang menampilkan ringkasan:
+   - Saldo Eco-Coins beserta nilai rupiahnya (1 koin = Rp 100).
+   - Level, XP, dan streak (jumlah hari berturut-turut aktif).
+   - Dampak lingkungan pribadi: total kg sampah yang disetor, estimasi
+     emisi CO2 yang dihemat, dan setara jumlah pohon.
+   - Riwayat aktivitas (setoran dan penukaran koin).
+   - Bonus harian untuk mendorong pengguna membuka aplikasi setiap hari.
+
+3. AI Scan (AI Pre-Scan Verifikator)
+   Fitur utama untuk memeriksa sampah sebelum disetor. Hasil yang
+   ditampilkan:
+   - Jenis material (Plastik PET, Kertas & Karton, Logam & Aluminium,
+     E-Waste, atau Sampah Tercemar/Residu).
+   - Status kelayakan: "Lolos Verifikasi" atau "Tidak Lolos".
+   - Tingkat keyakinan (confidence score) deteksi AI.
+   - Estimasi berat dan estimasi nilai koin/rupiah.
+   - Ulasan AI berupa penjelasan dan saran perbaikan jika sampah kotor.
+   Pada prototipe ini, AI Scan didemonstrasikan menggunakan contoh foto
+   sampah yang telah disiapkan untuk menunjukkan alur dan tampilan hasil
+   analisis.
+
+4. Drop Pass (Tiket Setor QR)
+   Tiket digital berkode unik (contoh: DP-2026-XXXX) yang terbit setelah
+   sampah lolos AI Scan. Berisi jenis sampah, berat, nilai koin yang
+   dikunci, dan masa berlaku 24 jam. Ditampilkan dalam bentuk QR code.
+
+5. Simulasi Titik Setor
+   Halaman yang menyimulasikan proses penyetoran: pengguna memilih Drop
+   Pass aktif, memindai QR, lalu sistem memproses dan mengkreditkan koin
+   serta XP ke akun. Fitur ini menggambarkan konsep penyetoran tanpa
+   menggunakan perangkat keras IoT.
+
+6. Eco-Coins (Sistem Insentif)
+   Mata uang poin di dalam aplikasi dengan konversi 1 koin = Rp 100.
+   Contoh nilai pada prototipe:
+   - 4 botol plastik PET bersih (± 0,18 kg)   = 15 koin (Rp 1.500)
+   - 2 kardus paket (± 1,25 kg)               = 25 koin (Rp 2.500)
+   - 6 kaleng aluminium (± 0,22 kg)           = 35 koin (Rp 3.500)
+   - 1 keyboard bekas + kabel (± 0,65 kg)     = 50 koin (Rp 5.000)
+   - Kotak makanan berminyak                  = 0 koin (ditolak)
+
+7. Gamifikasi
+   a. Level & XP     : setiap aktivitas memberi XP; jika XP penuh,
+                       pengguna naik level dan mendapat gelar baru
+                       (Eco Warrior, Eco Crusher, Planet Guardian).
+   b. EcoTree        : pohon virtual yang tumbuh sesuai level pengguna
+                       (Bibit Kecil -> Tunas Muda -> Pohon Hijau ->
+                       Pohon Berbunga -> Guardian Tree). Pohon
+                       menghasilkan "embun" yang dapat dipanen menjadi
+                       koin tambahan.
+   c. Misi (Quests)  : tantangan harian dan mingguan, misalnya melakukan
+                       1x AI Scan, menyetor 1x, atau mengumpulkan 2 kg
+                       plastik dalam seminggu, dengan hadiah koin dan XP.
+   d. Lencana        : penghargaan pencapaian, misalnya Pioneer Recycler,
+      (Badges)         Plastic Slayer, dan Streak Master.
+   e. Streak         : penghitung hari aktif berturut-turut untuk
+                       menjaga konsistensi.
+
+8. Leaderboard (Papan Peringkat)
+   Peringkat pengguna berdasarkan XP dan jumlah sampah yang disetor,
+   baik secara individu maupun kelompok, untuk menumbuhkan semangat
+   kompetisi yang positif.
+
+9. Marketplace (Penukaran Hadiah)
+   Tempat menukar Eco-Coins dengan hadiah, seperti:
+   - Top up saldo e-wallet (GoPay/OVO/DANA).
+   - Voucher makanan/minuman dari mitra.
+   - Donasi adopsi dan penanaman bibit pohon (mangrove) bersertifikat.
+   Voucher hasil penukaran tersimpan di akun beserta kode dan masa
+   berlakunya.
+
+10. Profil Pengguna
+    Menampilkan data akun, level, lencana, voucher yang dimiliki, dan
+    tombol keluar (sign out).
+
+11. Umpan Balik Interaktif
+    Setiap aksi penting (lolos scan, koin masuk, naik level) disertai
+    notifikasi, efek suara, getaran (haptic), dan animasi confetti agar
+    pengalaman terasa menyenangkan dan memberi kepuasan instan.
+
+
+------------------------------------------------------------
+D. BATASAN PROTOTIPE
+------------------------------------------------------------
+
+1. Prototipe berupa website (aplikasi web dengan tampilan mobile) yang
+   dibangun menggunakan React dan Vite.
+2. AI Scan pada prototipe masih didemonstrasikan menggunakan contoh foto
+   sampah yang telah disiapkan, belum memproses foto langsung dari kamera
+   menggunakan model AI yang dilatih.
+3. Proses penyetoran di titik setor masih berupa simulasi di dalam
+   website. Prototipe tidak mencakup perangkat IoT (tempat sampah pintar,
+   sensor timbangan, maupun pemindai QR fisik).
+4. Data pengguna, saldo, leaderboard, dan mitra hadiah masih berupa data
+   contoh (dummy) untuk keperluan pengujian alur dan tampilan.
+5. Pengembangan selanjutnya: integrasi model AI pengenalan citra yang
+   sesungguhnya, penyimpanan data pada server/database, serta kerja sama
+   dengan bank sampah dan mitra hadiah.
