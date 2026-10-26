@@ -1,215 +1,96 @@
-# 🌿 T2C (Trash-to-Cash) — Platform Inovasi Pengelolaan Sampah Berbasis AI & Gamifikasi
+# EcoPilah (Pilah / Sampah) — Seni Memilah untuk Masa Depan
 
-[![Deploy with Vercel](https://vercel.com/button)](https://prototype-t2-c.vercel.app)
-![React](https://img.shields.io/badge/React-19.2-61DAFB?logo=react&logoColor=black)
-![Vite](https://img.shields.io/badge/Vite-8.2-646CFF?logo=vite&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.3-38B2AC?logo=tailwindcss&logoColor=white)
-![ESG Initiative](https://img.shields.io/badge/ESG-Sustainability-10B981?logo=leaf&logoColor=white)
+Situs web edukasi pemilahan sampah interaktif dengan selera desain editorial murni (*Swiss / Grotesk Editorial*), interaksi taktil drag & drop berbasis Pointer Events, visual tong sampah 2-lapisan menggantung (*analog nampan CD-ROM*), tumpukan foto sampah asli (*analog tumpukan CD*), serta mesin audio Web Audio API tanpa dependensi eksternal.
 
 ---
 
-## 📌 1. Ringkasan Eksekutif (Executive Summary)
+## 1. Konsep & Struktur Analogis
 
-**T2C (Trash-to-Cash)** adalah platform digital keberlanjutan (*ESG Sustainability Platform*) yang merevolusi cara pengelolaan sampah anorganik di lingkungan perkantoran dan komunitas perkotaan. Platform ini menjembatani kebiasaan memilah sampah dengan insentif ekonomi nyata melalui integrasi **AI Computer Vision**, **IoT Smart Bin**, dan **Gamifikasi Finansial (Eco-Coins)**.
-
-Melalui sistem **Pre-Scan Verification**, pengguna memverifikasi kebersihan dan kelayakan daur ulang sampah terlebih dahulu di meja kerja, memperoleh **Digital Drop Pass (QR)**, lalu menyetorkannya ke **Smart Bin** untuk mendapatkan saldo reward instan yang dapat dicairkan ke saldo E-Wallet, voucher merchant, atau donasi penanaman pohon.
-
----
-
-## 🎯 2. Latar Belakang & Masalah Bisnis (Problem Statement)
-
-1. **Rendahnya Partisipasi Pemilahan Sampah**: Di area perkantoran, pemilahan sampah sering kali gagal karena kurangnya motivasi langsung dan tidak adanya umpan balik (*feedback loop*) yang terukur.
-2. **Kontaminasi Sampah Daur Ulang**: Sampah bernilai ekonomi (seperti botol PET & kaleng aluminium) sering tercampur sisa makanan atau cairan kotor, sehingga menurunkan nilai daur ulang hingga 80% atau ditolak oleh industri daur ulang (*recycler*).
-3. **Ketiadaan Pelaporan ESG Terukur**: Perusahaan kesulitan melacak kontribusi nyata per individu maupun per divisi dalam inisiatif *Net-Zero Waste* dan *Carbon Reduction*.
+| Elemen Referensi CD-ROM | Implementasi EcoPilah | Penjelasan Teknis |
+| :--- | :--- | :--- |
+| **Nampan CD-ROM** | **Tong Sampah Menggantung** | Menggantung di tengah atas layar, terpotong di tepi atas viewport. Dibagi menjadi dua lapisan (`bin-back` & `bin-front`) agar sampah masuk ke rongga dalam tong secara meyakinkan. |
+| **Tumpukan CD Fisik** | **Tumpukan Foto Sampah Asli** | 7 foto objek nyata (*cutout* transparan dengan bayangan lembut): botol plastik, kaleng soda, kulit pisang, baterai bekas, gelas kopi, kardus, dan kertas kusut. Terpotong di tepi bawah layar. |
+| **Memasukkan Disc** | **Menyeret Sampah ke Tong** | Pointer Events (`setPointerCapture`) dengan *touch-action: none*. Saat didekatkan, tong bereaksi dan tooltip berubah menjadi *"Lepaskan di sini"*. Saat dilepas, sampah menyusut dan meluncur di antara lapisan tong, memicu getaran elastis (*spring jiggle*) pada tong. |
+| **Loading CD Player** | **Loading Editorial Minimalis** | Latar hitam pekat, persentase monospaced 0–100%, garis laser tipis, teks status berputar, dan dentang harmonik (*chime*) saat selesai menuju beranda. |
+| **Album / Track Info** | **Homepage Edukasi Lengkap** | 4 pilar pemilahan, direktori sampah interaktif dengan fitur pencarian kilat, garis waktu dekomposisi alam, dan kalkulator dampak limbah keluarga. |
 
 ---
 
-## 💡 3. Solusi & Value Proposition (Nilai Tambah)
+## 2. Struktur Berkas Proyek
 
-| Fitur Solusi | Manfaat Bisnis & Pengguna |
-| :--- | :--- |
-| **AI Pre-Scan Verification** | Mencegah antrean dan kontaminasi di Smart Bin dengan melakukan klasifikasi jenis, bobot estimasi, dan skor kebersihan langsung dari kamera HP. |
-| **Digital Drop Pass (QR Token)** | Menghubungkan identitas pengguna dengan sampah yang disetor untuk pencatatan jejak audit (*traceability*) dan *Trust Score*. |
-| **IoT Smart Bin Validation** | Sensor timbangan otomatis membaca QR Drop Pass dan memverifikasi kesesuaian sampah sebelum mengunci transaksi dan mencairkan koin. |
-| **Eco-Coins Economic System** | Konversi nilai sampah yang transparan (**1 Eco-Coin = Rp 100**) yang dapat langsung dibelanjakan di Reward Store. |
-| **Gamifikasi Pohon Virtual & Leaderboard** | Meningkatkan retensi pengguna harian melalui fitur pohon virtual (*EcoTree*), panen embun harian, streak, misi harian, dan kompetisi antar divisi. |
-
----
-
-## 🔄 4. Alur & Cara Kerja Sistem (End-to-End Workflow)
-
-```mermaid
-flowchart LR
-    A[1. Foto Sampah\nAI Pre-Scan] --> B[2. Terbit Drop Pass\nQR & Nilai Koin Terkunci]
-    B --> C[3. Bawa ke Smart Bin\nScan QR & Setor]
-    C --> D[4. Sensor Verifikasi\nBobot Sesuai]
-    D --> E[5. Saldo Cair Instan\nEco-Coins & XP Masuk]
-    E --> F[6. Tukar Reward\nE-Wallet / Voucher / Pohon]
+```
+Prototype - T2c 3.0/
+├── index.html                 # Struktur semantik HTML5, meta SEO, & font Inter/Syne
+├── package.json               # Konfigurasi npm & Vite 6
+├── vite.config.js             # Pengaturan server lokal & publicDir
+├── public/
+│   └── assets/
+│       ├── bin/
+│       │   ├── bin-back.png   # Lapisan belakang rongga gelap tong
+│       │   └── bin-front.png  # Lapisan bibir & badan silinder logam tong
+│       └── trash/
+│           ├── banana-peel.png    # Sampah organik (kulit pisang)
+│           ├── battery.png        # B3 berbahaya (baterai AA)
+│           ├── cardboard.png      # Kertas/karton (kardus bergelombang)
+│           ├── coffee-cup.png     # Residu/cup (gelas kopi karton)
+│           ├── crumpled-paper.png # Kertas daur ulang (kertas kusut)
+│           ├── plastic-bottle.png # Plastik PET (botol mineral)
+│           └── soda-can.png       # Logam aluminium (kaleng soda)
+├── src/
+│   ├── main.js                # Orkestrator aplikasi & sinkronisasi audio
+│   ├── intro.js               # Kontroler drag & drop, fisika pegas, & aksesibilitas keyboard
+│   ├── loading.js             # Kontroler animasi loading & pergantian pesan status
+│   ├── home.js                # Kontroler direktori sampah, filter, modal, & kalkulator
+│   ├── trash-data.js          # Dataset sampah, kategori, waktu urai, & tips pemilahan
+│   ├── sound.js               # Sintesis suara prosedural via Web Audio API (tanpa file mp3)
+│   └── style.css              # Tata letak editorial, CSS variables, & animasi keyframes
+└── scripts/
+    └── process_assets.py      # Skrip pengolah cutout & de-fringing latar belakang
 ```
 
-### Langkah Kerja Detail:
+---
 
-1. **Tahap 1: AI Pre-Scan (Verifikasi Awal)**
-   - Pengguna membuka menu **AI Scan** dan memindai sampah anorganik (misal: botol plastik PET pipih, kaleng aluminium, kardus).
-   - AI mengenali kategori sampah, mengukur tingkat kebersihan (*cleanliness score*), estimasi bobot, nilai koin, dan estimasi reduksi jejak karbon ($CO_2$).
-2. **Tahap 2: Penerbitan Digital Drop Pass**
-   - Sistem menerbitkan tiket QR digital bertanda pengenal unik (misal: `DP-2026-9812`) yang mengunci nilai reward selama 24 jam.
-3. **Tahap 3: Penyetoran di IoT Smart Bin**
-   - Pengguna membawa sampah ke titik **Smart Bin** terdekat.
-   - Pintu Smart Bin terbuka setelah memindai QR Drop Pass.
-   - Sensor beban (*load cell*) menimbang fisik sampah secara *real-time*.
-4. **Tahap 4: Pencairan Reward Instan**
-   - Begitu bobot tervalidasi, koin langsung masuk ke akun pengguna dengan efek audio dan haptik.
-5. **Tahap 5: Belanja di Reward Store & Pelaporan ESG**
-   - Pengguna menukarkan Eco-Coins dengan saldo E-Wallet (GoPay/OVO/DANA), voucher kopi/makan, atau adopsi bibit pohon mangrove lengkap dengan e-sertifikat.
+## 3. Fitur Utama
+
+### A. Fisika Drag & Drop Taktil (Intro)
+- **Pointer Events**: Mendukung mouse, layar sentuh (tablet/smartphone), dan stylus tanpa konflik *page scrolling*.
+- **Elevasi & Rotasi**: Saat diangkat, z-index otomatis naik ke 999, objek membesar 1.08x, rotasi mengarah tegak lurus secara halus, dan bayangan kontak berubah menjadi bayangan melayang.
+- **Deteksi Kedekatan (*Proximity*)**: Saat objek mendekati bukaan tong, tong membesar lembut, bercahaya tipis, teks latar *"Mulai Pilah Sampah"* menyala lebih terang, dan tooltip berubah menjadi *"Lepaskan di sini"*.
+- **Pelepasan Sukses**: Objek menyusut (skala 0.3x) dan meluncur ke dalam bukaan tong di antara `bin-back` dan `bin-front`. Tong berguncang dengan animasi recoil beban, memicu efek suara bantingan logam dan memulai layar pemuatan.
+- **Pelepasan Gagal**: Objek kembali ke posisi tumpukan semula dengan kurva pegas elastis (*spring bounce*).
+- **Aksesibilitas Papan Ketik**: Pengguna dapat menggunakan tombol `Tab` untuk memilih sampah, `Enter` atau `Spasi` untuk mengambil, lalu `Tab` ke tong dan tekan `Enter` untuk memasukkan sampah.
+
+### B. Mesin Audio Sintetis (Web Audio API)
+100% mandiri tanpa memerlukan unduhan berkas audio eksternal:
+- **Suara Ambil**: Ketukan mikro-taktil saat objek disentuh/diangkat.
+- **Suara Dekat Tong**: Dengung harmonik halus saat berada di zona bukaan tong.
+- **Suara Jatuh**: Dentuman rongga logam beresonansi rendah berpadu dengan desisan udara saat sampah masuk ke dalam tong.
+- **Suara Batal**: Ayunan pegas lembut saat sampah kembali ke tumpukan.
+- **Suara Ticking**: Denting minimalis selama pemuatan persentase.
+- **Suara Selesai**: Tiga nada akord harmonik saat loading mencapai 100%.
+- **Toggle Suara**: Pengaturan suara tersimpan otomatis di `localStorage`.
+
+### C. Homepage Editorial Edukasi
+1. **Navigasi & Header**: Judul situs *"Pilah / Sampah"*, pintasan menu, status suara, dan tombol *"Coba Intro Lagi"* untuk kembali ke intro interaktif kapan saja.
+2. **Statistik Nasional**: Data timbulan sampah 68,5 juta ton/tahun di Indonesia dan potensi ekonomi sirkular.
+3. **4 Pilar Pemilahan**: Kartu editorial Organik (hijau), Daur Ulang (biru), B3 Berbahaya (merah), dan Residu (abu-abu).
+4. **Direktori Sampah Interaktif**: Pencarian real-time untuk 13+ jenis barang rumah tangga dengan filter pill kategori dan modal pop-up instruksi pemilahan mendalam.
+5. **Garis Waktu Dekomposisi**: Perbandingan waktu urai sampah di alam (2 minggu kulit pisang vs 450 tahun botol plastik vs 1.000.000+ tahun kaca).
+6. **Kalkulator Jejak Sampah Keluarga**: Simulasi timbulan sampah bulanan, potensi kompos, pengurangan emisi CO₂, dan estimasi nilai Bank Sampah berdasarkan jumlah anggota keluarga.
 
 ---
 
-## 💰 5. Model Ekonomi & Tokenomics
+## 4. Cara Menjalankan Proyek
 
-- **Rasio Konversi Nilai**:  
-  $$\mathbf{1\ Eco\text{-}Coin = Rp\ 100}$$
-- **Contoh Valuasi Sampah**:
-  - *4x Botol PET Pipih Bersih (~0.18 kg)* = **+15 Koin (Rp 1.500)** + 30 XP
-  - *6x Kaleng Minuman Aluminium (~0.15 kg)* = **+35 Koin (Rp 3.500)** + 50 XP
-  - *2.5 kg Kardus / Kertas Arsip* = **+50 Koin (Rp 5.000)** + 80 XP
-  - *Bonus Pendaftaran Akun Baru* = **+50 Koin (Rp 5.000)**
-  - *Panen Embun Harian (Daily Dew)* = **+5 Koin (Rp 500)**
-
----
-
-## ✨ 6. Modul & Fitur Utama Aplikasi
-
-### 📱 A. Autentikasi & Profil Akun
-- **Sign In & Sign Up Form**: Registrasi cepat dengan ID Karyawan/Pengguna, email korporat/pribadi, nomor WhatsApp, serta pilihan divisi.
-- **Corporate Single Sign-On (SSO)**: Akses 1-klik untuk integrasi identitas korporat.
-- **Preset Akun Demo**: Tombol uji cepat login instan (*Budi - Digital Innovation* / *Citra - Sustainability*).
-- **Modal Profil & Sign Out**: Menampilkan level, bar progress XP, Trust Score, status rekening bank/e-wallet terhubung, serta tombol *Sign Out* dengan dialog konfirmasi interaktif.
-
-### 📊 B. Dashboard & Eco-Wallet
-- **Saldo Finansial**: Menampilkan total Eco-Coins terkumpul serta ekuivalen nilai Rupiah secara *live*.
-- **Ringkasan Dampak ESG**:
-  - Total Kg Sampah Diselamatkan
-  - Total Reduksi Emisi $CO_2$ (kg)
-  - Ekuivalen Pohon Terselamatkan
-  - Total Frekuensi Penyetoran (Drops)
-- **Riwayat Mutasi Saldo**: Pencatatan log transaksi masuk (*Drop Success*) dan keluar (*Redeem Reward*).
-
-### 🌳 C. EcoTree & Gamifikasi Harian
-- **Visualisasi Pohon Virtual**: Pohon bertumbuh melewati 5 fase (*Tunas*, *Bibit Muda*, *Pohon Rindang*, *Pohon Berbunga*, hingga *Pohon Dewasa Raksasa*) sesuai akumulasi level dan aktivitas daur ulang.
-- **Daily Dew (Panen Embun)**: Klaim bonus koin harian untuk mendorong *daily active user (DAU)*.
-- **Streak Tracker**: Indikator konsistensi harian setor sampah dengan pengali (*boost multiplier*).
-
-### 🏆 D. Misi & Leaderboard
-- **Sistem Quest Harian & Mingguan**: Tantangan terstruktur (contoh: *"Setor 3 Hari Berturut-turut"*, *"Pilah 1kg Plastik"*) dengan reward XP dan koin ekstra.
-- **Leaderboard 2 Kategori**:
-  - *Peringkat Individu*: Kompetisi antar rekan kerja.
-  - *Liga Divisi & Tim*: Papan skor agregat untuk memupuk semangat kolaborasi tim unit kerja.
-
-### 🛍️ E. Reward Marketplace
-- **Kategori Hadiah Beragam**:
-  - *E-Wallet*: Top-up saldo GoPay, OVO, DANA.
-  - *Food & Beverage*: Voucher diskon Fore Coffee, Kopi Kenangan, dll.
-  - *ESG & Philanthropy*: Adopsi bibit mangrove dengan e-sertifikat bernomor seri.
-
----
-
-## 🛠️ 7. Tech Stack & Arsitektur Perangkat Lunak
-
-- **Core Framework**: React 19 (`react`, `react-dom`)
-- **Build Tooling**: Vite 8.2 (Fast HMR & Optimized Bundle Chunking)
-- **Styling & Design System**: TailwindCSS v4 + Vanilla CSS Custom Animation
-- **Icons**: Lucide React
-- **Micro-Interactions**:
-  - `canvas-confetti` untuk animasi selebrasi Level Up & Drop Success
-  - Web Audio API (*synthesized sound effects* untuk koin, level up, dan sukses)
-  - Mobile Haptic Feedback API (`navigator.vibrate`)
-- **Hosting & Deployment**: Vercel SPA Ready (`vercel.json` routing configuration)
-
----
-
-## 🚀 8. Panduan Menjalankan Proyek (Local Setup)
-
-### Prasyarat:
-- Node.js versi 18 ke atas
-- NPM / PNPM / Yarn
-
-### Langkah Instalasi:
-
-1. **Clone repositori**:
-   ```bash
-   git clone https://github.com/AlfatTaufik/trash2cash.git
-   cd "Prototype - T2C"
-   ```
-
-2. **Install dependensi**:
-   ```bash
-   npm install
-   ```
-
-3. **Jalankan local development server**:
+1. **Jalankan server pengembangan**:
    ```bash
    npm run dev
    ```
-   *Buka browser di `http://localhost:5173/`.*
-
-4. **Build untuk Produksi**:
+2. Buka peramban pada alamat lokal:
+   ```
+   http://localhost:5174/
+   ```
+3. **Membangun bundle produksi**:
    ```bash
    npm run build
    ```
-
-5. **Deploy ke Vercel**:
-   ```bash
-   npx vercel --prod
-   ```
-
----
-
-## 📂 9. Struktur Folder Proyek
-
-```text
-Prototype - T2C/
-├── public/                  # Aset statis & favicon
-├── src/
-│   ├── assets/              # Gambar dan aset multimedia
-│   ├── components/
-│   │   ├── Auth/
-│   │   │   ├── SignIn.jsx   # Layar Masuk Akun & SSO
-│   │   │   └── SignUp.jsx   # Layar Registrasi Akun Baru
-│   │   ├── AndroidTopBar.jsx      # Header, profil, & kartu saldo Eco-Coins
-│   │   ├── AndroidBottomNav.jsx   # Navigasi tab bawah (Beranda, Bin, Scan, Misi, Hadiah)
-│   │   ├── BottomSheetPass.jsx    # Modal QR Drop Pass & Voucher
-│   │   ├── Dashboard.jsx          # Ringkasan analitik ESG & mutasi koin
-│   │   ├── EcoTree.jsx            # Gamifikasi pohon virtual & animasi pertumbuhan
-│   │   ├── Leaderboard.jsx        # Papan peringkat individu & divisi
-│   │   ├── Marketplace.jsx        # Reward store (e-wallet, voucher, donasi pohon)
-│   │   ├── PreScan.jsx            # Simulasi AI Computer Vision klasifikasi sampah
-│   │   ├── ProfileModal.jsx       # Modal profil, pengaturan akun, & Sign Out
-│   │   ├── Quests.jsx             # Misi harian, mingguan, & lencana prestasi
-│   │   └── SmartBinSim.jsx        # Simulator sensor hardware Smart Bin
-│   ├── context/
-│   │   └── AppContext.jsx   # State management global, efek suara, haptic & logic
-│   ├── data/
-│   │   └── mockData.js      # Data awal katalog sampah, quest, leaderboard & rewards
-│   ├── App.jsx              # Komponen utama & layout routing
-│   ├── index.css            # Desain token TailwindCSS & animasi keyframe
-│   └── main.jsx             # Entry point React
-├── index.html               # Template dokumen HTML
-├── package.json             # Manifest dependensi & scripts
-├── vercel.json              # Konfigurasi routing single page application
-└── README.md                # Dokumentasi komprehensif proyek
-```
-
----
-
-## 📈 10. Indikator Keberhasilan Bisnis (Key Impact Metrics)
-
-1. **Tingkat Daur Ulang Bersih**: Menurunkan angka kontaminasi sampah anorganik hingga $\mathbf{>90\%}$.
-2. **Keterlibatan Karyawan**: Meningkatkan partisipasi aktif karyawan dalam program ESG kantor dari rata-rata $<15\%$ menjadi $\mathbf{>75\%}$.
-3. **Audit ESG Otomatis**: Data berat sampah dan reduksi $CO_2$ dapat diekspor langsung untuk laporan tahunan keberlanjutan perusahaan.
-
----
-
-<div align="center">
-  <sub>Dibangun dengan dedikasi untuk masa depan yang lebih hijau & berkelanjutan 🌱</sub>
-</div>

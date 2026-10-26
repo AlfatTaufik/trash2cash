@@ -1,0 +1,718 @@
+/**
+ * ====================================================================
+ * FITUR APLIKASI — CIRCULAR FAN-DECK CARD CAROUSEL (CSS)
+ * Proyek: EcoPilah / Trash2Cash 3.0
+ * Konsep: Editorial Design, Busur Lingkaran Besar Cembung ke Atas,
+ *         Rotasi Halus Mengikuti Scroll (Sticky Stage), Ambient Glow,
+ *         Elevasi Radial Hover/Focus, Grain Overlay, & Detail Modal.
+ * ====================================================================
+ */
+
+:root {
+  /* Pengaturan Panggung & Warna Dasar */
+  --stage-bg: #000000;
+  --stage-text: #FFFFFF;
+  --stage-muted: #8E8E93;
+  --stage-accent: #32B870;
+
+  /* Geometri Busur & Proporsi Kartu */
+  --card-width: clamp(160px, 16.5vw, 310px);
+  --card-height: calc(var(--card-width) * 1.3333); /* Rasio 3:4 */
+  --card-radius: calc(var(--card-width) * 0.07);   /* ~7% dari lebar */
+  --arc-radius: clamp(750px, 125vw, 1550px);       /* Pusat lingkaran jauh di bawah */
+  --step-angle: 9.8deg;                            /* Jarak sudut antar kartu (desktop) */
+
+  /* Kurva Easing & Transisi */
+  --ease-tactile: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-hover: 450ms;
+
+  /* Bayangan Melayang */
+  --card-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.65), 0 12px 24px -10px rgba(0, 0, 0, 0.4);
+  --card-shadow-hover: 0 45px 85px -25px rgba(0, 0, 0, 0.85), 0 20px 35px -12px rgba(0, 0, 0, 0.5);
+
+  /* Tipografi Grotesk Bersih */
+  --font-grotesk: "Highway Motel Sans Regular", "Space Grotesk", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ====================================================================
+   1. WRAPPER SCROLL & STICKY STAGE
+   ==================================================================== */
+
+.features-scroll-wrapper {
+  position: relative;
+  width: 100%;
+  /* Tinggi total scroll: dinamis dihitung JS atau fallback ke 550vh */
+  height: calc(var(--total-cards, 10) * 45vh + 100vh);
+  background-color: var(--stage-bg);
+  box-sizing: border-box;
+  touch-action: pan-y;
+}
+
+.features-stage {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100dvh;
+  background-color: var(--stage-bg);
+  color: var(--stage-text);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  user-select: none;
+  -webkit-user-select: none;
+  box-sizing: border-box;
+  transform: translateZ(0);
+}
+
+/* Garis Progres Scroll Tipis 2px di Bagian Paling Atas */
+.features-progress-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2.5px;
+  background: rgba(255, 255, 255, 0.08);
+  z-index: 60;
+}
+
+.features-progress-bar {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #32B870, #FFA233, #57B5FD, #FA5480, #AB80F5, #335C98);
+  transition: width 80ms linear;
+  box-shadow: 0 0 10px rgba(50, 184, 112, 0.5);
+}
+
+/* ====================================================================
+   2. AMBIENT LIGHT BLOBS (SANGAT HALUS DI BELAKANG KIPAS)
+   ==================================================================== */
+
+.features-ambient-blobs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.ambient-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.18;
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+
+.blob-1 {
+  width: clamp(280px, 35vw, 600px);
+  height: clamp(280px, 35vw, 600px);
+  background: radial-gradient(circle, #32B870 0%, transparent 70%);
+  bottom: 12%;
+  left: 10%;
+}
+
+.blob-2 {
+  width: clamp(320px, 40vw, 700px);
+  height: clamp(320px, 40vw, 700px);
+  background: radial-gradient(circle, #57B5FD 0%, transparent 70%);
+  bottom: 8%;
+  right: 12%;
+}
+
+.blob-3 {
+  width: clamp(240px, 30vw, 500px);
+  height: clamp(240px, 30vw, 500px);
+  background: radial-gradient(circle, #FA5480 0%, transparent 70%);
+  bottom: 20%;
+  left: 45%;
+  transform: translateX(-50%);
+}
+
+/* ====================================================================
+   3. HEADER SECTION (STATIS DI TENGAH ATAS, LEGA & EDITORIAL)
+   ==================================================================== */
+
+.features-header {
+  position: relative;
+  z-index: 20;
+  text-align: center;
+  padding-top: clamp(2.5rem, 5.5vh, 4.5rem);
+  padding-left: clamp(1rem, 4vw, 2.5rem);
+  padding-right: clamp(1rem, 4vw, 2.5rem);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.features-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-body);
+  font-size: clamp(0.72rem, 0.9vw, 0.85rem);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--stage-muted);
+  margin-bottom: 0.75rem;
+}
+
+.features-eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--stage-accent);
+  box-shadow: 0 0 8px var(--stage-accent);
+  display: inline-block;
+}
+
+.features-title {
+  font-family: var(--font-grotesk);
+  font-size: clamp(1.6rem, 2.6vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: var(--stage-text);
+  margin: 0;
+  text-wrap: balance;
+}
+
+.features-subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(0.85rem, 1.1vw, 1.05rem);
+  font-weight: 400;
+  color: var(--stage-muted);
+  margin-top: 0.6rem;
+  letter-spacing: -0.01em;
+}
+
+/* ====================================================================
+   4. FAN-DECK ARC STAGE (PANGGUNG KIPAS LINGKARAN BESAR)
+   ==================================================================== */
+
+.features-fan-stage {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Diteruskan ke kartu */
+  z-index: 10;
+}
+
+/* Container kartu: titik tumpu pusat lingkaran di bawah */
+.features-fan-track {
+  position: absolute;
+  left: 50%;
+  /* Posisi atas tumpukan kartu: memberikan ruang kosong yang lega untuk judul */
+  bottom: clamp(-18%, -10vh, -4%);
+  width: var(--card-width);
+  height: var(--card-height);
+  transform: translateX(-50%);
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.features-fan-track.is-dragging {
+  cursor: grabbing;
+}
+
+/* Elemen Kartu */
+.feature-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  transform-origin: 50% calc(100% + var(--arc-radius));
+  will-change: transform, box-shadow;
+  box-sizing: border-box;
+  padding: clamp(14px, 1.6vw, 24px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  /* Transisi halus saat dihover atau difokuskan */
+  transition: transform var(--duration-hover) var(--ease-tactile),
+              box-shadow var(--duration-hover) var(--ease-tactile),
+              filter 300ms ease;
+  overflow: hidden;
+  /* Transform dasar diatur via inline custom properties */
+  transform: rotate(calc(var(--card-angle, 0deg)))
+             translateY(var(--card-elevate, 0px))
+             scale(var(--card-scale, 1));
+}
+
+/* State Hover & Focus Keyboard (Desktop) */
+.feature-card:hover,
+.feature-card:focus-visible,
+.feature-card.is-active-focus {
+  --card-elevate: calc(var(--card-height) * -0.075);
+  --card-scale: 1.05;
+  box-shadow: var(--card-shadow-hover);
+  z-index: 800 !important;
+  /* Sedikit meluruskan rotasi kartu mendekati tegak */
+  transform: rotate(calc(var(--card-angle, 0deg) * 0.45))
+             translateY(var(--card-elevate, 0px))
+             scale(var(--card-scale, 1));
+}
+
+.feature-card:focus-visible {
+  outline: 2px solid #FFFFFF;
+  outline-offset: 4px;
+}
+
+/* ====================================================================
+   5. DETAIL INTERNAL KARTU (GRAIN, BORDER, IKON LINE-ART, TIPOGRAFI)
+   ==================================================================== */
+
+/* Overlay Tekstur Grain / Noise Sangat Halus */
+.feature-card-grain {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.10;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  z-index: 2;
+}
+
+/* Bingkai Dalam Tipis (1px Putih ~45% Opacity, Berjarak ~3% dari Tepi) */
+.feature-card-inner-border {
+  position: absolute;
+  inset: 3.2%;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: calc(var(--card-radius) * 0.82);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Ilustrasi Ikon Garis (Line-Art) Samar & Besar di Kanan Bawah / Tengah */
+.feature-card-icon-art {
+  position: absolute;
+  right: -8%;
+  bottom: -6%;
+  width: clamp(120px, 14vw, 220px);
+  height: clamp(120px, 14vw, 220px);
+  pointer-events: none;
+  color: #FFFFFF;
+  opacity: 0.38;
+  z-index: 2;
+  transform: rotate(-4deg);
+}
+
+.feature-card-icon-art svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Konten Teks: Judul di Kiri Atas & Tagline di Kiri Bawah */
+.feature-card-content {
+  position: relative;
+  z-index: 4;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+/* Judul Fitur: Kiri Atas, Huruf Tebal Grotesk */
+.feature-card-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.feature-card-title {
+  font-family: var(--font-grotesk);
+  font-size: clamp(1.05rem, 1.4vw, 1.6rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--card-ink, #0b2a3a);
+  margin: 0;
+  max-width: 90%;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Tagline: Kiri Bawah, Huruf KAPITAL Kecil, Tebal */
+.feature-card-tagline {
+  font-family: var(--font-grotesk);
+  font-size: clamp(0.55rem, 0.65vw, 0.78rem);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--card-ink, #0b2a3a);
+  opacity: 0.78;
+  margin: 0;
+  line-height: 1.3;
+  max-width: 82%;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Tombol Klik Hint / Expand Icon Samar */
+.feature-card-tap-hint {
+  position: absolute;
+  top: clamp(14px, 1.6vw, 24px);
+  right: clamp(14px, 1.6vw, 24px);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--card-ink, #0b2a3a);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 250ms ease, transform 250ms ease;
+  z-index: 5;
+}
+
+.feature-card:hover .feature-card-tap-hint,
+.feature-card:focus-visible .feature-card-tap-hint {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ====================================================================
+   6. INDIKATOR BAWAH & KONTROL NAVIGASI ALTERNATIF
+   ==================================================================== */
+
+.features-footer-nav {
+  position: absolute;
+  bottom: clamp(1rem, 2.5vh, 2rem);
+  left: 0;
+  width: 100%;
+  padding: 0 clamp(1.2rem, 3.5vw, 3rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 25;
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+/* Angka Counter Aktif "03 / 10" di Pojok Bawah Kiri */
+.features-counter {
+  font-family: var(--font-grotesk);
+  font-size: clamp(0.8rem, 1vw, 1rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--stage-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(18, 18, 20, 0.65);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 6px 14px;
+  border-radius: 999px;
+  pointer-events: auto;
+}
+
+.features-counter-current {
+  color: var(--stage-text);
+}
+
+/* Petunjuk Interaksi / Keyboard Hints di Kanan Bawah */
+.features-hints {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  pointer-events: auto;
+}
+
+.nav-hint-btn {
+  background: rgba(18, 18, 20, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--stage-text);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 200ms ease;
+  backdrop-filter: blur(12px);
+}
+
+.nav-hint-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.nav-hint-btn:active {
+  transform: translateY(0);
+}
+
+/* ====================================================================
+   7. DETAIL MODAL DIALOG (NILAI TAMBAH: KLIK KARTU TERANGKAT)
+   ==================================================================== */
+
+.features-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 3vw, 2.5rem);
+  box-sizing: border-box;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 320ms var(--ease-smooth),
+              visibility 320ms var(--ease-smooth);
+}
+
+.features-modal-backdrop.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.features-modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  border-radius: 28px;
+  padding: clamp(24px, 3.5vw, 36px);
+  box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.9);
+  overflow: hidden;
+  box-sizing: border-box;
+  transform: scale(0.92) translateY(20px);
+  transition: transform 380ms var(--ease-tactile);
+}
+
+.features-modal-backdrop.is-open .features-modal-card {
+  transform: scale(1) translateY(0);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: currentColor;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 200ms ease, background 200ms ease;
+  z-index: 10;
+}
+
+.modal-close-btn:hover {
+  transform: scale(1.08) rotate(90deg);
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.modal-tagline {
+  font-family: var(--font-grotesk);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.8;
+  margin-bottom: 0.5rem;
+}
+
+.modal-title {
+  font-family: var(--font-grotesk);
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+
+.modal-desc {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  opacity: 0.92;
+  margin-bottom: 1.75rem;
+}
+
+.modal-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: #000000;
+  color: #FFFFFF;
+  font-family: var(--font-grotesk);
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 12px 24px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  transition: transform 200ms ease, opacity 200ms ease;
+  width: 100%;
+}
+
+.modal-action-btn:hover {
+  opacity: 0.88;
+  transform: translateY(-2px);
+}
+
+/* ====================================================================
+   8. RESPONSIVE DESIGN & MOBILE OPTIMIZATION
+   ==================================================================== */
+
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+  :root {
+    --card-width: clamp(180px, 24vw, 260px);
+    --arc-radius: clamp(600px, 110vw, 1100px);
+    --step-angle: 12.5deg;
+  }
+}
+
+/* Mobile (<= 680px) */
+@media (max-width: 680px) {
+  :root {
+    --card-width: clamp(200px, 56vw, 270px);
+    --arc-radius: clamp(420px, 98vw, 650px);
+    --step-angle: 16.5deg; /* Sudut lebih lebar agar 3-4 kartu terlihat */
+  }
+
+  .features-header {
+    padding-top: 2rem;
+  }
+
+  .features-fan-track {
+    bottom: -6%;
+  }
+
+  /* Nonaktifkan efek hover pada perangkat sentuh murni */
+  .feature-card:hover {
+    --card-elevate: 0px;
+    --card-scale: 1;
+    transform: rotate(calc(var(--card-angle, 0deg)))
+               translateY(var(--card-elevate, 0px))
+               scale(var(--card-scale, 1));
+  }
+
+  /* Card elevated via class active tap */
+  .feature-card.is-active-focus,
+  .feature-card:focus-visible {
+    --card-elevate: calc(var(--card-height) * -0.07);
+    --card-scale: 1.04;
+    transform: rotate(calc(var(--card-angle, 0deg) * 0.45))
+               translateY(var(--card-elevate, 0px))
+               scale(var(--card-scale, 1));
+  }
+
+  .features-hints {
+    display: none; /* Sembunyikan panah hint di mobile, gunakan swipe */
+  }
+}
+
+/* Layar Pendek Landscape (<= 520px height) */
+@media (max-height: 520px) {
+  :root {
+    --card-width: clamp(140px, 18vw, 200px);
+    --arc-radius: clamp(400px, 90vw, 800px);
+    --step-angle: 11deg;
+  }
+
+  .features-header {
+    padding-top: 1rem;
+  }
+
+  .features-title {
+    font-size: 1.35rem;
+  }
+
+  .features-subtitle {
+    display: none;
+  }
+}
+
+/* ====================================================================
+   9. AKSESIBILITAS: PREFERS-REDUCED-MOTION
+   ==================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .features-scroll-wrapper {
+    height: auto !important;
+  }
+
+  .features-stage {
+    position: static !important;
+    height: auto !important;
+    overflow-x: auto !important;
+    padding-bottom: 3rem;
+  }
+
+  .features-fan-stage {
+    position: static !important;
+    height: auto !important;
+    padding: 2rem 1.5rem;
+  }
+
+  .features-fan-track {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    transform: none !important;
+    display: flex !important;
+    gap: 1.5rem !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    padding: 1rem 0 !important;
+  }
+
+  .feature-card {
+    position: static !important;
+    flex-shrink: 0 !important;
+    width: clamp(220px, 45vw, 300px) !important;
+    height: calc(clamp(220px, 45vw, 300px) * 1.333) !important;
+    transform: none !important;
+    scroll-snap-align: center !important;
+    transition: none !important;
+  }
+
+  .features-progress-track,
+  .features-counter,
+  .ambient-blob {
+    display: none !important;
+  }
+}

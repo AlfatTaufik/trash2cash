@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 240" width="380" height="240">
+  <defs>
+    <!-- Sharp hand-drawn arrowhead -->
+    <marker id="sketchArrow" viewBox="0 0 24 24" refX="18" refY="12" markerWidth="16" markerHeight="16" orient="auto">
+      <path d="M 4 5 L 18 12 L 4 19 M 6 12 L 18 12" fill="none" stroke="#161616" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <style>
+    .arrow-text {
+      font-family: 'Highway Motel Sans Regular', 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      fill: #161616;
+    }
+  </style>
+
+  <!-- The loop stroke -->
+  <path d="M 235 195 C 235 155 220 120 185 115 C 160 110 148 140 170 162 C 195 180 220 150 200 115 C 180 80 125 75 75 95" 
+        fill="none" stroke="#161616" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#sketchArrow)"/>
+
+  <!-- Inviting text angled above the entry / loop curve -->
+  <text class="arrow-text" transform="translate(255, 95) rotate(-50)" text-anchor="middle">
+    Masukan sampahmu kedalam sini
+  </text>
+</svg>
