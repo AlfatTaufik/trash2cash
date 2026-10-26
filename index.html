@@ -1,16 +1,3075 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>T2C EcoReward - Trash to Cash</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
-  </head>
-  <body class="bg-slate-100 text-slate-900 font-['Plus_Jakarta_Sans',sans-serif] antialiased">
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>Pilah / Sampah — Seni Memilah untuk Masa Depan</title>
+  <meta name="description" content="Website edukasi interaktif tentang seni dan kaidah pemilahan sampah. Mulai dengan menjatuhkan sampah ke dalam tong." />
+  
+  <!-- Preconnect and Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Caveat:wght@400..700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300..900;1,9..40,300..900&family=Geist:wght@300;400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
+
+  <!-- Preload Highway Motel Sans Regular font files (Local + CDN fallback) -->
+  <link rel="preload" href="/fonts/HighwayMotelSansRegular.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/assets/fonts/HighwayMotelSansRegular.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="https://framerusercontent.com/assets/aeoMArwE5o1nep16RSKbP9eJBIM.woff2" as="font" type="font/woff2" crossorigin />
+
+  <!-- Inline Font-Face Declaration for Instant Highway Motel Availability -->
+  <style>
+    @font-face {
+      font-family: "Highway Motel Sans Regular";
+      src: url("/fonts/HighwayMotelSansRegular.woff2") format("woff2"),
+           url("/assets/fonts/HighwayMotelSansRegular.woff2") format("woff2"),
+           url("https://framerusercontent.com/assets/aeoMArwE5o1nep16RSKbP9eJBIM.woff2") format("woff2");
+      font-display: swap;
+      font-style: normal;
+      font-weight: 100 900;
+    }
+    @font-face {
+      font-family: "Highway Motel Sans Regular Placeholder";
+      src: url("/fonts/HighwayMotelSansRegular.woff2") format("woff2"),
+           url("/assets/fonts/HighwayMotelSansRegular.woff2") format("woff2"),
+           url("https://framerusercontent.com/assets/aeoMArwE5o1nep16RSKbP9eJBIM.woff2") format("woff2");
+      font-display: swap;
+      font-style: normal;
+      font-weight: 100 900;
+    }
+  
+    /* ========================================================
+       RESPONSIVE ENHANCEMENT: Mobile Pointer Pill (Bebas Tumpukan)
+       ======================================================== */
+    @media (max-width: 768px) {
+      .curved-pointer-wrap {
+        left: 50% !important;
+        right: auto !important;
+        top: calc(100% - 28px) !important;
+        bottom: auto !important;
+        transform: translateX(-50%) !important;
+        width: auto !important;
+        height: auto !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        z-index: 65 !important;
+        pointer-events: none !important;
+        animation: none !important;
+      }
+
+      .desktop-pointer-svg {
+        display: none !important;
+      }
+
+      .mobile-pointer-pill {
+        display: inline-flex !important;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 16px;
+        background: rgba(255, 255, 255, 0.95);
+        border: 2px solid #00875a;
+        border-radius: 999px;
+        box-shadow: 0 4px 16px rgba(0, 135, 90, 0.2), 0 2px 4px rgba(0, 0, 0, 0.08);
+        color: #00875a;
+        font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 11.5px;
+        font-weight: 800;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        animation: mobilePillFloat 2.2s ease-in-out infinite alternate;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .mobile-pill-arrow {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 19px;
+        height: 19px;
+        background: #00875a;
+        color: #ffffff;
+        border-radius: 50%;
+        font-size: 11px;
+        font-weight: 900;
+        line-height: 1;
+        transition: transform 0.2s ease;
+      }
+
+      .curved-pointer-wrap.is-ready .mobile-pointer-pill {
+        background: #00875a !important;
+        color: #ffffff !important;
+        border-color: #006b47 !important;
+        transform: scale(1.08);
+        box-shadow: 0 8px 24px rgba(0, 135, 90, 0.4);
+      }
+
+      .curved-pointer-wrap.is-ready .mobile-pill-arrow {
+        background: #ffffff !important;
+        color: #00875a !important;
+        transform: translateY(-2px);
+      }
+
+      .curved-pointer-wrap.is-hidden {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transform: translateX(-50%) scale(0.9) !important;
+      }
+
+      @keyframes mobilePillFloat {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(-4px); }
+      }
+    }
+
+    @media (min-width: 769px) {
+      .mobile-pointer-pill {
+        display: none !important;
+      }
+      .desktop-pointer-svg {
+        display: block !important;
+      }
+    }
+  
+    /* ========================================================
+       GUIDED INTERACTIVE SAAS PRODUCT TOUR (ALA NAVATTIC/SUPADEMO)
+       ======================================================== */
+    .saas-tour-launcher {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9980;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 18px;
+      background: #11171d;
+      border: 1.5px solid #00875a;
+      border-radius: 999px;
+      color: #ffffff;
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45), 0 0 15px rgba(0, 135, 90, 0.35);
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .saas-tour-launcher:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.55), 0 0 25px rgba(16, 185, 129, 0.5);
+      border-color: #10b981;
+    }
+    .saas-tour-launcher:active {
+      transform: translateY(0) scale(0.98);
+    }
+    .tour-launcher-ping {
+      position: absolute;
+      top: -3px;
+      right: -3px;
+      width: 12px;
+      height: 12px;
+      background: #c8ff2e;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #c8ff2e;
+      animation: tourPingPulse 1.8s ease-in-out infinite;
+    }
+    @keyframes tourPingPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.35); opacity: 0.6; }
+    }
+    .tour-launcher-icon {
+      font-size: 16px;
+      line-height: 1;
+    }
+    .tour-launcher-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1.15;
+    }
+    .tour-launcher-title {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      color: #ffffff;
+    }
+    .tour-launcher-sub {
+      font-size: 10px;
+      font-weight: 500;
+      color: #94a3b8;
+    }
+    .tour-launcher-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      background: rgba(0, 135, 90, 0.25);
+      border: 1px solid #00875a;
+      border-radius: 999px;
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: #c8ff2e;
+      text-transform: uppercase;
+    }
+
+    /* Tour Overlay & Spotlight Cutout */
+    .saas-tour-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .saas-tour-overlay.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .saas-tour-hole {
+      position: fixed;
+      border-radius: 14px;
+      box-shadow: 0 0 0 9999px rgba(8, 12, 16, 0.82), 0 0 20px rgba(0, 135, 90, 0.5);
+      border: 2px solid #00875a;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+    .saas-tour-pulse-ring {
+      position: absolute;
+      inset: -6px;
+      border: 2px dashed #c8ff2e;
+      border-radius: 18px;
+      animation: tourRingRotate 8s linear infinite;
+      opacity: 0.75;
+    }
+    @keyframes tourRingRotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Tooltip Card */
+    .saas-tour-card {
+      position: fixed;
+      width: clamp(300px, 92vw, 420px);
+      background: #11171d;
+      border: 1.5px solid rgba(0, 135, 90, 0.5);
+      border-radius: 16px;
+      padding: 20px;
+      color: #f1f5f9;
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.65), 0 0 25px rgba(0, 135, 90, 0.25);
+      pointer-events: auto;
+      z-index: 10002;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .tour-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .tour-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tour-step-badge {
+      display: inline-block;
+      padding: 3px 9px;
+      background: #00875a;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.04em;
+    }
+    .tour-role-badge {
+      font-size: 10px;
+      font-weight: 700;
+      color: #c8ff2e;
+      letter-spacing: 0.05em;
+    }
+    .tour-close-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-size: 16px;
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px;
+      border-radius: 6px;
+      transition: color 0.15s ease, background 0.15s ease;
+    }
+    .tour-close-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .tour-card-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0 0 8px 0;
+      line-height: 1.3;
+    }
+    .tour-card-desc {
+      font-size: 13px;
+      line-height: 1.55;
+      color: #cbd5e1;
+      margin: 0 0 16px 0;
+    }
+    .tour-action-zone {
+      margin-bottom: 18px;
+    }
+    .tour-action-btn {
+      width: 100%;
+      padding: 10px 16px;
+      background: rgba(0, 135, 90, 0.15);
+      border: 1.5px solid #00875a;
+      border-radius: 10px;
+      color: #c8ff2e;
+      font-size: 12.5px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .tour-action-btn:hover {
+      background: #00875a;
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+    .tour-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .tour-progress-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .tour-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      transition: all 0.25s ease;
+    }
+    .tour-dot.active {
+      width: 20px;
+      border-radius: 999px;
+      background: #00875a;
+      box-shadow: 0 0 8px #00875a;
+    }
+    .tour-nav-btns {
+      display: flex;
+      gap: 8px;
+    }
+    .tour-nav-btn {
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .tour-btn-prev {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #94a3b8;
+    }
+    .tour-btn-prev:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+    }
+    .tour-btn-next {
+      background: #00875a;
+      border: 1px solid #00875a;
+      color: #ffffff;
+    }
+    .tour-btn-next:hover {
+      background: #00a86b;
+      box-shadow: 0 0 12px rgba(0, 168, 107, 0.4);
+    }
+
+    /* Tour Finished Modal */
+    .tour-finish-card {
+      max-width: 520px;
+      text-align: center;
+      padding: 28px;
+      background: #11171d !important;
+      color: #ffffff !important;
+      border: 1.5px solid #00875a !important;
+    }
+    .tour-finish-trophy {
+      font-size: 46px;
+      display: block;
+      margin-bottom: 12px;
+      animation: trophyBounce 1.5s ease infinite alternate;
+    }
+    @keyframes trophyBounce {
+      0% { transform: translateY(0) scale(1); }
+      100% { transform: translateY(-6px) scale(1.08); }
+    }
+    .tour-finish-recap-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin: 20px 0;
+      text-align: left;
+    }
+    .recap-pill {
+      background: rgba(0, 135, 90, 0.12);
+      border: 1px solid rgba(0, 135, 90, 0.35);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #c8ff2e;
+    }
+    .tour-finish-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    @media (max-width: 768px) {
+      .saas-tour-launcher {
+        bottom: 16px;
+        right: 16px;
+        padding: 8px 14px;
+        gap: 8px;
+      }
+      .tour-launcher-sub {
+        display: none;
+      }
+      .saas-tour-card {
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        bottom: 16px !important;
+        top: auto !important;
+        width: 92vw;
+        max-width: 390px;
+      }
+      .tour-finish-recap-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <link rel="stylesheet" href="/src/style.css" />
+  <link rel="stylesheet" href="/css/loader.css" />
+</head>
+<body class="theme-editorial">
+  <!-- Screen reader announcer for accessible live updates -->
+  <div class="sr-only" aria-live="polite" id="liveAnnouncer"></div>
+
+  <!-- =====================================================
+       BAGIAN 1 — HALAMAN INTRO INTERAKTIF (100dvh, FULLSCREEN)
+       ===================================================== -->
+  <main class="intro-screen" id="introScreen">
+    
+    <!-- Railing Text Berjalan di Bagian Atas Tong Sampah Awal (Background Hijau) -->
+    <div class="home-railing-bar intro-top-railing" role="marquee" aria-label="Pengumuman Berjalan">
+      <div class="railing-track">
+        <div class="railing-content">
+          <span class="railing-item"><span class="railing-bin-icon">🗑️</span> <strong class="railing-brand">TRASH 2 CASH</strong> — <span class="railing-highlight">Solusi Sirkular</span> yang siap membantumu</span>
+          <span class="railing-star">✦</span>
+          <span class="railing-item"><span class="railing-badge">PILAH SEKARANG</span> DAPATKAN <span class="railing-highlight">CASH</span></span>
+          <span class="railing-star">✦</span>
+          <span class="railing-item"><span class="railing-bin-icon">💵</span> REWARD LANGSUNG <span class="railing-pill">100K RUPIAH</span></span>
+          <span class="railing-star">✦</span>
+          <span class="railing-item"><span class="railing-bin-icon">♻️</span> Solusi Sirkular Ekonomi Modern</span>
+          <span class="railing-star">✦</span>
+        </div>
+        <div class="railing-content" aria-hidden="true">
+          <span class="railing-item"><span class="railing-bin-icon">🗑️</span> <strong class="railing-brand">TRASH 2 CASH</strong> — <span class="railing-highlight">Solusi Sirkular</span> yang siap membantumu</span>
+          <span class="railing-star">✦</span>
+          <span class="railing-item"><span class="railing-badge">PILAH SEKARANG</span> DAPATKAN <span class="railing-highlight">CASH</span></span>
+          <span class="railing-star">✦</span>
+          <span class="railing-item"><span class="railing-bin-icon">💵</span> REWARD LANGSUNG <span class="railing-pill">100K RUPIAH</span></span>
+          <span class="railing-star">✦</span>
+          <span class="railing-item"><span class="railing-bin-icon">♻️</span> Solusi Sirkular Ekonomi Modern</span>
+          <span class="railing-star">✦</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Motif Kerutan Kertas & Ornamen Alami -->
+    <div class="paper-texture-layer" aria-hidden="true"></div>
+    <div class="paper-crease-lines" aria-hidden="true"></div>
+    <div class="paper-corner-ornament corner-top-left" aria-hidden="true">+</div>
+    <div class="paper-corner-ornament corner-top-right" aria-hidden="true">+</div>
+    <div class="paper-corner-ornament corner-bottom-left" aria-hidden="true"><span>⊕ KERTAS 120GSM</span></div>
+    <div class="paper-corner-ornament corner-bottom-right" aria-hidden="true"><span>ARCHIVAL PROOF</span></div>
+
+    <!-- Ambient Moving Objects: Falling Leaves Canvas in Background -->
+    <canvas class="falling-leaves-canvas" id="fallingLeavesCanvas" aria-hidden="true"></canvas>
+
+    <!-- Teks Latar Belakang Besar Flanking Chute ("Untuk Bumi yang Kita Jaga Bersama") -->
+    <div class="bg-display-wrap" aria-hidden="true">
+      <div class="bg-display-flanking" id="bgDisplayText">
+        <div class="bg-col bg-col-left">
+          <span class="bg-line">UNTUK BUMI </span>
+          <span class="bg-line">YANG KITA </span>
+          <span class="bg-line"><span class="script-word">jaga</span> BERSAMA</span>
+        </div>
+        <div class="bg-chute-spacer"></div>
+        <div class="bg-col bg-col-right">
+          <span class="bg-line">PILAH SAMPAH </span>
+          <span class="bg-line">DARI RUMAH </span>
+          <span class="bg-line"><span class="script-word">mulai</span> SEKARANG</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ELEMEN UTAMA: Tong Sampah Menggantung di Tengah Atas Layar -->
+    <section class="bin-stage" aria-label="Tong Sampah Interaktif">
+      <div 
+        class="bin-container" 
+        id="binContainer" 
+        role="region" 
+        tabindex="0" 
+        aria-label="Tong Sampah. Seret sampah ke sini atau tekan Enter untuk memasukkan."
+      >
+        <!-- Lapisan 1: bin-back (bagian belakang / bukaan tong yang gelap) -->
+        <div class="bin-layer bin-back" id="binBack">
+          <img 
+            src="/assets/bin/bin-back.png" 
+            alt="" 
+            class="bin-img bin-back-img" 
+            draggable="false"
+            onerror="this.style.opacity='0';" 
+          />
+          <!-- High-fidelity CSS/SVG Fallback untuk interior rongga gelap -->
+          <div class="bin-back-fallback">
+            <div class="bin-void-cavity"></div>
+          </div>
+        </div>
+
+        <!-- Target area bersinggungan / bukaan tong -->
+        <div class="bin-aperture-target" id="binApertureTarget"></div>
+
+        <!-- Lapisan tengah: Tempat sampah yang sedang jatuh lewat di antara back dan front -->
+        <div class="bin-drop-chute" id="binDropChute"></div>
+
+        <!-- Lapisan 2: bin-front (bibir / badan depan tong logam) -->
+        <div class="bin-layer bin-front" id="binFront">
+          <img 
+            src="/assets/bin/bin-front.png" 
+            alt="Bukaan Tong Sampah" 
+            class="bin-img bin-front-img" 
+            draggable="false"
+            onerror="this.style.opacity='0';" 
+          />
+          <!-- High-fidelity CSS/SVG Fallback untuk bibir logam dan bodi chute -->
+          <div class="bin-front-fallback">
+            <svg class="bin-front-svg" viewBox="0 0 764 860" fill="none" preserveAspectRatio="xMidYMid meet">
+              <defs>
+                <linearGradient id="chuteFrameGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#4a4d52"/>
+                  <stop offset="20%" stop-color="#cfd3d8"/>
+                  <stop offset="50%" stop-color="#f5f7f9"/>
+                  <stop offset="80%" stop-color="#8a8e94"/>
+                  <stop offset="100%" stop-color="#3a3d42"/>
+                </linearGradient>
+                <linearGradient id="chuteLipGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#60646a"/>
+                  <stop offset="40%" stop-color="#b0b5bc"/>
+                  <stop offset="70%" stop-color="#e2e6eb"/>
+                  <stop offset="100%" stop-color="#45484d"/>
+                </linearGradient>
+              </defs>
+              <!-- Outer Stainless Frame -->
+              <rect x="10" y="0" width="744" height="850" rx="8" fill="url(#chuteFrameGrad)"/>
+              <!-- Upper Door Panel -->
+              <rect x="70" y="30" width="624" height="320" rx="4" fill="url(#chuteLipGrad)"/>
+              <!-- Front Beveled Lip under the drop slot -->
+              <path d="M 155 695 L 609 695 L 670 820 L 94 820 Z" fill="url(#chuteLipGrad)"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Ambient proximity glow effect -->
+        <div class="bin-proximity-glow" id="binGlow"></div>
+      </div>
+
+      <!-- Penunjuk Panah Melengkung & Teks Ajakan (Curved Looped Arrow Style) -->
+      <aside class="curved-pointer-wrap" id="binTooltip" role="tooltip">
+        <svg class="curved-pointer-svg desktop-pointer-svg" viewBox="0 0 380 280" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <marker id="sketchArrowHead" viewBox="0 0 24 24" refX="20" refY="12" markerWidth="20" markerHeight="20" orient="auto">
+              <path d="M 4 4 L 20 12 L 4 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+          </defs>
+          
+          <!-- Garis panah melengkung bersimpul (loop-de-loop) mengarah ke bukaan tong -->
+          <path class="curved-arrow-path" id="curvedArrowStroke" 
+                d="M 180 250 C 182 195 160 145 120 155 C 90 162 95 205 125 205 C 160 205 180 150 145 108 C 115 72 65 75 22 102" 
+                stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#sketchArrowHead)"/>
+
+          <!-- Teks ajakan miring mengikuti alur panah -->
+          <text class="curved-pointer-text" id="binTooltipText" transform="translate(260, 90) rotate(-48)" text-anchor="middle">
+            Masukan sampahmu kedalam sini
+          </text>
+        </svg>
+      </aside>
+    </section>
+
+    <!-- Tumpukan Foto Sampah Asli di Bagian Bawah Layar -->
+    <section class="trash-pile-section" aria-label="Tumpukan Sampah Siap Pilah">
+      <div class="trash-pile-container" id="trashPile">
+        <!-- Rendered dynamically by IntroController from TRASH_ITEMS array -->
+      </div>
+    </section>
+
+    <!-- Footer Intro: Logo & Label trash2cash di Tengah Bawah -->
+    <footer class="intro-footer intro-footer-center">
+      <div class="brand-center-pill" id="introBrandCenter">
+        <img 
+          src="/assets/logo/trash2cash-icon.png" 
+          alt="Trash2Cash Logo Icon" 
+          class="brand-center-icon" 
+          draggable="false"
+        />
+        <div class="brand-center-info">
+          <span class="brand-center-name">TRASH2<span class="brand-script">cash</span></span>
+          <span class="brand-center-tagline">trash 2 cash</span>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+
+  <!-- =====================================================
+       BAGIAN 3A — ONBOARDING: 3-STEP FLOW & CARA KERJA
+       Sesuai Mockup Referensi Pengguna (Mobile/Editorial)
+       ===================================================== -->
+  <section class="onboarding-screen is-hidden" id="onboardingScreen" aria-label="Pengenalan Alur Trash2Cash">
+    
+    <!-- Paper Texture & Archival Canvas Elements -->
+    <div class="paper-texture-layer" aria-hidden="true"></div>
+    <div class="paper-crease-lines" aria-hidden="true"></div>
+
+    <div class="onboarding-device-card">
+      
+      <!-- Top Mobile App Header with Stepper Progress Bar -->
+      <header class="onboard-top-bar">
+        <div class="onboard-status-sim">
+          <span class="status-time">9:41</span>
+          <span class="status-brand">TRASH2CASH::FLOW</span>
+        </div>
+
+        <div class="onboard-nav-row">
+          <!-- 3-Segmented Progress Bar matching reference image -->
+          <div class="onboard-stepper-track" role="progressbar" aria-label="Progres Pengenalan">
+            <div class="stepper-segment active">
+              <div class="stepper-fill"></div>
+            </div>
+            <div class="stepper-segment">
+              <div class="stepper-fill"></div>
+            </div>
+            <div class="stepper-segment">
+              <div class="stepper-fill"></div>
+            </div>
+          </div>
+
+          <div class="onboard-top-actions">
+            <span class="onboard-step-counter" id="onboardStepCounter">1 / 3</span>
+            <button class="onboard-text-btn" id="onboardTopNextBtn" type="button">Next</button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Physical Stacked Card Deck Viewport -->
+      <div class="cards-deck-stage" id="cardsDeckStage">
+        
+        <!-- CARD 1 (Top / Initial Active) -->
+        <article class="stack-card stack-card-0 card-active" data-index="0" id="stackCard0">
+          <div class="stack-card-inner">
+            <div class="card-step-badge">
+              <span class="step-num">01</span>
+              <span class="step-tag">AI SCANNER</span>
+            </div>
+            
+            <div class="card-text-content">
+              <div class="onboard-tag-row">
+                <span class="onboard-tag-pill">✦ EDGE AI</span>
+                <span class="onboard-tag-pill">✦ 98% AKURASI</span>
+              </div>
+              <h2 class="card-title">Pilah Sampah dengan AI Vision.</h2>
+              <p class="card-desc">Cukup foto sampahmu lewat kamera. AI langsung mengenali jenis material, berat, dan estimasi saldo seketika.</p>
+            </div>
+
+            <div class="card-illustration-box">
+              <div class="speech-bubble-bubble bubble-top">✦ 98.4% AI Match</div>
+              <div class="speech-bubble-bubble bubble-bottom">Rp 4.500 / KG</div>
+              <div class="card-mascot-wrap">
+                <img src="/assets/mascot/bottle-mascot.png" alt="Maskot Botol Plastik" class="card-mascot-img" draggable="false" />
+              </div>
+            </div>
+
+            <div class="card-drag-hint">
+              <span class="hint-hand-icon">↔</span>
+              <span class="hint-text">Geser kartu ke samping untuk lanjut</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 2 (Layer 2 / Behind Card 1 with subtle blur & peek) -->
+        <article class="stack-card stack-card-1 card-next" data-index="1" id="stackCard1">
+          <div class="stack-card-inner">
+            <div class="card-step-badge">
+              <span class="step-num">02</span>
+              <span class="step-tag">LOGISTIK SIRKULAR</span>
+            </div>
+            
+            <div class="card-text-content">
+              <div class="onboard-tag-row">
+                <span class="onboard-tag-pill">✦ ARMADA SIRKULAR</span>
+                <span class="onboard-tag-pill">✦ DROP POINT RW</span>
+              </div>
+              <h2 class="card-title">Jemput Cepat atau Setor Mandiri.</h2>
+              <p class="card-desc">Panggil armada kurir T2C langsung ke pintu rumahmu atau bawa ke Drop Point Hub Mitra terdekat dengan timbangan presisi.</p>
+            </div>
+
+            <div class="card-illustration-box">
+              <div class="speech-bubble-bubble bubble-top">🚚 Kurir Siap Meluncur!</div>
+              <div class="speech-bubble-bubble bubble-bottom">📍 Drop Point Terdekat</div>
+              <div class="card-mascot-wrap peeking-mascot-wrap">
+                <img src="/assets/mascot/mesh-bin-peeking-clean.png" alt="Maskot Tong Kawat Mengintip" class="card-mascot-img peeking-mascot-img" draggable="false" />
+              </div>
+            </div>
+
+            <div class="card-drag-hint">
+              <span class="hint-hand-icon">↔</span>
+              <span class="hint-text">Geser kartu ke samping untuk lanjut</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 3 (Layer 3 / Deepest Card with frosted blur) -->
+        <article class="stack-card stack-card-2 card-deep" data-index="2" id="stackCard2">
+          <div class="stack-card-inner">
+            <div class="card-step-badge">
+              <span class="step-num">03</span>
+              <span class="step-tag">EKONOMI & GAMIFIKASI</span>
+            </div>
+            
+            <div class="card-text-content">
+              <div class="onboard-tag-row">
+                <span class="onboard-tag-pill">✦ SALDO INSTAN</span>
+                <span class="onboard-tag-pill">✦ ECO-LEADERBOARD</span>
+              </div>
+              <h2 class="card-title">Raih Cuan & Buktikan Aksimu!</h2>
+              <p class="card-desc">Tiap gram sampah langsung cair jadi saldo rupiah, streak harian berbonus, dan panjat papan peringkat Eco-Hero daerahmu.</p>
+            </div>
+
+            <div class="card-illustration-box">
+              <div class="speech-bubble-bubble bubble-top">🔥 Streak 5 Hari (+20%)</div>
+              <div class="speech-bubble-bubble bubble-bottom">💵 Saldo Instan Cair</div>
+              <div class="card-mascot-wrap">
+                <img src="/assets/mascot/mesh-bin-mascot.png" alt="Maskot Tong Kawat Melambai Senang" class="card-mascot-img" draggable="false" />
+              </div>
+            </div>
+
+            <div class="card-drag-hint hint-final">
+              <span class="hint-hand-icon">✦</span>
+              <span class="hint-text">Geser kartu untuk masuk Portal Role →</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Bottom Navigation Footer -->
+      <footer class="onboard-bottom-bar">
+        <div class="onboard-dots-wrap">
+          <button class="onboard-dot active" data-index="0" aria-label="Langkah 1"></button>
+          <button class="onboard-dot" data-index="1" aria-label="Langkah 2"></button>
+          <button class="onboard-dot" data-index="2" aria-label="Langkah 3"></button>
+        </div>
+
+        <div class="onboard-cta-row">
+          <button class="onboard-btn-secondary" id="onboardPrevBtn" type="button">
+            <i data-lucide="arrow-left" class="btn-icon"></i> <span>Kembali</span>
+          </button>
+          <button class="onboard-btn-primary" id="onboardNextBtn" type="button">
+            <span id="onboardNextBtnText">Lanjut ke Logistik →</span>
+          </button>
+        </div>
+
+        <button class="onboard-skip-link" id="onboardSkipBtn" type="button">
+          Lewati Tur & Langsung Masuk Akun
+        </button>
+      </footer>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       BAGIAN 3B — AUTENTIKASI & PEMILIHAN ROLE (SIGN IN / SIGN UP)
+       Penentuan Role Akun & Inisialisasi Gamifikasi / Pendapatan
+       ===================================================== -->
+  <section class="auth-screen is-hidden" id="authScreen" aria-label="Portal Autentikasi dan Role Trash2Cash">
+    
+    <div class="paper-texture-layer" aria-hidden="true"></div>
+    <div class="paper-crease-lines" aria-hidden="true"></div>
+
+    <div class="auth-card-stage">
+      
+      <!-- Top Brand Header -->
+      <header class="auth-card-header">
+        <div class="auth-brand-badge">
+          <img src="/assets/logo/trash2cash-icon.png" alt="Logo Trash2Cash" class="auth-brand-logo" draggable="false" />
+          <div class="auth-brand-info">
+            <h1 class="auth-brand-name">TRASH2<span class="brand-script">cash</span></h1>
+            <span class="auth-brand-tag">GERBANG SIRKULAR • AUTENTIKASI PENGGUNA</span>
+          </div>
+        </div>
+
+        <!-- Mode Tabs: Sign Up vs Sign In -->
+        <div class="auth-tabs-toggle" role="tablist">
+          <button class="auth-tab-btn active" id="tabAuthSignUp" type="button" role="tab" aria-selected="true">
+            Daftar Akun Baru
+          </button>
+          <button class="auth-tab-btn" id="tabAuthSignIn" type="button" role="tab" aria-selected="false">
+            Masuk (Sign In)
+          </button>
+        </div>
+      </header>
+
+      <div class="auth-form-body">
+        
+        <div class="auth-heading-wrap">
+          <div class="auth-mascot-companion-row">
+            <div class="auth-mascot-avatar" id="authMascotAvatar">
+              <img src="/assets/mascot/mesh-bin-mascot.png" alt="Maskot Trash2Cash" class="auth-mascot-img" draggable="false" />
+            </div>
+            <div class="auth-mascot-bubble" id="authMascotBubble">
+              <span class="bubble-sparkle">✦</span>
+              <span id="authMascotQuote">Hai Warga Hebat! Selamat datang di Trash 2 Cash! 💰</span>
+            </div>
+          </div>
+          <h2 class="auth-main-title" id="authHeadingText">Daftar Akun Baru & Pilih Role</h2>
+          <p class="auth-sub-title" id="authSubheadingText">Tentukan peranmu dalam rantai ekonomi sirkular Trash2Cash untuk mengkalkulasikan pendapatan dan gamifikasi.</p>
+        </div>
+
+        <!-- ROLE SELECTION CARDS (WARGA & MITRA - KURIR HANDLED INTERNALLY) -->
+        <div class="auth-role-selection-group">
+          <label class="auth-group-label">PILIH PERAN UTAMA (ROLE):</label>
+          <div class="auth-role-cards-grid two-cols-grid">
+            
+            <!-- Card 1: Warga Penyetor -->
+            <div class="auth-role-select-card selected" data-role="warga" role="radio" aria-checked="true" tabindex="0">
+              <div class="role-card-top">
+                <span class="role-icon-box">👤</span>
+                <span class="role-badge-tag">WARGA SIRKULAR</span>
+              </div>
+              <h3 class="role-card-name">Warga Penyetor</h3>
+              <p class="role-card-desc">Pilah sampah rumah tangga & komunitas, kumpulkan streak harian, dan klaim saldo rupiah langsung.</p>
+              <div class="role-card-perks">
+                <span>✓ Klaim Saldo Rp/kg Timbangan</span>
+                <span>✓ Bonus Streak Harian (1.2x)</span>
+                <span>✓ Leaderboard Eco-Hero RW</span>
+              </div>
+            </div>
+
+            <!-- Card 2: Mitra Hub -->
+            <div class="auth-role-select-card" data-role="mitra" role="radio" aria-checked="false" tabindex="0">
+              <div class="role-card-top">
+                <span class="role-icon-box">🏢</span>
+                <span class="role-badge-tag">HUB MITRA RESMI</span>
+              </div>
+              <h3 class="role-card-name">Mitra Hub</h3>
+              <p class="role-card-desc">Kelola timbangan komoditas daur ulang, kas desa, dan audit jejak karbon Scope 3 standar ISO.</p>
+              <div class="role-card-perks">
+                <span>✓ Margin Bursa Komoditas Daur Ulang</span>
+                <span>✓ Kas Likuiditas & Bagi Hasil Hub</span>
+                <span>✓ Laporan ESG & Sertifikat Scope 3</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- FORM INPUTS -->
+        <form class="auth-input-form" id="authMainForm">
+          <div class="auth-input-row">
+            <div class="auth-field-group auth-signup-only">
+              <label for="authInputName" class="auth-field-label">NAMA LENGKAP / INSTANSI</label>
+              <div class="auth-input-wrapper">
+                <i data-lucide="user" class="input-icon-left"></i>
+                <input type="text" id="authInputName" class="auth-text-input" placeholder="Misal: Alfat Budi Santoso" />
+              </div>
+            </div>
+
+            <div class="auth-field-group">
+              <label for="authInputPhone" class="auth-field-label">NO. WHATSAPP / IDENTITAS</label>
+              <div class="auth-input-wrapper">
+                <i data-lucide="phone" class="input-icon-left"></i>
+                <input type="text" id="authInputPhone" class="auth-text-input" placeholder="0812-3456-7890" required />
+              </div>
+            </div>
+          </div>
+
+          <!-- PIN SECURITY FIELD WITH INTERACTIVE EYE TOGGLE & DOTS -->
+          <div class="auth-field-group">
+            <div class="field-label-row">
+              <label for="authInputPin" class="auth-field-label">PIN KEAMANAN (6 DIGIT)</label>
+              <span class="field-hint" id="pinStrengthBadge">✦ Terenkripsi Bank-Grade</span>
+            </div>
+            <div class="auth-input-wrapper">
+              <i data-lucide="key-round" class="input-icon-left"></i>
+              <input type="password" id="authInputPin" class="auth-text-input" placeholder="Ketik 6 angka PIN keamanan" maxlength="6" inputmode="numeric" />
+              <button type="button" class="btn-toggle-pin" id="btnTogglePin" aria-label="Lihat atau Sembunyikan PIN">
+                <i data-lucide="eye" id="iconPinEye"></i>
+              </button>
+            </div>
+            <div class="pin-dots-indicator" id="pinDotsIndicator" aria-hidden="true">
+              <span class="pin-dot"></span>
+              <span class="pin-dot"></span>
+              <span class="pin-dot"></span>
+              <span class="pin-dot"></span>
+              <span class="pin-dot"></span>
+              <span class="pin-dot"></span>
+            </div>
+          </div>
+
+          <!-- INTERACTIVE REAL-TIME INCOME & GAMIFICATION CALCULATOR SLIDER -->
+          <div class="auth-preview-box" id="authRolePreviewCard">
+            <div class="preview-header">
+              <div class="preview-badge-row">
+                <span class="preview-sparkle-dot">✦</span>
+                <span class="preview-badge-title" id="authPreviewRoleTitle">Warga Penyetor</span>
+                <span class="preview-tagline" id="authPreviewRoleTagline">Keluarga, Individu, & Komunitas Lingkungan</span>
+              </div>
+            </div>
+
+            <!-- Interactive Dynamic Simulator Widget -->
+            <div class="auth-simulator-widget" id="authSimulatorWidget">
+              <div class="simulator-slider-header">
+                <span class="slider-label" id="simSliderLabel">SIMULASI SAMPAH HARIAN:</span>
+                <span class="slider-val-badge" id="simSliderValBadge">3.0 KG / HARI</span>
+              </div>
+              <input 
+                type="range" 
+                id="authWasteSlider" 
+                class="auth-waste-range-slider" 
+                min="1" 
+                max="15" 
+                step="0.5" 
+                value="3" 
+                aria-label="Simulasi Berat Sampah" 
+              />
+              <div class="slider-presets-row" id="simPresetsRow">
+                <button type="button" class="sim-preset-btn" data-val="1">1 KG</button>
+                <button type="button" class="sim-preset-btn active" data-val="3">3 KG</button>
+                <button type="button" class="sim-preset-btn" data-val="5">5 KG</button>
+                <button type="button" class="sim-preset-btn" data-val="10">10 KG</button>
+              </div>
+            </div>
+            
+            <div class="preview-stats-grid">
+              <div class="preview-stat-card">
+                <span class="preview-stat-label">ESTIMASI PENDAPATAN BULANAN</span>
+                <span class="preview-stat-val" id="authPreviewEarnings">Rp 405.000 / bln</span>
+                <span class="preview-stat-sub" id="authPreviewFormula">Berdasarkan estimasi bursa Rp 4.500 / kg</span>
+              </div>
+              <div class="preview-stat-card">
+                <span class="preview-stat-label">STREAK & GAMIFIKASI</span>
+                <span class="preview-stat-val highlight-green" id="authPreviewStreak">5 Hari Streak (1.2x Multiplier)</span>
+                <span class="preview-stat-sub" id="authPreviewBonus">+50 Poin Selamat Datang + 1x Streak Shield</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Preset Demo Accounts (Warga & Mitra) -->
+          <div class="auth-demo-presets">
+            <span class="demo-label">CONTOH PROFIL CEPAT:</span>
+            <button class="auth-demo-pill" data-demo-role="warga" type="button">👤 Warga: Alfat Budi</button>
+            <button class="auth-demo-pill" data-demo-role="mitra" type="button">🏢 Mitra: Trash 2 Cash Berkah</button>
+          </div>
+
+          <!-- Submit Action Button -->
+          <button class="auth-submit-btn" id="authSubmitBtn" type="submit">
+            <span id="authSubmitBtnText">Buat Akun & Mulai Beraksi →</span>
+          </button>
+        </form>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       BAGIAN 4 — HOMEPAGE: HERO "TRASH 2 CASH"
+       Karakter Maskot 3D & Tipografi Highway Motel Sans
+       Palet Selaras Penuh dengan Layar Tong Sampah
+       ===================================================== -->
+  <article class="home-screen is-hidden" id="homeScreen">
+    
+    <!-- Paper Texture & Archival Canvas Elements (Identik dengan Tong Sampah) -->
+    <div class="paper-texture-layer" aria-hidden="true"></div>
+    <div class="paper-crease-lines" aria-hidden="true"></div>
+    <div class="paper-corner-ornament corner-top-left" aria-hidden="true">+</div>
+    <div class="paper-corner-ornament corner-top-right" aria-hidden="true">+</div>
+    <div class="paper-corner-ornament corner-bottom-left" aria-hidden="true"><span>⊕ KERTAS 120GSM</span></div>
+    <div class="paper-corner-ornament corner-bottom-right" aria-hidden="true"><span>ARCHIVAL PROOF</span></div>
+
+    <!-- 1. Top Railing Text (Background Hijau & Ornamen Berjalan) -->
+    <div class="home-railing-bar" role="marquee" aria-label="Pengumuman Berjalan">
+      <div class="railing-track">
+        <div class="railing-content">
+          <span class="railing-item"><span class="railing-bin-icon">🗑️</span> <strong class="railing-brand">TRASH 2 CASH</strong> — <span class="railing-highlight">Solusi Sirkular</span> yang siap membantumu</span>
+          <span class="railing-star">✦</span>
+          <span class="railing-item"><span class="railing-badge">PILAH SEKARANG</span> DAPATKAN <span class="railing-highlight">CASH</span></span>
+          <span class="railing-star">✦</span>
+          <span class="railing-item"><span class="railing-bin-icon">💵</span> REWARD LANGSUNG <span class="railing-pill">100K RUPIAH</span></span>
+          <span class="railing-star">✦</span>
+          <span class="railing-item"><span class="railing-bin-icon">♻️</span> Solusi Sirkular Ekonomi Modern</span>
+          <span class="railing-star">✦</span>
+        </div>
+        <div class="railing-content" aria-hidden="true">
+          <span class="railing-item"><span class="railing-bin-icon">🗑️</span> <strong class="railing-brand">TRASH 2 CASH</strong> — <span class="railing-highlight">Solusi Sirkular</span> yang siap membantumu</span>
+          <span class="railing-star">✦</span>
+          <span class="railing-item"><span class="railing-badge">PILAH SEKARANG</span> DAPATKAN <span class="railing-highlight">CASH</span></span>
+          <span class="railing-star">✦</span>
+          <span class="railing-item"><span class="railing-bin-icon">💵</span> REWARD LANGSUNG <span class="railing-pill">100K RUPIAH</span></span>
+          <span class="railing-star">✦</span>
+          <span class="railing-item"><span class="railing-bin-icon">♻️</span> Solusi Sirkular Ekonomi Modern</span>
+          <span class="railing-star">✦</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scrollable Content Wrapper for Smooth Momentum Scrolling (Lenis) -->
+    <div class="home-scroll-content" id="homeScrollContent">
+
+      <!-- 2. Editorial Top Navigation Header -->
+      <header class="home-editorial-nav">
+        <div class="nav-brand-left js-return-intro" role="button" tabindex="0" title="Kembali ke Layar Pengantar (Intro)" style="cursor: pointer;">
+          <img src="/assets/logo/trash2cash-icon.png" alt="Logo Trash 2 Cash" class="nav-brand-logo" draggable="false" />
+          <div class="nav-brand-text">
+            <span class="nav-brand-title">Trash 2 Cash</span>
+            <span class="nav-brand-edition">WASTE-TECH 2026</span>
+          </div>
+        </div>
+
+        <!-- Segmented Navigation: Panggung Sambutan Maskot vs Pusat Kontrol Sirkular -->
+        <div class="nav-view-switcher" id="navViewSwitcher" role="tablist" aria-label="Navigasi Halaman Utama">
+          <button class="nav-view-tab active" id="tabHeroView" role="tab" aria-selected="true" type="button" title="Panggung Sambutan Maskot">
+            <span class="view-tab-icon">🎭</span> <span>Panggung Maskot</span>
+          </button>
+          <button class="nav-view-tab" id="tabControlView" role="tab" aria-selected="false" type="button" title="Pusat Kontrol Sirkular Digital">
+            <span class="view-tab-icon">⚡</span> <span>Pusat Kontrol</span>
+          </button>
+        </div>
+
+        <div class="nav-action-right">
+          <!-- Active User Profile Chip with integrated Switch Account action -->
+          <button class="nav-user-profile-chip js-open-auth" id="navUserChip" type="button" title="Akun Aktif: Alfat • Klik untuk ganti akun">
+            <span class="user-chip-avatar" id="navUserAvatar">A</span>
+            <div class="user-chip-meta">
+              <span class="user-chip-name" id="navUserName">Alfat</span>
+              <span class="user-chip-switch-action">🔑 Ganti Akun</span>
+            </div>
+          </button>
+
+          <!-- Live Circular Wallet Balance -->
+          <div class="nav-balance-pill" id="navBalancePill" title="Saldo Dompet Sirkular Terverifikasi">
+            <span class="wallet-icon-svg">🪙</span>
+            <span class="balance-label">SALDO:</span>
+            <span class="balance-val" id="navBalanceVal">Rp 148.500</span>
+            <span class="balance-pts" id="navPointsVal">850 PTS</span>
+          </div>
+          <!-- Live Account Streak Badge (Pengganti Button Pilah Sampah) -->
+          <div class="nav-streak-pill" id="navStreakPill" role="button" tabindex="0" title="Streak Setor Sampah Harian: Klik untuk melihat reward & multiplier!">
+            <div class="streak-flame-circle" id="navStreakFlame">🔥</div>
+            <div class="streak-meta">
+              <span class="streak-counter" id="navStreakDays">5 HARI</span>
+              <span class="streak-badge-bonus" id="navStreakMult">1.2x POIN</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+    <!-- =====================================================
+         HALAMAN 1: PANGGUNG SAMBUTAN MASKOT (TERPISAH)
+         ===================================================== -->
+    <div class="home-page-view page-view-hero" id="pageHeroView">
+
+      <!-- =====================================================
+           MONEY-IN-CHECK INSPIRED ARCHITECTURAL GRID & COMPASS DECOR
+           Millimeter Architectural Grid, Coordinate Notations, & Vertical Compass
+           ===================================================== -->
+      <div class="editorial-grid-bg" aria-hidden="true"></div>
+
+      <!-- Vertical Compass Scroll-Progress on Right Edge (N-S Indicator) -->
+      <div class="editorial-compass" id="editorialCompass" aria-hidden="true">
+        <span class="compass-letter compass-letter--u">U</span>
+        <div class="compass-track">
+          <div class="compass-fill" id="editorialCompassFill"></div>
+        </div>
+        <span class="compass-letter compass-letter--s">S</span>
+        <span class="compass-pct" id="editorialCompassPct">00%</span>
+      </div>
+
+      <!-- Architectural Coordinate Stamps Scattered Across Canvas -->
+      <div class="editorial-decor-coords" aria-hidden="true">
+        <span class="t2c-coord" style="left: clamp(12px, 3.5vw, 60px); top: 14rem;">T2C::RW-03.JAKARTA</span>
+        <span class="t2c-coord" style="right: clamp(16px, 5vw, 90px); top: 22rem;">EST.2026 // EDISI KHUSUS</span>
+        <span class="t2c-coord" style="left: clamp(16px, 4vw, 70px); top: 48rem;">PET.01 // ACCURACY 98.4%</span>
+        <span class="t2c-coord" style="right: clamp(20px, 4.5vw, 80px); top: 58rem;">IDR::100K // ZERO-ADMIN</span>
+        <span class="t2c-coord" style="left: clamp(14px, 3.8vw, 65px); top: 88rem;">SCOPE-3 // ISO-14064-1</span>
+        <span class="t2c-coord" style="right: clamp(16px, 4.2vw, 75px); top: 110rem;">AI::NEURAL-VISION</span>
+        <span class="t2c-coord" style="left: clamp(16px, 4.5vw, 80px); top: 135rem;">CIRCULAR::LEDGER.VALID</span>
+      </div>
+      
+      <!-- =====================================================
+           FLOATING BACKGROUND COLLECTIBLES (FIXED ON SCROLL)
+           Botol Plastik, Uang Tunai Rp 100k, Keychain Maskot TTC, Kaleng Soda, Daun, Koin
+           ===================================================== -->
+      <div class="fixed-floating-collectibles-layer" aria-hidden="true">
+        <!-- 1. Botol Plastik Transparan (Top Left) -->
+        <div class="fcollectible-item item-bottle">
+          <div class="fcollectible-wrapper float-anim-1">
+            <img src="/assets/trash/plastic-bottle.png" alt="" class="fcollectible-img bottle-img" />
+            <span class="fcollectible-badge">PET 01</span>
+          </div>
+        </div>
+
+        <!-- 2. Lembaran Uang Tunai Rp 100.000 Melayang (Top Right) -->
+        <div class="fcollectible-item item-banknote">
+          <div class="fcollectible-wrapper float-anim-2">
+            <div class="banknote-tactile-card">
+              <div class="banknote-header">
+                <span class="banknote-nation">NEGARA KESATUAN REPUBLIK INDONESIA</span>
+                <span class="banknote-deno">100.000</span>
+              </div>
+              <div class="banknote-body">
+                <div class="banknote-hero-art">
+                  <span class="banknote-ttc-stamp">TRASH 2 CASH</span>
+                  <span class="banknote-cuan-label">CUAN SIRKULAR</span>
+                </div>
+                <div class="banknote-nominal-giant">100000</div>
+              </div>
+              <div class="banknote-footer">
+                <span class="banknote-serial">TTC-2026-MITRA</span>
+                <span class="banknote-spelling">SERATUS RIBU RUPIAH</span>
+              </div>
+              <div class="banknote-crease-glare"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Gantungan Kunci Akrilik Maskot TTC (Bottom Left) -->
+        <div class="fcollectible-item item-keychain">
+          <div class="fcollectible-wrapper float-anim-3">
+            <div class="keychain-assembly">
+              <div class="keychain-ring-metal"></div>
+              <div class="keychain-link-chain"></div>
+              <div class="keychain-acrylic-body">
+                <img src="/assets/mascot/mesh-bin-mascot.png" alt="" class="keychain-mascot-img" />
+                <div class="keychain-acrylic-sheen"></div>
+                <span class="keychain-tag-pill">TTC MERCH 2026</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Kaleng Soda Aluminium Daur Ulang (Bottom Right) -->
+        <div class="fcollectible-item item-can">
+          <div class="fcollectible-wrapper float-anim-1">
+            <img src="/assets/trash/soda-can.png" alt="" class="fcollectible-img can-img" />
+            <span class="fcollectible-badge badge-can">ALU 41</span>
+          </div>
+        </div>
+
+        <!-- 5. Daun Hijau Sirkular Eco (Mid Left) -->
+        <div class="fcollectible-item item-leaf">
+          <div class="fcollectible-wrapper float-anim-2">
+            <img src="/assets/leaves/leaf-green.png" alt="" class="fcollectible-img leaf-img" />
+          </div>
+        </div>
+
+        <!-- 6. Koin Emas TTC Sirkular (Mid Right) -->
+        <div class="fcollectible-item item-gold-coin">
+          <div class="fcollectible-wrapper float-anim-3">
+            <div class="gold-coin-disc">
+              <div class="coin-rim">
+                <span class="coin-symbol">⟲</span>
+                <span class="coin-text">TTC COIN</span>
+                <span class="coin-val">+500 PTS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="home-editorial-stage" id="heroStage">
+        
+        <!-- Architectural Grid Lines -->
+        <div class="blueprint-grid" aria-hidden="true">
+          <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
+          <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
+          <div class="grid-col"></div><div class="grid-col"></div><div class="grid-col"></div>
+        </div>
+
+        <!-- Hand-drawn Annotations (Thematic Circular Economy & Archival Proof) -->
+        <div class="pencil-annotations-layer">
+          <button class="pencil-note note-100k interactive-note" data-tip="Tarik Cuan: Saldo instan masuk ke rekening e-wallet Anda!" type="button">Rp 100.000 ↗</button>
+          <button class="pencil-note note-recycled interactive-note" data-tip="100% Recycled: Seluruh material diproses menjadi bahan baku industri sirkular." type="button">100% RECYCLED</button>
+          <button class="pencil-note note-innovation interactive-note" data-tip="Inovasi: Edge AI & IoT scale memastikan timbangan akurat tanpa manipulasi." type="button">CIRCULAR INNOVATION</button>
+          <button class="pencil-note note-pilah interactive-note" id="notePilahShortcut" data-tip="Buka AI Scanner: Siap scan botol, kaleng, atau kardusmu!" type="button">PILAH DI SINI ↗</button>
+          <button class="pencil-note note-flow interactive-note" data-tip="Alur Rantai Dingin: Warga memilah → Hub menimbang → Pabrik mendaur ulang." type="button">CIRCULAR FLOW ⟲</button>
+          <span class="pencil-note note-kategori">PLASTIK • KERTAS • LOGAM</span>
+          <button class="pencil-note note-point interactive-note" data-tip="Poin Loyalitas: Tukarkan dengan token listrik dan sembako desa!" type="button">+150 PTS REWARD</button>
+          <span class="pencil-note note-coord-n">LAT 6.1754° S</span>
+          <span class="pencil-note note-coord-s">LONG 106.8272° E</span>
+          
+          <!-- Eco Stamp Seal Badge -->
+          <div class="eco-seal-badge" aria-hidden="true">
+            <svg class="eco-seal-svg" viewBox="0 0 70 70" fill="none">
+              <circle cx="35" cy="35" r="32" stroke="#00875a" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.6"/>
+              <circle cx="35" cy="35" r="27" stroke="#00875a" stroke-width="1" opacity="0.4"/>
+              <path d="M 35 18 C 30 25, 23 27, 26 36 C 28 42, 35 44, 35 44 C 35 44, 42 42, 44 36 C 47 27, 40 25, 35 18 Z" fill="#00875a" opacity="0.2"/>
+              <path d="M 35 22 L 35 42" stroke="#00875a" stroke-width="1.2" stroke-linecap="round"/>
+              <text x="35" y="55" font-family="'DM Sans', monospace" font-size="6.5" font-weight="700" fill="#00875a" text-anchor="middle" letter-spacing="1">ESG T2C</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 4. Hero Typographic Showcase -->
+        <div class="hero-typography-canvas">
+          
+          <!-- Eyebrow: "Selamat datang di" -->
+          <div class="hero-eyebrow-container">
+            <span class="hero-eyebrow-badge">✦ THE INVISIBLE RULES OF CIRCULAR WEALTH • 2026</span>
+            <h2 class="hero-eyebrow">
+              Selamat datang di
+            </h2>
+          </div>
+
+          <!-- Giant Typography Wrapper with 3D Centerpiece Mascot -->
+          <div class="giant-title-container">
+            
+            <!-- Line 1: TRASH (Deep Ink #161616) -->
+            <div class="giant-line line-trash">
+              <span class="giant-word">TRASH</span>
+            </div>
+
+            <!-- The Mascot (Centerpiece: Maskot Trash2Cash dengan uang 100k ikat hijau) -->
+            <div class="mascot-centerpiece-wrap interactive-mascot" id="heroMascotWrap" role="button" tabindex="0" title="Klik maskot untuk berinteraksi!">
+              <!-- Dynamic Mascot Speech Bubble -->
+              <div class="hero-mascot-speech-bubble" id="heroMascotSpeechBubble">
+                <span class="bubble-sparkle">✦</span>
+                <span id="heroMascotSpeechText">Hai Alfat! Selamat datang di Trash 2 Cash!</span>
+              </div>
+
+              <img 
+                src="/assets/mascot/trash2cash-hero-mascot.png" 
+                alt="Maskot Trash 2 Cash membawa gulungan uang 100k berikat karet hijau" 
+                class="mascot-centerpiece-img"
+                draggable="false"
+              />
+            </div>
+
+            <!-- Line 2: 2 CASH (angka 2 hijau emerald & kata CASH hijau emerald) -->
+            <div class="giant-line line-cash">
+              <span class="giant-digit-green">2</span>
+              <span class="giant-word giant-word-cash">CASH</span>
+            </div>
+
+          </div>
+
+          <!-- Subtitle below the giant text -->
+          <p class="hero-byline">
+            Sebuah platform ekonomi sirkular bersama <strong style="color:#00875a;">Komunitas Mitra Trash 2 Cash</strong>
+          </p>
+
+          <!-- Dua Aksi Harmonis: Scroll ke Alur + Masuk Pusat Kontrol -->
+          <div class="hero-actions-dual-wrap">
+            <button class="btn-scroll-steps" id="btnScrollToSteps" type="button" title="Baca Manifesto &amp; Alur">
+              <span>Baca Manifesto &amp; Alur</span>
+              <i data-lucide="arrow-down" class="btn-arrow-lucide-bounce"></i>
+            </button>
+            
+            <button class="btn-enter-control btn-secondary-outline" id="btnEnterControlCenter" type="button" title="Masuk ke Pusat Kontrol Sirkular">
+              <span class="btn-sparkle-icon"><i data-lucide="zap" class="icon-tech"></i></span>
+              <span class="btn-enter-text">Buka Pusat Kontrol Sirkular</span>
+              <i data-lucide="arrow-right" class="btn-arrow-lucide"></i>
+            </button>
+          </div>
+
+          <!-- MoneyInCheck Inspired Scroll Mouse Indicator -->
+          <div class="hero-editorial-scroll" aria-hidden="true">
+            <span class="editorial-scroll-word">S C R O L L</span>
+            <div class="editorial-mouse-icon">
+              <span class="editorial-mouse-wheel"></span>
+            </div>
+          </div>
+
+          <!-- Live Telemetry Ticker -->
+          <div class="hero-live-ticker" id="heroLiveTicker">
+            <span class="ticker-pulse-dot"></span>
+            <span class="ticker-content" id="heroTickerContent">
+              <span class="ticker-metric"><b id="tickerKgVal">14.820 kg</b> sampah terpilah</span>
+              <span class="ticker-sep">•</span>
+              <span class="ticker-metric"><b id="tickerCuanVal">Rp 66.690.000</b> saldo beredar</span>
+              <span class="ticker-sep">•</span>
+              <span class="ticker-highlight">✦ 3.420 Warga Aktif</span>
+            </span>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =====================================================
+           HALAMAN 1 (BAGIAN 1.5): MANIFESTO SIRKULAR & ALASAN TRASH2CASH ADA
+           Scroll-Driven Word-by-Word Text Scrub & Outlined Slogan Fill
+           ===================================================== -->
+      <section class="editorial-manifesto-section" id="manifestoSection" aria-label="Alasan Mengapa Trash2Cash Ada">
+        <div class="manifesto-section-inner">
+          
+          <!-- Editorial Metadata Header Bar -->
+          <div class="manifesto-meta-bar">
+            <span class="meta-item meta-brand">TRASH2CASH.</span>
+            <span class="meta-item meta-theme">PRINSIP EKONOMI SIRKULAR</span>
+            <time class="meta-item meta-date" datetime="2026-10-25">25 OKTOBER 2026</time>
+            <span class="meta-item meta-place">JAKARTA, INDONESIA</span>
+            <span class="meta-item meta-reading-tracker" id="manifestoReadTracker">BACA: 00%</span>
+          </div>
+
+          <!-- Manifesto Stream: Word-by-Word Reading Scrub -->
+          <div class="manifesto-stream" id="manifestoStream">
+            <p class="manifesto-paragraph">
+              <span class="scrub-word">Kebanyakan</span> <span class="scrub-word">dari</span> <span class="scrub-word">kita</span> <span class="scrub-word">memandang</span> <span class="scrub-word">sampah</span> <span class="scrub-word">sebagai</span> <span class="scrub-word">akhir</span> <span class="scrub-word">dari</span> <span class="scrub-word">segalanya—sesuatu</span> <span class="scrub-word">yang</span> <span class="scrub-word">kotor,</span> <span class="scrub-word">harus</span> <span class="scrub-word">segera</span> <span class="scrub-word">disingkirkan,</span> <span class="scrub-word">atau</span> <span class="scrub-word">dibakar</span> <span class="scrub-word">hingga</span> <span class="scrub-word">mencemari</span> <span class="scrub-word">udara.</span> <span class="scrub-word">Padahal</span> <span class="scrub-word">setiap</span> <span class="scrub-word">hari,</span> <span class="scrub-word">miliaran</span> <span class="scrub-word">rupiah</span> <span class="inline-editorial-pill pill-gold">💰 Rp 66.690.000 Tercecer</span> <span class="scrub-word">terbuang</span> <span class="scrub-word">begitu</span> <span class="scrub-word">saja</span> <span class="scrub-word">di</span> <span class="scrub-word">tempat</span> <span class="scrub-word">pembuangan</span> <span class="scrub-word">akhir</span> <span class="scrub-word">tanpa</span> <span class="scrub-word">pernah</span> <span class="scrub-word">kembali</span> <span class="scrub-word">ke</span> <span class="scrub-word">tangan</span> <span class="scrub-word">warga</span> <span class="scrub-word">yang</span> <span class="scrub-word">menghasilkannya.</span>
+            </p>
+
+            <p class="manifesto-paragraph">
+              <span class="scrub-word">Trash2Cash</span> <span class="scrub-word">hadir</span> <span class="scrub-word">untuk</span> <span class="scrub-word">membalikkan</span> <span class="scrub-word">aturan</span> <span class="scrub-word">main</span> <span class="scrub-word">tersebut.</span> <span class="scrub-word">Melalui</span> <span class="scrub-word">kecerdasan</span> <span class="scrub-word">buatan</span> <span class="inline-editorial-pill pill-green">✦ 98.4% AI Match</span> <span class="scrub-word">berakurasi</span> <span class="scrub-word">tinggi,</span> <span class="scrub-word">setiap</span> <span class="scrub-word">botol</span> <span class="scrub-word">plastik,</span> <span class="scrub-word">kaleng</span> <span class="scrub-word">aluminium,</span> <span class="scrub-word">dan</span> <span class="scrub-word">kardus</span> <span class="scrub-word">dikenali</span> <span class="scrub-word">jenisnya,</span> <span class="scrub-word">ditimbang</span> <span class="scrub-word">presisi</span> <span class="inline-editorial-pill pill-blue">⚖️ Sensor IoT Presisi</span> <span class="scrub-word">di</span> <span class="scrub-word">drop</span> <span class="scrub-word">point</span> <span class="scrub-word">hub</span> <span class="scrub-word">Mitra,</span> <span class="scrub-word">dan</span> <span class="scrub-word">langsung</span> <span class="scrub-word">dikonversi</span> <span class="scrub-word">menjadi</span> <span class="scrub-word">saldo</span> <span class="scrub-word">rupiah</span> <span class="inline-editorial-pill pill-green">✅ Instan ke E-Wallet</span> <span class="scrub-word">tanpa</span> <span class="scrub-word">potongan</span> <span class="scrub-word">biaya</span> <span class="scrub-word">admin.</span>
+            </p>
+          </div>
+
+          <!-- Outlined Claim That Fills on Scroll -->
+          <div class="editorial-claim-block" id="editorialClaim">
+            <h3 class="claim-line-static">SAMPAH BUKAN AKHIR DARI CERITA.</h3>
+            <h3 class="claim-line-outline" id="claimOutlineLine">
+              <span class="claim-fill-text">MELAINKAN AWAL DARI PERPUTARAN RUPIAH.</span>
+            </h3>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =====================================================
+           HALAMAN 1 (BAGIAN 2): PANGGUNG ALUR 4 KARTU KIPAS (SCROLL SECTION)
+           Alur: 01 Scan AI (Wajib) -> 02 Tiket QR -> 03 Timbangan IoT -> 04 Klaim Cuan
+           ===================================================== -->
+      <section class="hero-steps-section" id="heroStepsSection" aria-label="Alur 4 Langkah Tukar Sampah Jadi Cuan">
+        <div class="steps-section-inner">
+          
+          <div class="steps-header-block">
+            <div class="fandeck-badge-row">
+              <span class="fandeck-badge">✦ ALUR RESMI TUKAR SAMPAH JADI CUAN</span>
+              <span class="fandeck-step-indicator" id="fandeckActiveIndicator">Langkah 1 dari 4: Scan Sampahmu Dulu</span>
+            </div>
+            <h2 class="steps-main-headline">Pilah Sampah, Timbang di Hub, & Dapatkan Cuan</h2>
+            <p class="steps-sub-headline">Selesaikan 4 langkah berurutan di bawah ini untuk mencairkan sampah daur ulang menjadi saldo rupiah nyata.</p>
+          </div>
+
+          <!-- Main Stage Container: 4 Fan Cards -->
+          <div class="steps-fandeck-stage">
+            
+            <!-- Arc Fan Track: 4 Portrait Cards Menyerupai Kipas Melengkung -->
+            <div class="hero-fandeck-track" id="heroFanDeckTrack" role="region" aria-label="Kipas Kartu Alur Penyetoran">
+              
+              <!-- KARTU 1: Scan AI (Wajib Pertama Kali - Aktif Terangkat) -->
+              <div class="fandeck-card card-step-1 is-active" id="heroFanCard1" data-step="1" role="button" tabindex="0" aria-label="Langkah 1: Pilah & Scan AI. Status: Aktif.">
+                <!-- Maskot Menyembul / Mengintip di Atas Kartu -->
+                <div class="fcard-peeking-mascot" aria-hidden="true">
+                  <img src="/assets/mascot/card-mascot-1.png" alt="Maskot Langkah 1: Pilah &amp; Scan AI" class="fcard-peeking-img" draggable="false" />
+                </div>
+                <!-- Badan Permukaan Kartu -->
+                <div class="fcard-body-surface">
+                  <div class="fcard-grain" aria-hidden="true"></div>
+                  <div class="fcard-inner-border" aria-hidden="true"></div>
+                  <div class="fcard-content">
+                    <div class="fcard-top-row">
+                      <span class="fcard-num">01</span>
+                      <span class="fcard-badge badge-active" id="fcardBadge1">SIAP SCAN</span>
+                    </div>
+                    <div class="fcard-text-zone">
+                      <h4 class="fcard-title">Pilah &amp; Scan AI</h4>
+                      <p class="fcard-tagline">KAMERA AI DETEKSI SAMPAH</p>
+                    </div>
+                    <button class="fcard-action-btn" id="btnFanAction1" type="button">
+                      <span>Mulai Scan AI →</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- KARTU 2: Tiket Setor QR (Terkunci sampai Step 1 selesai) -->
+              <div class="fandeck-card card-step-2 is-locked" id="heroFanCard2" data-step="2" role="button" tabindex="0" aria-label="Langkah 2: Tiket Setor QR. Status: Terkunci.">
+                <!-- Maskot Menyembul / Mengintip di Atas Kartu -->
+                <div class="fcard-peeking-mascot" aria-hidden="true">
+                  <img src="/assets/mascot/card-mascot-2.png" alt="Maskot Langkah 2: Tiket Setor QR" class="fcard-peeking-img" draggable="false" />
+                </div>
+                <!-- Badan Permukaan Kartu -->
+                <div class="fcard-body-surface">
+                  <div class="fcard-grain" aria-hidden="true"></div>
+                  <div class="fcard-inner-border" aria-hidden="true"></div>
+                  <div class="fcard-lock-overlay" id="fcardLock2">
+                    <div class="lock-icon-wrap">
+                      <span class="fcard-lock-emoji">🔒</span>
+                      <span class="lock-label">TERKUNCI</span>
+                    </div>
+                    <span class="lock-hint">Selesaikan Scan AI dulu</span>
+                  </div>
+                  <div class="fcard-content">
+                    <div class="fcard-top-row">
+                      <span class="fcard-num">02</span>
+                      <span class="fcard-badge badge-locked" id="fcardBadge2">TERKUNCI</span>
+                    </div>
+                    <div class="fcard-text-zone">
+                      <h4 class="fcard-title">Tiket Setor QR</h4>
+                      <p class="fcard-tagline">BARCODE PENIMBANGAN HUB MITRA</p>
+                    </div>
+                    <button class="fcard-action-btn" id="btnFanAction2" type="button">
+                      <span>Buka Tiket Setor ↗</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- KARTU 3: Validasi Timbangan IoT (Terkunci sampai Step 2 selesai) -->
+              <div class="fandeck-card card-step-3 is-locked" id="heroFanCard3" data-step="3" role="button" tabindex="0" aria-label="Langkah 3: Validasi Timbangan. Status: Terkunci.">
+                <!-- Maskot Menyembul / Mengintip di Atas Kartu -->
+                <div class="fcard-peeking-mascot" aria-hidden="true">
+                  <img src="/assets/mascot/card-mascot-3.png" alt="Maskot Langkah 3: Validasi Timbangan IoT" class="fcard-peeking-img" draggable="false" />
+                </div>
+                <!-- Badan Permukaan Kartu -->
+                <div class="fcard-body-surface">
+                  <div class="fcard-grain" aria-hidden="true"></div>
+                  <div class="fcard-inner-border" aria-hidden="true"></div>
+                  <div class="fcard-lock-overlay" id="fcardLock3">
+                    <div class="lock-icon-wrap">
+                      <span class="fcard-lock-emoji">🔒</span>
+                      <span class="lock-label">TERKUNCI</span>
+                    </div>
+                    <span class="lock-hint">Buka Tiket QR dulu</span>
+                  </div>
+                  <div class="fcard-content">
+                    <div class="fcard-top-row">
+                      <span class="fcard-num">03</span>
+                      <span class="fcard-badge badge-locked" id="fcardBadge3">TERKUNCI</span>
+                    </div>
+                    <div class="fcard-text-zone">
+                      <h4 class="fcard-title">Validasi Timbangan</h4>
+                      <p class="fcard-tagline">VERIFIKASI BERAT TIMBANGAN IoT</p>
+                    </div>
+                    <button class="fcard-action-btn" id="btnFanAction3" type="button">
+                      <span>Uji Timbangan ↗</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- KARTU 4: Klaim Saldo & Duit (Terkunci sampai Step 3 selesai) -->
+              <div class="fandeck-card card-step-4 is-locked" id="heroFanCard4" data-step="4" role="button" tabindex="0" aria-label="Langkah 4: Klaim Saldo & Duit. Status: Terkunci.">
+                <!-- Maskot Menyembul / Mengintip di Atas Kartu -->
+                <div class="fcard-peeking-mascot" aria-hidden="true">
+                  <img src="/assets/mascot/card-mascot-4.png" alt="Maskot Langkah 4: Klaim Saldo &amp; Duit" class="fcard-peeking-img" draggable="false" />
+                </div>
+                <!-- Badan Permukaan Kartu -->
+                <div class="fcard-body-surface">
+                  <div class="fcard-grain" aria-hidden="true"></div>
+                  <div class="fcard-inner-border" aria-hidden="true"></div>
+                  <div class="fcard-lock-overlay" id="fcardLock4">
+                    <div class="lock-icon-wrap">
+                      <span class="fcard-lock-emoji">🔒</span>
+                      <span class="lock-label">TERKUNCI</span>
+                    </div>
+                    <span class="lock-hint">Validasi Timbangan dulu</span>
+                  </div>
+                  <div class="fcard-content">
+                    <div class="fcard-top-row">
+                      <span class="fcard-num">04</span>
+                      <span class="fcard-badge badge-locked" id="fcardBadge4">TERKUNCI</span>
+                    </div>
+                    <div class="fcard-text-zone">
+                      <h4 class="fcard-title">Klaim Saldo &amp; Duit</h4>
+                      <p class="fcard-tagline">CAIRKAN SALDO CUAN &amp; STREAK +1</p>
+                    </div>
+                    <button class="fcard-action-btn" id="btnFanAction4" type="button">
+                      <span>Tarik Cuan &amp; Streak ↗</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </div> <!-- end #heroFanDeckTrack -->
+          </div> <!-- end .steps-fandeck-stage -->
+
+          <!-- Quick Step Progress Dots & Line -->
+          <div class="fandeck-stepper-progress" role="progressbar" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1">
+            <div class="fstep-dot-item current" id="fstepDot1">
+              <span class="fstep-circle">1</span>
+              <span class="fstep-lbl">Scan AI</span>
+            </div>
+            <div class="fstep-line" id="fstepLine1"></div>
+            <div class="fstep-dot-item" id="fstepDot2">
+              <span class="fstep-circle">2</span>
+              <span class="fstep-lbl">Tiket QR</span>
+            </div>
+            <div class="fstep-line" id="fstepLine2"></div>
+            <div class="fstep-dot-item" id="fstepDot3">
+              <span class="fstep-circle">3</span>
+              <span class="fstep-lbl">Timbangan</span>
+            </div>
+            <div class="fstep-line" id="fstepLine3"></div>
+            <div class="fstep-dot-item" id="fstepDot4">
+              <span class="fstep-circle">4</span>
+              <span class="fstep-lbl">Dapat Duit</span>
+            </div>
+          </div>
+
+          <!-- Back to top trigger -->
+          <button class="btn-steps-back-top" id="btnStepsBackToTop" type="button" title="Kembali ke Panggung Utama">
+            <i data-lucide="arrow-up" class="back-top-lucide"></i>
+            <span>Kembali ke Panggung Utama</span>
+          </button>
+
+        </div>
+      </section>
+
+      <!-- =====================================================
+           HALAMAN 1 (BAGIAN 2.5): TESTIMONI WARGA & DAMPAK LINGKUNGAN MITRA
+           Bukti Nyata Lapangan, Profil Warga, & Ringkasan Dampak ISO 14064-1
+           ===================================================== -->
+      <section class="editorial-impact-section" id="heroImpactSection" aria-label="Testimoni Warga dan Dampak Lingkungan">
+        <div class="impact-section-inner">
+          
+          <div class="impact-header-block">
+            <div class="impact-badge-row">
+              <span class="impact-badge">✦ BUKTI NYATA DARI LAPANGAN</span>
+              <span class="impact-subtag">KOMUNITAS MITRA TRASH 2 CASH // RW 03</span>
+            </div>
+            <h2 class="impact-main-headline">
+              Cerita Mereka Yang Telah Membuktikan. <br />
+              <em class="editorial-title-serif">Sampah Terkelola, Dompet Terjaga.</em>
+            </h2>
+            <p class="impact-sub-headline">
+              Dari dapur rumah tangga hingga pengrajin lokal, sirkularitas bukan sekadar slogan melainkan tambahan pemasukan nyata tanpa potongan biaya admin.
+            </p>
+          </div>
+
+          <!-- Grid 3 Kartu Testimoni Editorial -->
+          <div class="editorial-testi-grid">
+            
+            <!-- Testimoni 1: Ibu Siti Rahmawati -->
+            <article class="testi-card">
+              <div class="testi-card-header">
+                <div class="testi-avatar-wrap">
+                  <span class="testi-avatar-initials">SR</span>
+                  <div class="testi-status-dot" title="Warga Aktif Terverifikasi"></div>
+                </div>
+                <div class="testi-author-info">
+                  <h4 class="testi-name">Ibu Siti Rahmawati <span class="testi-age">(46 th)</span></h4>
+                  <span class="testi-role">Ibu Rumah Tangga • RW 03 Trash 2 Cash</span>
+                </div>
+                <span class="testi-pill-badge pill-gold">✦ VERIFIED</span>
+              </div>
+              <p class="testi-quote">
+                “Dulu botol minyak dan kaleng susu menumpuk di dapur bikin sumpek. Sejak pakai Trash2Cash, tiap Sabtu pagi saya setor langsung cair ke GoPay Rp 65.000. Lumayan banget buat tambah uang jajan anak sekolah!”
+              </p>
+              <div class="testi-meta-footer">
+                <div class="testi-stat-col">
+                  <span class="tstat-val">Rp 260.000</span>
+                  <span class="tstat-lbl">Rata-rata/Bulan</span>
+                </div>
+                <div class="testi-stat-col">
+                  <span class="tstat-val">42 kg</span>
+                  <span class="tstat-lbl">Plastik & Kertas</span>
+                </div>
+                <div class="testi-stat-col">
+                  <span class="tstat-val tstat-streak-wrap">8 Minggu 🔥</span>
+                  <span class="tstat-lbl">Streak Rutin</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- Testimoni 2: Pak Joko Prasetyo -->
+            <article class="testi-card">
+              <div class="testi-card-header">
+                <div class="testi-avatar-wrap">
+                  <span class="testi-avatar-initials">JP</span>
+                  <div class="testi-status-dot" title="Warga Aktif Terverifikasi"></div>
+                </div>
+                <div class="testi-author-info">
+                  <h4 class="testi-name">Pak Joko Prasetyo <span class="testi-age">(52 th)</span></h4>
+                  <span class="testi-role">Pengrajin Bengkel • RT 05</span>
+                </div>
+                <span class="testi-pill-badge pill-green">✦ ECO-CHAMPION</span>
+              </div>
+              <p class="testi-quote">
+                “Timbangan IoT di pos RW sangat jujur, layar digitalnya sinkron ke HP detik itu juga. Kardus onderdil dan kaleng bekas bengkel saya tidak lagi dibakar, malah jadi sumber kas cadangan usaha.”
+              </p>
+              <div class="testi-meta-footer">
+                <div class="testi-stat-col">
+                  <span class="tstat-val">Rp 480.000</span>
+                  <span class="tstat-lbl">Total Saldo</span>
+                </div>
+                <div class="testi-stat-col">
+                  <span class="tstat-val">115 kg</span>
+                  <span class="tstat-lbl">Kardus & Kaleng</span>
+                </div>
+                <div class="testi-stat-col">
+                  <span class="tstat-val tstat-streak-wrap">12 Minggu 🔥</span>
+                  <span class="tstat-lbl">Streak Rutin</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- Testimoni 3: Dina Larasati -->
+            <article class="testi-card">
+              <div class="testi-card-header">
+                <div class="testi-avatar-wrap">
+                  <span class="testi-avatar-initials">DL</span>
+                  <div class="testi-status-dot" title="Warga Aktif Terverifikasi"></div>
+                </div>
+                <div class="testi-author-info">
+                  <h4 class="testi-name">Dina Larasati <span class="testi-age">(22 th)</span></h4>
+                  <span class="testi-role">Mahasiswi • Pegiat Daur Ulang</span>
+                </div>
+                <span class="testi-pill-badge pill-blue">✦ GEN-Z CIRCULAR</span>
+              </div>
+              <p class="testi-quote">
+                “Kamera AI-nya canggih banget, sekali jepret langsung tau jenis PET atau HDPE. Dan yang paling bikin bangga adalah sertifikat digital emisi karbon yang bisa saya pamerin di Instagram!”
+              </p>
+              <div class="testi-meta-footer">
+                <div class="testi-stat-col">
+                  <span class="tstat-val">38.4 kg</span>
+                  <span class="tstat-lbl">CO₂e Dicegah</span>
+                </div>
+                <div class="testi-stat-col">
+                  <span class="tstat-val">Rp 185.000</span>
+                  <span class="tstat-lbl">Tabungan Daur Ulang</span>
+                </div>
+                <div class="testi-stat-col">
+                  <span class="tstat-val tstat-streak-wrap">5 Minggu 🔥</span>
+                  <span class="tstat-lbl">Streak Rutin</span>
+                </div>
+              </div>
+            </article>
+
+          </div>
+
+          <!-- Ringkasan Dampak Lingkungan Komunitas Mitra -->
+          <div class="editorial-impact-summary-card">
+            <div class="impact-summary-top">
+              <div class="summary-title-group">
+                <span class="summary-pill">✦ AGREGASI DAMPAK EKOSISTEM</span>
+                <h3 class="summary-heading">Statistik Kolektif Sirkular Mitra 2026</h3>
+              </div>
+              <div class="summary-audit-stamp">
+                <span class="audit-id">AUDIT LEDGER: MITRA-SKM-2026</span>
+                <span class="audit-iso">TERVERIFIKASI ISO 14064-1 // SCOPE 3</span>
+              </div>
+            </div>
+
+            <div class="impact-metrics-row">
+              <div class="impact-metric-card">
+                <span class="im-num">14.820 <small>kg</small></span>
+                <span class="im-lbl">Total Sampah Terpilah dari TPA</span>
+                <span class="im-sub">98.4% Kemurnian Terverifikasi AI</span>
+              </div>
+              <div class="impact-metric-card">
+                <span class="im-num">31.122 <small>kg CO₂e</small></span>
+                <span class="im-lbl">Emisi Karbon Tercegah</span>
+                <span class="im-sub">Setara Menanam 1.450 Pohon</span>
+              </div>
+              <div class="impact-metric-card">
+                <span class="im-num">Rp 66.69 <small>Jt</small></span>
+                <span class="im-lbl">Kas Sirkular Masuk ke Warga</span>
+                <span class="im-sub">100% Bebas Potongan Biaya Admin</span>
+              </div>
+              <div class="impact-metric-card">
+                <span class="im-num">3.420 <small>KK</small></span>
+                <span class="im-lbl">Keluarga Aktif Terdaftar</span>
+                <span class="im-sub">Mencakup 12 RW di Komunitas Trash 2 Cash</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =====================================================
+           HALAMAN 1 (BAGIAN 3): PENJELASAN PENUTUP & GERBANG MENUJU AKSI
+           Waypoint Banknote, Poetic Epilogue, & Action Gateway
+           ===================================================== -->
+      <section class="editorial-closing-section" id="closingSection" aria-label="Penutup &amp; Gerbang Pusat Kontrol">
+        <div class="closing-section-inner">
+          
+          <div class="closing-stamp-badge">
+            <span class="stamp-icon">✦</span>
+            <span class="stamp-text">EKOSISTEM SIRKULAR TERVERIFIKASI ISO 14064-1</span>
+          </div>
+
+          <h2 class="closing-headline">
+            Mulai Pilah Hari Ini. <br />
+            <em class="closing-headline-serif">Ubah Sampah Dapur Jadi Tabungan Nyata.</em>
+          </h2>
+
+          <p class="closing-lead">
+            Dari satu botol plastik yang kamu pisahkan labelnya pagi ini di dapur, rantai ekonomi desa mulai bergerak. Nilai rupiah langsung cair ke dompet digital tanpa potongan, emisi karbon tercegah tercatat transparan, dan masa depan sirkular kita bangun bersama.
+          </p>
+
+          <div class="closing-actions-gateway">
+            <button class="btn-gateway-primary" id="btnGatewayControl" type="button" title="Masuk ke Pusat Kontrol Sirkular">
+              <span class="gateway-spark">⚡</span>
+              <span class="gateway-label">Buka Pusat Kontrol Sirkular</span>
+              <span class="gateway-arrow">→</span>
+            </button>
+            <button class="btn-gateway-secondary" id="btnGatewayScan" type="button" title="Uji Coba AI Scanner">
+              <span class="gateway-icon">📸</span>
+              <span>Coba AI Scanner</span>
+            </button>
+          </div>
+
+          <!-- Barisan Koleksi Sampah Sirkular Berjejer (Pengganti Kartu Trash2Cash) -->
+          <div class="closing-recyclables-parade" id="closingRecyclablesParade" aria-label="Galeri Komoditas Sampah Sirkular">
+            <div class="parade-shelf-header">
+              <span class="parade-shelf-tag">✦ KOMODITAS DAUR ULANG DITERIMA</span>
+              <span class="parade-shelf-note">Sentuh / hover item untuk inspeksi 3D material</span>
+            </div>
+
+            <div class="parade-lineup-track">
+              <!-- 1. Botol Plastik PET -->
+              <div class="parade-item item-pet" data-glow="#00C896" tabindex="0" role="button" aria-label="Botol Plastik PET 01">
+                <div class="parade-item-glow"></div>
+                <div class="parade-item-body">
+                  <img src="/assets/trash/plastic-bottle.png" alt="Botol Plastik PET" class="parade-item-img" draggable="false" />
+                  <div class="parade-item-shadow"></div>
+                </div>
+                <div class="parade-item-badge">
+                  <span class="pbadge-code">PET 01</span>
+                  <span class="pbadge-price">Rp 4.500/kg</span>
+                </div>
+              </div>
+
+              <!-- 2. Kaleng Soda Aluminium -->
+              <div class="parade-item item-can" data-glow="#FA5883" tabindex="0" role="button" aria-label="Kaleng Soda Aluminium ALU 41">
+                <div class="parade-item-glow"></div>
+                <div class="parade-item-body">
+                  <img src="/assets/trash/soda-can.png" alt="Kaleng Soda Aluminium" class="parade-item-img" draggable="false" />
+                  <div class="parade-item-shadow"></div>
+                </div>
+                <div class="parade-item-badge">
+                  <span class="pbadge-code">ALU 41</span>
+                  <span class="pbadge-price">Rp 14.000/kg</span>
+                </div>
+              </div>
+
+              <!-- 3. Kardus Box Cokelat -->
+              <div class="parade-item item-cardboard" data-glow="#FFA435" tabindex="0" role="button" aria-label="Kardus Box PAP 20">
+                <div class="parade-item-glow"></div>
+                <div class="parade-item-body">
+                  <img src="/assets/trash/cardboard.png" alt="Kardus Box Daur Ulang" class="parade-item-img" draggable="false" />
+                  <div class="parade-item-shadow"></div>
+                </div>
+                <div class="parade-item-badge">
+                  <span class="pbadge-code">PAP 20</span>
+                  <span class="pbadge-price">Rp 2.200/kg</span>
+                </div>
+              </div>
+
+              <!-- 4. Paper Cup Kopi -->
+              <div class="parade-item item-cup" data-glow="#B47850" tabindex="0" role="button" aria-label="Paper Cup Kopi PAP 21">
+                <div class="parade-item-glow"></div>
+                <div class="parade-item-body">
+                  <img src="/assets/trash/coffee-cup.png" alt="Paper Cup Kopi" class="parade-item-img" draggable="false" />
+                  <div class="parade-item-shadow"></div>
+                </div>
+                <div class="parade-item-badge">
+                  <span class="pbadge-code">PAP 21</span>
+                  <span class="pbadge-price">Rp 1.800/kg</span>
+                </div>
+              </div>
+
+              <!-- 5. Kertas HVS Remas -->
+              <div class="parade-item item-paper" data-glow="#4DA1FF" tabindex="0" role="button" aria-label="Kertas Arsip PAP 22">
+                <div class="parade-item-glow"></div>
+                <div class="parade-item-body">
+                  <img src="/assets/trash/crumpled-paper.png" alt="Kertas Remas Bersih" class="parade-item-img" draggable="false" />
+                  <div class="parade-item-shadow"></div>
+                </div>
+                <div class="parade-item-badge">
+                  <span class="pbadge-code">PAP 22</span>
+                  <span class="pbadge-price">Rp 2.800/kg</span>
+                </div>
+              </div>
+
+              <!-- 6. Baterai Duracell B3 -->
+              <div class="parade-item item-battery" data-glow="#FFD026" tabindex="0" role="button" aria-label="Baterai Duracell B3">
+                <div class="parade-item-glow"></div>
+                <div class="parade-item-body">
+                  <img src="/assets/trash/battery.png" alt="Baterai B3 Khusus" class="parade-item-img" draggable="false" />
+                  <div class="parade-item-shadow"></div>
+                </div>
+                <div class="parade-item-badge">
+                  <span class="pbadge-code">B3 HAZARD</span>
+                  <span class="pbadge-price">500 Pts Khusus</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Architectural Floor Ground Line -->
+            <div class="parade-shelf-ground-line" aria-hidden="true"></div>
+          </div>
+
+          <!-- Editorial Micro-Footer -->
+          <footer class="editorial-page-footer">
+            <div class="footer-col footer-col-left">
+              <span class="footer-brand">TRASH2<span class="brand-green">CASH</span>.</span>
+              <span class="footer-tagline">Trash 2 Cash</span>
+            </div>
+            <div class="footer-col footer-col-center">
+              <span class="footer-archival">ARCHIVAL SPEC // SCOPE 3 CARBON MITIGATION // RW 03 MITRA</span>
+            </div>
+            <div class="footer-col footer-col-right">
+              <button class="btn-footer-back-top" id="btnFooterBackTop" type="button" title="Kembali ke Bagian Atas">
+                <i data-lucide="arrow-up" class="footer-arrow-icon"></i>
+                <span>Kembali ke Atas</span>
+              </button>
+            </div>
+          </footer>
+
+        </div>
+      </section>
+    </div> <!-- end of #pageHeroView -->
+
+    <!-- =====================================================
+         HALAMAN 2: PUSAT KONTROL SIRKULAR DIGITAL (TERPISAH)
+         ===================================================== -->
+    <div class="home-page-view page-view-control is-hidden" id="pageControlView">
+      <section class="home-bento-section" id="bentoSection" aria-label="Dashboard Ekosistem Trash2Cash">
+          
+          <div class="bento-header-banner">
+            <div class="bento-title-wrap">
+              <span class="bento-eyebrow">DASHBOARD EKOSISTEM • PUSAT KONTROL</span>
+              <h3 class="bento-main-heading">PUSAT KONTROL SIRKULAR DIGITAL</h3>
+            </div>
+            <div class="bento-banner-actions">
+              <button class="btn-return-hero-top" id="btnBackToHero" type="button" title="Kembali ke Panggung Sambutan Maskot">
+                <span>🎭 ← Panggung Maskot</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- PUSAT KONTROL TAB NAVIGATOR (Lega, Terfokus, Nyaman) -->
+          <div class="control-tabs-nav" id="controlTabsNav" role="tablist" aria-label="Tab Menu Pusat Kontrol">
+            <button class="control-nav-tab active" id="tabBtnPipeline" data-control-tab="pipeline" role="tab" aria-selected="true" type="button">
+              <span class="c-tab-icon">⚡</span>
+              <div class="c-tab-text">
+                <span class="c-tab-title">Alur Penyetoran</span>
+                <span class="c-tab-subtitle">4 Langkah Terpandu</span>
+              </div>
+            </button>
+            <button class="control-nav-tab" id="tabBtnMonitoring" data-control-tab="monitoring" role="tab" aria-selected="false" type="button">
+              <span class="c-tab-icon">📊</span>
+              <div class="c-tab-text">
+                <span class="c-tab-title">Monitoring & Audit</span>
+                <span class="c-tab-subtitle">Bursa Scrap & ESG</span>
+              </div>
+            </button>
+            <button class="control-nav-tab" id="tabBtnGamification" data-control-tab="gamification" role="tab" aria-selected="false" type="button">
+              <span class="c-tab-icon">🏆</span>
+              <div class="c-tab-text">
+                <span class="c-tab-title">Hadiah & Leaderboard</span>
+                <span class="c-tab-subtitle">Streak & Prestasi</span>
+              </div>
+            </button>
+          </div>
+
+          <!-- TAB PANEL 1: ALUR PENYETORAN (SAAS ACTION PIPELINE) -->
+          <div class="control-tab-panel" id="panelPipeline" role="tabpanel" aria-labelledby="tabBtnPipeline">
+            <div class="saas-pipeline-card" id="saasActionPipeline" aria-label="Alur Kerja SaaS Trash2Cash">
+            <div class="pipeline-card-header">
+              <div class="pipeline-header-title">
+                <div class="pipeline-tag-row">
+                  <span class="pipeline-badge">✦ SAAS CIRCULAR PIPELINE</span>
+                  <span class="pipeline-mode-badge" id="pipelineRoleIndicator">ALUR PENYETORAN RESMI</span>
+                </div>
+                <h4 class="pipeline-heading">Alur Kerja Penyetoran Sampah & Pencairan Saldo</h4>
+              <p class="pipeline-sub">Ikuti 4 langkah terpandu di bawah ini untuk mengubah sampah terpilah menjadi saldo rupiah dan poin reward.</p>
+            </div>
+            <div class="pipeline-header-actions">
+              <span class="pipeline-step-indicator" id="pipelineActiveStepText">Langkah 1 dari 4: Scan AI</span>
+              <button class="pipeline-run-all-btn" id="btnRunFullPipeline" type="button">
+                <span>Mulai Alur Penuh →</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 4 Step Sequential Interactive Nodes -->
+          <div class="pipeline-steps-grid">
+            
+            <!-- Step 1: Scan AI -->
+            <div class="pipeline-step-node active" data-step="1" id="pipelineStep1" tabindex="0" role="button">
+              <div class="step-node-top">
+                <span class="step-node-number">01</span>
+                <span class="step-status-tag tag-ready" id="step1Status">SIAP SCAN</span>
+              </div>
+              <div class="step-node-icon">📸</div>
+              <h5 class="step-node-title">Pilah & Scan AI</h5>
+              <p class="step-node-desc">Kamera AI mengenali material, jenis komoditas, dan estimasi poin.</p>
+              <button class="step-action-trigger" id="btnTriggerStep1" type="button">Buka Scanner AI ↗</button>
+            </div>
+
+            <!-- Step Connector Line 1-2 -->
+            <div class="pipeline-connector-line"></div>
+
+            <!-- Step 2: Buat Tiket Setor QR -->
+            <div class="pipeline-step-node" data-step="2" id="pipelineStep2" tabindex="0" role="button">
+              <div class="step-node-top">
+                <span class="step-node-number">02</span>
+                <span class="step-status-tag tag-wait" id="step2Status">TIKET QR</span>
+              </div>
+              <div class="step-node-icon">🎫</div>
+              <h5 class="step-node-title">Tiket Setor QR</h5>
+              <p class="step-node-desc">Dapatkan barcode penimbangan & rute Drop Point Hub Mitra terdekat.</p>
+              <button class="step-action-trigger" id="btnTriggerStep2" type="button">Buka Tiket Setor ↗</button>
+            </div>
+
+            <!-- Step Connector Line 2-3 -->
+            <div class="pipeline-connector-line"></div>
+
+            <!-- Step 3: Validasi Timbangan Digital IoT -->
+            <div class="pipeline-step-node" data-step="3" id="pipelineStep3" tabindex="0" role="button">
+              <div class="step-node-top">
+                <span class="step-node-number">03</span>
+                <span class="step-status-tag tag-wait" id="step3Status">TIMBANGAN IoT</span>
+              </div>
+              <div class="step-node-icon">⚖️</div>
+              <h5 class="step-node-title">Validasi Timbangan</h5>
+              <p class="step-node-desc">Verifikasi berat riil di timbangan digital Hub dengan pembukuan otomatis.</p>
+              <button class="step-action-trigger" id="btnTriggerStep3" type="button">Uji Timbangan ↗</button>
+            </div>
+
+            <!-- Step Connector Line 3-4 -->
+            <div class="pipeline-connector-line"></div>
+
+            <!-- Step 4: Saldo Masuk & Klaim Streak -->
+            <div class="pipeline-step-node" data-step="4" id="pipelineStep4" tabindex="0" role="button">
+              <div class="step-node-top">
+                <span class="step-node-number">04</span>
+                <span class="step-status-tag tag-wait" id="step4Status">SALDO CAIR</span>
+              </div>
+              <div class="step-node-icon">💰</div>
+              <h5 class="step-node-title">Klaim Saldo & Streak</h5>
+              <p class="step-node-desc">Saldo rupiah langsung cair ke dompet digital, streak harian +1, dan skor naik.</p>
+              <button class="step-action-trigger" id="btnTriggerStep4" type="button">Tarik Saldo ↗</button>
+            </div>
+
+          </div>
+        </div>
+      </div> <!-- end of #panelPipeline -->
+
+
+      <!-- TAB PANEL 3: HADIAH & LEADERBOARD (GAMIFIKASI & REWARD ROAD) -->
+      <div class="control-tab-panel is-hidden" id="panelGamification" role="tabpanel" aria-labelledby="tabBtnGamification">
+
+        <!-- GAMIFIKASI & METRIK PENDAPATAN USER (STREAK, LEADERBOARD, BADGES) -->
+        <div class="home-gamification-hub" id="homeGamificationHub">
+          
+          <!-- Card A: User Profile & Role Income Calculation -->
+          <div class="gamify-card gamify-user-income">
+            <div class="gamify-card-header">
+              <span class="gamify-tag">PROFIL AKTIF & KALKULASI PENDAPATAN</span>
+              <button class="gamify-switch-btn js-open-auth" type="button" title="Ganti Profil / Role">
+                <span>🔑 Ganti Akun</span>
+              </button>
+            </div>
+            <div class="gamify-income-body">
+              <div class="income-user-row">
+                <span class="user-large-avatar" id="homeUserAvatar">A</span>
+                <div class="income-user-meta">
+                  <h4 class="user-greeting-name">Halo, <span id="homeUserDisplayName">Alfat Budi</span>!</h4>
+                  <span class="user-badge-role" id="homeUserRoleBadge">WARGA PENYETOR</span>
+                </div>
+              </div>
+              <div class="income-metrics-row">
+                <div class="metric-block">
+                  <span class="metric-lbl">TOTAL PENDAPATAN ANDA:</span>
+                  <span class="metric-val" id="homeUserIncomeVal">Rp 148.500</span>
+                </div>
+                <div class="metric-block">
+                  <span class="metric-lbl">ESTIMASI BULANAN:</span>
+                  <span class="metric-val-sub" id="homeUserIncomeSub">Rp 150.000 / bln (34.8 kg Disetor)</span>
+                </div>
+              </div>
+              <div class="income-actions-row">
+                <button class="withdraw-cuan-btn" id="btnOpenWithdrawModal" type="button">
+                  <span class="btn-icon-xs">💸</span> <span>Tarik Saldo ke E-Wallet / Bank ↗</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card B: Status Streak Harian, Deadline & Streak Shield -->
+          <div class="gamify-card gamify-streak-card" id="streakCard">
+            <div class="gamify-card-header">
+              <span class="gamify-tag tag-fire">🔥 STATUS STREAK HARIAN</span>
+              <span class="streak-multiplier-badge" id="homeStreakMultiplier">1.2x PENGALI POIN</span>
+            </div>
+            <div class="streak-body">
+              <div class="streak-days-counter">
+                <span class="streak-flame-icon" id="streakFlameIcon">🔥</span>
+                <div class="streak-count-meta">
+                  <span class="streak-number" id="homeStreakDays">5 HARI</span>
+                  <span class="streak-caption">Berturut-turut Aktif Memilah</span>
+                </div>
+                <span class="streak-status-pill is-risk" id="streakStatusPill">⚠️ BERISIKO PUTUS</span>
+              </div>
+              <div class="streak-deadline-row">
+                <span class="streak-deadline-text" id="streakDeadlineText">Setor sebelum 23:59 agar streak tidak putus</span>
+                <span class="streak-countdown" id="streakCountdown">--:--:--</span>
+              </div>
+              <!-- Rolling 7-Day Streak Track (rendered by JS) -->
+              <div class="streak-week-track" id="streakWeekTrack"></div>
+              <div class="streak-shield-row">
+                <span class="streak-shield-count" title="Streak Shield otomatis melindungi streak 1x jika Anda lupa setor">🛡️ <b id="streakShieldCount">1</b> Streak Shield</span>
+                <button class="streak-shield-buy" id="btnBuyShield" type="button">Tukar 200 Poin → +1</button>
+              </div>
+              <div class="streak-action-row">
+                <button class="streak-claim-btn" id="btnClaimDailyStreak" type="button">
+                  <span id="streakClaimLabel">📦 Setor Hari Ini untuk Amankan Streak</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card C: Status Leaderboard (Liga, Tren Peringkat, Target Salip, Hadiah Musim) -->
+          <div class="gamify-card gamify-leaderboard-card" id="leaderboardCard">
+            <div class="gamify-card-header">
+              <span class="gamify-tag tag-trophy">🏆 STATUS LEADERBOARD</span>
+              <span class="user-rank-pill" id="homeUserRankBadge">RANKING #3</span>
+            </div>
+            <div class="lb-scope-tabs" role="tablist" aria-label="Cakupan Leaderboard">
+              <button class="lb-scope-tab active" id="lbTabWeekly" data-lb-scope="weekly" role="tab" type="button">Mingguan • RW 03</button>
+              <button class="lb-scope-tab" id="lbTabMonthly" data-lb-scope="monthly" role="tab" type="button">Bulanan • Kecamatan</button>
+            </div>
+            <div class="lb-status-strip">
+              <span class="lb-league-badge" id="lbLeagueBadge">🥈 LIGA PERAK</span>
+              <span class="lb-rank-delta up" id="lbRankDelta">▲ 2</span>
+              <span class="lb-season-timer" title="Sisa waktu musim berjalan">⏱️ <span id="lbSeasonCountdown">--</span></span>
+            </div>
+            <div class="leaderboard-table-mini" id="leaderboardTable"></div>
+            <div class="lb-overtake-box">
+              <div class="lb-overtake-text" id="lbOvertakeText">Menghitung target salip...</div>
+              <div class="lb-progress-track"><div class="lb-progress-fill" id="lbOvertakeFill"></div></div>
+            </div>
+            <div class="lb-prize-row" id="lbPrizeRow">
+              <span class="lb-prize-label">Hadiah akhir musim:</span>
+              <span class="lb-prize">🥇 Rp 50rb</span>
+              <span class="lb-prize">🥈 Rp 30rb</span>
+              <span class="lb-prize">🥉 Rp 20rb</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- STREAK REWARD ROAD: HADIAH BERJENJANG UNTUK MEMPERTAHANKAN STREAK -->
+        <section class="streak-reward-road" id="streakRewardRoad" aria-label="Reward Mempertahankan Streak">
+          <div class="reward-road-header">
+            <div class="reward-road-title-wrap">
+              <span class="pipeline-badge">🎁 REWARD STREAK</span>
+              <h4 class="reward-road-title">Pertahankan Streak, Buka Hadiah Berjenjang</h4>
+              <p class="reward-road-sub">Setiap hari setor sampah terpilah = streak +1. Capai milestone untuk klaim poin, saldo bonus, badge, Streak Shield, dan pengali poin yang makin besar.</p>
+            </div>
+            <div class="reward-road-actions">
+              <span class="reward-next-hint" id="rewardNextHint">Menghitung milestone...</span>
+              <button class="reward-sim-day-btn" id="btnSimNextDay" type="button" title="Mode demo: majukan waktu 1 hari">⏭ Simulasi Hari Berikutnya</button>
+            </div>
+          </div>
+          <div class="reward-road-track">
+            <div class="reward-road-line"><div class="reward-road-fill" id="rewardRoadFill"></div></div>
+            <div class="reward-milestones" id="rewardMilestones"></div>
+          </div>
+          <div class="reward-tier-legend" id="rewardTierLegend"></div>
+        </section>
+      </div> <!-- end of #panelGamification -->
+
+      <!-- TAB PANEL 2: MONITORING & AUDIT (5-PILAR BENTO GRID) -->
+      <div class="control-tab-panel is-hidden" id="panelMonitoring" role="tabpanel" aria-labelledby="tabBtnMonitoring">
+        <div class="bento-grid-container">
+
+          <!-- KARTU 1: AI Computer Vision Pre-Scanner (Pilar 1 & Pilar 4) -->
+          <article class="bento-card card-scanner" id="cardScanner">
+            <div class="bento-card-top">
+              <div class="card-tag-pill">
+                <span class="pill-dot live-pulse"></span>
+                PILAR 1 & 4 • EDGE COMPUTER VISION
+              </div>
+              <span class="card-spec-code">CV-AI::v2.4</span>
+            </div>
+
+            <div class="scanner-viewport-box">
+              <div class="scanner-laser-line" id="scannerLaser" aria-hidden="true"></div>
+              
+              <!-- Object preview in viewfinder -->
+              <div class="scanner-object-wrap">
+                <img src="/assets/trash/plastic-bottle.png" alt="Botol Plastik Terdeteksi" class="scanner-detected-img" id="scannerDetectedImg" />
+                <!-- Bounding Box Overlay -->
+                <div class="scanner-bounding-box" id="scannerBBox">
+                  <span class="bbox-label" id="scannerBBoxLabel">PET_BOTTLE_CLEAR • 96.8%</span>
+                  <span class="bbox-corner tl"></span>
+                  <span class="bbox-corner tr"></span>
+                  <span class="bbox-corner bl"></span>
+                  <span class="bbox-corner br"></span>
+                </div>
+              </div>
+
+              <!-- Live Telemetry Badges -->
+              <div class="scanner-hud-telemetry">
+                <div class="hud-item hud-focus">
+                  <span class="hud-label">KETAJAMAN (AI)</span>
+                  <span class="hud-val" id="scannerFocusVal">98.4% (OPTIMAL)</span>
+                </div>
+                <div class="hud-item hud-audit">
+                  <span class="hud-label">ZERO-TRUST AUDIT</span>
+                  <span class="hud-badge-pass" id="scannerAuditVal">PASSED ✓</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-content-foot">
+              <div class="card-text-block">
+                <h4 class="card-title">AI Pre-Scanner (Client-Side)</h4>
+                <p class="card-desc">Validasi fokus dan resolusi langsung di browser via AI sebelum kirim ke backend (menghemat 70% kuota & latensi cloud).</p>
+              </div>
+              <div class="scanner-actions">
+                <button class="bento-btn bento-btn-primary" id="btnSimulateScan" type="button">
+                  <span>📸 Uji Simulasikan Scan AI</span>
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- KARTU 2: Dynamic Scrap Ledger & Kalkulator Payout (Pilar 3 & Pilar 4) -->
+          <article class="bento-card card-ledger" id="cardLedger">
+            <div class="bento-card-top">
+              <div class="card-tag-pill">
+                <span class="pill-dot live-pulse"></span>
+                PILAR 3 • DYNAMIC LEDGER & PRICING
+              </div>
+              <span class="card-spec-code">LEDGER::DOUBLE-ENTRY</span>
+            </div>
+
+            <div class="ledger-rates-table">
+              <div class="table-head">
+                <span>JENIS MATERIAL</span>
+                <span>KURS / KG</span>
+                <span>TREN</span>
+              </div>
+              <div class="table-rows" id="tableRatesRows">
+                <div class="rate-row active" data-type="pet" data-rate="4500">
+                  <span class="rate-name"><span class="rate-bullet">●</span> Plastik PET Bening</span>
+                  <span class="rate-price">Rp 4.500</span>
+                  <span class="rate-trend up">+4.5% ↗</span>
+                </div>
+                <div class="rate-row" data-type="kaleng" data-rate="14000">
+                  <span class="rate-name"><span class="rate-bullet">●</span> Kaleng Aluminium</span>
+                  <span class="rate-price">Rp 14.000</span>
+                  <span class="rate-trend up">+2.1% ↗</span>
+                </div>
+                <div class="rate-row" data-type="kardus" data-rate="1800">
+                  <span class="rate-name"><span class="rate-bullet">●</span> Kardus Kraft</span>
+                  <span class="rate-price">Rp 1.800</span>
+                  <span class="rate-trend stable">0.0% →</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- ApexCharts Live 7-Day Scrap Price Trend -->
+            <div class="ledger-chart-wrap">
+              <div class="chart-header">
+                <span class="chart-label">TREN BURSA SAMPAH 7 HARI TERAKHIR</span>
+                <span class="chart-badge-live" id="chartLiveRateBadge">PET: Rp 4.500/kg</span>
+              </div>
+              <div id="scrapPriceChart" class="scrap-price-chart"></div>
+            </div>
+
+            <!-- Interactive Weight Calculator -->
+            <div class="ledger-calc-wrap">
+              <div class="calc-input-header">
+                <label for="scrapWeightRange" class="calc-label">SIMULASI BERAT SAMPAH:</label>
+                <span class="calc-weight-display" id="calcWeightDisplay">3.5 KG</span>
+              </div>
+              <input type="range" class="weight-slider" id="scrapWeightRange" min="0.5" max="25" step="0.5" value="3.5" />
+              
+              <div class="calc-payout-box">
+                <div class="payout-row">
+                  <span class="payout-title">ESTIMASI KLAIM SALDO:</span>
+                  <span class="payout-amount" id="calcPayoutAmount">Rp 15.750</span>
+                </div>
+                <div class="payout-meta">
+                  <span id="calcPointsAmount">+70 Poin ESG</span> • <span>Biaya Gas: Rp 0 (Subsidized)</span>
+                </div>
+              </div>
+
+              <button class="bento-btn bento-btn-primary bento-btn-full" id="btnClaimPayout" type="button">
+                <span>💰 Setor ke Dompet (Instan Ledger)</span>
+              </button>
+            </div>
+          </article>
+
+          <!-- KARTU 3: Circular Logistics & Drop-Point Dispatch (Pilar 2) -->
+          <article class="bento-card card-logistics" id="cardLogistics">
+            <div class="bento-card-top">
+              <div class="card-tag-pill">
+                <span class="pill-dot active-green"></span>
+                PILAR 2 • LOGISTIK SIRKULAR
+              </div>
+              <span class="card-spec-code">ROUTE::OPT-MITRA</span>
+            </div>
+
+            <!-- Stylized Blueprint Logistics Map -->
+            <div class="logistics-map-box">
+              <div class="map-grid-overlay" aria-hidden="true"></div>
+              <svg class="logistics-route-svg" viewBox="0 0 320 160" fill="none">
+                <!-- Path connecting points -->
+                <path d="M 40 120 Q 90 40 160 80 T 280 40" stroke="#00875a" stroke-width="3" stroke-dasharray="6,4" fill="none" />
+                <!-- Waypoints -->
+                <circle cx="40" cy="120" r="7" fill="#161616" stroke="#C8FF2E" stroke-width="2" />
+                <circle cx="160" cy="80" r="9" fill="#00875a" stroke="#FFFFFF" stroke-width="2.5" />
+                <circle cx="280" cy="40" r="7" fill="#161616" stroke="#C8FF2E" stroke-width="2" />
+                <!-- Courier Vehicle Vector Icon on Waypoint 2 -->
+                <g transform="translate(152, 72) scale(0.68)" stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="1" y="3" width="15" height="13"></rect>
+                  <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                  <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                  <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                </g>
+              </svg>
+              <div class="map-waypoint-badge wp-1">Drop Point RW 03</div>
+              <div class="map-waypoint-badge wp-2">Armada T2C #04 (Menuju Lokasi)</div>
+              <div class="map-waypoint-badge wp-3">Hub Mitra Pusat</div>
+            </div>
+
+            <div class="logistics-info-list">
+              <div class="log-stat">
+                <span class="log-stat-label">STATUS ARMADA</span>
+                <span class="log-stat-val" id="logisticsArmadaVal">Sedang Penjemputan (14 mnt)</span>
+              </div>
+              <div class="log-stat">
+                <span class="log-stat-label">KAPASITAS MUATAN</span>
+                <div class="log-capacity-bar">
+                  <div class="capacity-fill" id="logisticsCapacityFill" style="width: 78%;"></div>
+                </div>
+                <span class="log-stat-sub" id="logisticsCapacitySub">156 kg / 200 kg (78%)</span>
+              </div>
+            </div>
+
+            <button class="bento-btn bento-btn-secondary bento-btn-full" id="btnRequestPickup" type="button">
+              <span>🚚 Request Penjemputan Rumah</span>
+            </button>
+          </article>
+
+          <!-- KARTU 4: B2B ESG & Carbon Avoidance Telemetry (Pilar 5) -->
+          <article class="bento-card card-esg" id="cardEsg">
+            <div class="bento-card-top">
+              <div class="card-tag-pill">
+                <span class="pill-dot esg-cyan"></span>
+                PILAR 5 • B2B ESG & SCOPE 3
+              </div>
+              <span class="card-spec-code">GHG-PROTOCOL::DEFRA</span>
+            </div>
+
+            <div class="esg-telemetry-grid">
+              <!-- Meter 1: Carbon Avoided -->
+              <div class="esg-meter-card">
+                <div class="meter-radial">
+                  <svg class="radial-svg" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="40" class="radial-track" />
+                    <circle cx="50" cy="50" r="40" class="radial-fill" id="radialCarbonFill" style="stroke-dashoffset: 65;" />
+                  </svg>
+                  <div class="radial-center-text">
+                    <span class="radial-number" id="esgCarbonVal">42.6</span>
+                    <span class="radial-unit">kg CO₂e</span>
+                  </div>
+                </div>
+                <span class="meter-caption">Emisi Karbon Dicegah</span>
+              </div>
+
+              <!-- Meter 2: Landfill Diverted -->
+              <div class="esg-meter-card">
+                <div class="meter-radial">
+                  <svg class="radial-svg" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="40" class="radial-track" />
+                    <circle cx="50" cy="50" r="40" class="radial-fill fill-lime" id="radialWasteFill" style="stroke-dashoffset: 90;" />
+                  </svg>
+                  <div class="radial-center-text">
+                    <span class="radial-number" id="esgWasteVal">34.8</span>
+                    <span class="radial-unit">kg</span>
+                  </div>
+                </div>
+                <span class="meter-caption">Limbah Teralihkan TPA</span>
+              </div>
+            </div>
+
+            <!-- ApexCharts ESG Monthly Reduction Trajectory -->
+            <div class="esg-chart-wrap">
+              <div class="chart-header">
+                <span class="chart-label">TREN REDUKSI KARBON BULANAN (KG CO₂e)</span>
+                <span class="chart-badge-esg">SCOPE 3 TARGET: 94%</span>
+              </div>
+              <div id="esgTrajectoryChart" class="esg-trajectory-chart"></div>
+            </div>
+
+            <div class="esg-audit-box">
+              <div class="audit-row">
+                <span class="audit-icon">🛡️</span>
+                <span class="audit-text">Sertifikasi Reduksi Emisi Sirkular tervalidasi ISO 14064-1 & GHG Protocol Scope 3.</span>
+              </div>
+            </div>
+
+            <button class="bento-btn bento-btn-secondary bento-btn-full" id="btnExportEsg" type="button">
+              <span>📄 Unduh Laporan ESG (Audit-Ready)</span>
+            </button>
+          </article>
+
+        </div>
+      </div> <!-- end of #panelMonitoring -->
+
+        <!-- Return to Intro Action at Bottom -->
+        <div class="home-bottom-actions">
+          <button class="return-chute-btn js-return-intro" type="button">
+            <span>♻️ Coba Sensasi Lempar Tong Lagi</span>
+          </button>
+        </div>
+
+      </section>
+    </div> <!-- end of #pageControlView -->
+
+    </div>
+  </article>
+
+  <!-- =====================================================
+       SAAS WORKFLOW INTERACTIVE MODALS
+       ===================================================== -->
+  
+  <!-- MODAL STEP 1: AI COMPUTER VISION SCANNER VIEW FINDER -->
+  <div class="saas-modal-backdrop is-hidden" id="modalAiScanner" role="dialog" aria-modal="true" aria-labelledby="aiScannerModalTitle">
+    <div class="saas-modal-card scanner-modal-box">
+      <div class="modal-card-top">
+        <div class="modal-badge-row">
+          <span class="modal-dot-live"></span>
+          <span class="modal-badge-tag">EDGE COMPUTER VISION • AI</span>
+        </div>
+        <button class="modal-close-btn js-close-modal" id="btnCloseScannerModal" type="button" aria-label="Tutup Scanner">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div class="modal-scanner-body">
+        <h3 class="modal-ticket-title" id="aiScannerModalTitle">Pindai Sampahmu Secara Instan</h3>
+        <p class="modal-ticket-sub">Arahkan kamera ke sampah Anda untuk verifikasi jenis komoditas sirkular.</p>
+
+        <!-- Viewfinder Box with Laser -->
+        <div class="ai-modal-viewfinder">
+          <div class="viewfinder-laser" id="modalScannerLaser" aria-hidden="true"></div>
+          
+          <div class="viewfinder-img-wrap">
+            <img src="/assets/trash/plastic-bottle.png" alt="Botol Plastik Terdeteksi" class="viewfinder-detected-img" id="modalScannerImg" />
+            <div class="viewfinder-bbox">
+              <span class="viewfinder-bbox-label" id="modalScannerBboxLabel">PET_BOTTLE_CLEAR • 98.4%</span>
+              <span class="bbox-corner tl"></span><span class="bbox-corner tr"></span>
+              <span class="bbox-corner bl"></span><span class="bbox-corner br"></span>
+            </div>
+          </div>
+
+          <div class="viewfinder-hud">
+            <div class="vf-hud-item">
+              <span class="vf-lbl">AI FOCUS</span>
+              <span class="vf-val">98.4% (OPTIMAL)</span>
+            </div>
+            <div class="vf-hud-item">
+              <span class="vf-lbl">AUDIT ZERO-TRUST</span>
+              <span class="vf-badge-pass">PASSED ✓</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-scanner-hint">
+          <span class="hint-sparkle"><i data-lucide="sparkles" class="icon-gold"></i></span>
+          <span id="modalScannerHintText">Botol plastik PET bening terdeteksi! Siap diubah menjadi tiket setor cuan.</span>
+        </div>
+
+        <div class="modal-actions-row">
+          <button class="modal-btn-secondary" id="btnRescanModal" type="button">Pindai Objek Lain ⟲</button>
+          <button class="modal-btn-primary" id="btnConfirmScanAndUnlockStep2" type="button">
+            <span>Konfirmasi & Buka Tiket Setor (Step 2) →</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 1: TIKET PENYETORAN SAMPAH DIGITAL (QR CODE) -->
+  <div class="saas-modal-backdrop is-hidden" id="modalQrTicket" role="dialog" aria-modal="true" aria-labelledby="qrTicketTitle">
+    <div class="saas-modal-card">
+      <div class="modal-card-top">
+        <div class="modal-badge-row">
+          <span class="modal-dot-live"></span>
+          <span class="modal-badge-tag">TIKET DIGITAL RESMI T2C</span>
+        </div>
+        <button class="modal-close-btn js-close-modal" type="button" aria-label="Tutup Tiket">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div class="modal-ticket-body">
+        <h3 class="modal-ticket-title" id="qrTicketTitle">Tiket Setor Sampah #TTC-2026-9841</h3>
+        <p class="modal-ticket-sub">Tunjukkan barcode QR ini kepada petugas Hub Drop Point Mitra saat melakukan penimbangan fisik.</p>
+
+        <!-- QR Code Visual Display -->
+        <div class="modal-qr-container">
+          <div class="qr-code-box">
+            <svg class="qr-code-svg" viewBox="0 0 160 160" width="150" height="150">
+              <rect width="160" height="160" fill="#ffffff" rx="8" />
+              <!-- Finder 1: Top-Left -->
+              <rect x="15" y="15" width="40" height="40" fill="#161616" rx="4" />
+              <rect x="23" y="23" width="24" height="24" fill="#ffffff" rx="2" />
+              <rect x="29" y="29" width="12" height="12" fill="#00875a" rx="1" />
+              <!-- Finder 2: Top-Right -->
+              <rect x="105" y="15" width="40" height="40" fill="#161616" rx="4" />
+              <rect x="113" y="23" width="24" height="24" fill="#ffffff" rx="2" />
+              <rect x="119" y="29" width="12" height="12" fill="#00875a" rx="1" />
+              <!-- Finder 3: Bottom-Left -->
+              <rect x="15" y="105" width="40" height="40" fill="#161616" rx="4" />
+              <rect x="23" y="113" width="24" height="24" fill="#ffffff" rx="2" />
+              <rect x="29" y="119" width="12" height="12" fill="#00875a" rx="1" />
+              <!-- Matrix Pattern Grid -->
+              <rect x="65" y="20" width="10" height="10" fill="#161616" />
+              <rect x="80" y="20" width="10" height="10" fill="#161616" />
+              <rect x="65" y="35" width="10" height="10" fill="#00875a" />
+              <rect x="80" y="50" width="10" height="10" fill="#161616" />
+              <rect x="20" y="65" width="10" height="10" fill="#161616" />
+              <rect x="35" y="65" width="10" height="10" fill="#00875a" />
+              <rect x="50" y="65" width="10" height="10" fill="#161616" />
+              <rect x="65" y="65" width="30" height="30" fill="#161616" rx="2" />
+              <rect x="73" y="73" width="14" height="14" fill="#C8FF2E" rx="2" />
+              <rect x="105" y="65" width="10" height="10" fill="#161616" />
+              <rect x="125" y="65" width="10" height="10" fill="#00875a" />
+              <rect x="20" y="80" width="10" height="10" fill="#161616" />
+              <rect x="40" y="80" width="10" height="10" fill="#161616" />
+              <rect x="105" y="80" width="10" height="10" fill="#161616" />
+              <rect x="120" y="80" width="10" height="10" fill="#161616" />
+              <rect x="65" y="105" width="10" height="10" fill="#00875a" />
+              <rect x="80" y="105" width="10" height="10" fill="#161616" />
+              <rect x="105" y="105" width="20" height="10" fill="#161616" />
+              <rect x="135" y="105" width="10" height="10" fill="#161616" />
+              <rect x="65" y="125" width="20" height="10" fill="#161616" />
+              <rect x="95" y="125" width="10" height="10" fill="#00875a" />
+              <rect x="115" y="125" width="20" height="10" fill="#161616" />
+              <rect x="65" y="140" width="10" height="10" fill="#161616" />
+              <rect x="85" y="140" width="20" height="10" fill="#161616" />
+              <rect x="115" y="140" width="10" height="10" fill="#00875a" />
+              <rect x="135" y="140" width="10" height="10" fill="#161616" />
+            </svg>
+            <span class="qr-verify-pill">✓ VALID TERENKRIPSI</span>
+          </div>
+        </div>
+
+        <div class="modal-ticket-details">
+          <div class="ticket-detail-item">
+            <span class="t-label">ESTIMASI MATERIAL:</span>
+            <span class="t-val" id="ticketMaterialText">Botol Plastik PET Bening (3.5 kg)</span>
+          </div>
+          <div class="ticket-detail-item">
+            <span class="t-label">POTENSI SALDO:</span>
+            <span class="t-val highlight-green" id="ticketPotentialCuan">Rp 15.750 (+70 Pts)</span>
+          </div>
+          <div class="ticket-detail-item">
+            <span class="t-label">LOKASI HUB DROP POINT:</span>
+            <span class="t-val">🏢 Mitra Trash 2 Cash Berkah (350m • Buka s/d 17:00)</span>
+          </div>
+        </div>
+
+        <div class="modal-actions-row">
+          <button class="modal-btn-secondary js-close-modal" type="button">Tutup</button>
+          <button class="modal-btn-primary" id="btnGoToScaleSim" type="button">Simulasikan Timbang Sekarang →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL STEP 3: SIMULASI TIMBANGAN DIGITAL IoT -->
+  <div class="saas-modal-backdrop is-hidden" id="modalIotScale" role="dialog" aria-modal="true" aria-labelledby="iotScaleModalTitle">
+    <div class="saas-modal-card scale-modal-box">
+      <div class="modal-card-top">
+        <div class="modal-badge-row">
+          <span class="modal-dot-live"></span>
+          <span class="modal-badge-tag">DROP POINT MITRA • TIMBANGAN DIGITAL IoT</span>
+        </div>
+        <button class="modal-close-btn js-close-modal" id="btnCloseScaleModal" type="button" aria-label="Tutup Timbangan">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div class="modal-scale-body">
+        <h3 class="modal-ticket-title" id="iotScaleModalTitle">Validasi Timbangan Digital</h3>
+        <p class="modal-ticket-sub">Sensor load-cell IoT membaca massa riil sampah terpilah tanpa manipulasi manual.</p>
+
+        <!-- Digital LED Indicator Display -->
+        <div class="iot-scale-screen">
+          <div class="scale-led-header">
+            <span class="scale-firmware">IoT-STATION::v3.8 • HUB MITRA</span>
+            <span class="scale-status-live">TERHUBUNG ●</span>
+          </div>
+          <div class="scale-led-display">
+            <span class="scale-digits" id="scaleDisplayDigits">02.40</span>
+            <span class="scale-unit">KG</span>
+          </div>
+          <div class="scale-tare-pill">
+            <span>TARE: 0.00 KG (NETT)</span>
+            <span class="scale-divider">|</span>
+            <span id="scaleMaterialConfirmed">PET BENING PREMIUM</span>
+          </div>
+        </div>
+
+        <!-- Ledger Calculation Details -->
+        <div class="modal-ticket-details">
+          <div class="ticket-detail-item">
+            <span class="t-label">BERAT RIIL TIMBANGAN:</span>
+            <span class="t-val" id="scaleConfirmedWeight">2.40 kg</span>
+          </div>
+          <div class="ticket-detail-item">
+            <span class="t-label">HARGA PASAR TERKINI:</span>
+            <span class="t-val">Rp 6.250 / kg</span>
+          </div>
+          <div class="ticket-detail-item">
+            <span class="t-label">TOTAL CUAN MASUK:</span>
+            <span class="t-val highlight-green" id="scaleConfirmedCuan">Rp 15.000 (+48 Pts)</span>
+          </div>
+        </div>
+
+        <div class="modal-actions-row">
+          <button class="modal-btn-secondary js-close-modal" type="button">Tutup</button>
+          <button class="modal-btn-primary" id="btnConfirmScaleAndUnlockStep4" type="button">
+            <span>Konfirmasi Berat & Lanjut Klaim Cuan (Step 4) →</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: PENCAIRAN SALDO SIRKULAR / TARIK TUNAI E-WALLET & BANK -->
+  <div class="saas-modal-backdrop is-hidden" id="modalWithdraw" role="dialog" aria-modal="true" aria-labelledby="withdrawTitle">
+    <div class="saas-modal-card">
+      <div class="modal-card-top">
+        <div class="modal-badge-row">
+          <span class="modal-dot-live"></span>
+          <span class="modal-badge-tag">PENCAIRAN SALDO DOMPET</span>
+        </div>
+        <button class="modal-close-btn js-close-modal" type="button" aria-label="Tutup Modal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div class="modal-withdraw-body">
+        <h3 class="modal-ticket-title" id="withdrawTitle">Tarik Saldo ke Rekening / E-Wallet</h3>
+        <p class="modal-ticket-sub">Cairkan saldo hasil pilah sampahmu langsung ke rekening bank atau dompet digital tanpa potongan biaya admin.</p>
+
+        <!-- Current Available Balance Display -->
+        <div class="withdraw-balance-box">
+          <span class="w-bal-lbl">SALDO AKTIF DAPAT DITARIK:</span>
+          <span class="w-bal-val" id="modalCurrentBalVal">Rp 148.500</span>
+        </div>
+
+        <!-- Destination Selection -->
+        <div class="withdraw-dest-group">
+          <label class="withdraw-group-label">PILIH METODE PENCAIRAN:</label>
+          <div class="withdraw-method-grid">
+            <button class="withdraw-method-pill active" data-method="BANK" type="button">
+              <span class="pay-method-content">
+                <span class="pay-brand-icon">🏦</span>
+                <span class="pay-brand-dot dot-bank"></span>
+                <span>Transfer Bank</span>
+              </span>
+            </button>
+            <button class="withdraw-method-pill" data-method="GOPAY" type="button">
+              <span class="pay-method-content">
+                <span class="pay-brand-icon">📱</span>
+                <span class="pay-brand-dot dot-gopay"></span>
+                <span>GoPay</span>
+              </span>
+            </button>
+            <button class="withdraw-method-pill" data-method="DANA" type="button">
+              <span class="pay-method-content">
+                <span class="pay-brand-icon">👛</span>
+                <span class="pay-brand-dot dot-dana"></span>
+                <span>DANA</span>
+              </span>
+            </button>
+            <button class="withdraw-method-pill" data-method="OVO" type="button">
+              <span class="pay-method-content">
+                <span class="pay-brand-icon">💳</span>
+                <span class="pay-brand-dot dot-ovo"></span>
+                <span>OVO</span>
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <form class="withdraw-form" id="withdrawForm">
+          <div class="withdraw-field">
+            <label for="inputWithdrawAccount" class="w-field-lbl">NOMOR REKENING / NO. E-WALLET</label>
+            <input type="text" id="inputWithdrawAccount" class="w-text-input" placeholder="0812-3456-7890" value="0812-3456-7890" required />
+          </div>
+
+          <div class="withdraw-field">
+            <label for="inputWithdrawAmount" class="w-field-lbl">NOMINAL PENARIKAN (RP)</label>
+            <input type="number" id="inputWithdrawAmount" class="w-text-input" placeholder="Minimal Rp 20.000" min="20000" value="50000" required />
+            <div class="withdraw-amount-presets">
+              <button type="button" class="amount-preset-btn" data-amt="25000">Rp 25.000</button>
+              <button type="button" class="amount-preset-btn" data-amt="50000">Rp 50.000</button>
+              <button type="button" class="amount-preset-btn" data-amt="100000">Rp 100.000</button>
+              <button type="button" class="amount-preset-btn" data-amt="all">Tarik Semua</button>
+            </div>
+          </div>
+
+          <button class="modal-btn-primary modal-btn-full" id="btnConfirmWithdraw" type="submit">
+            <span>Konfirmasi Pencairan Saldo Instan →</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script Modules -->
+  <script type="module" src="/src/main.js"></script>
+  <script>
+    // Sinkronisasi teks tooltip dinamis dari desktop ke pill mobile
+    (function() {
+      const desktopText = document.getElementById('binTooltipText');
+      const mobileText = document.getElementById('binTooltipTextMobile');
+      if (desktopText && mobileText) {
+        const obs = new MutationObserver(function() {
+          if (desktopText.textContent && mobileText.textContent !== desktopText.textContent) {
+            mobileText.textContent = desktopText.textContent;
+          }
+        });
+        obs.observe(desktopText, { characterData: true, childList: true, subtree: true });
+      }
+    })();
+  </script>
+
+  <!-- =====================================================
+       GUIDED INTERACTIVE SAAS PRODUCT TOUR (ALA NAVATTIC / SUPADEMO)
+       ===================================================== -->
+  <button class="saas-tour-launcher" id="btnLaunchSaasTour" type="button" aria-label="Mulai Tur Demo SaaS">
+    <span class="tour-launcher-ping" aria-hidden="true"></span>
+    <span class="tour-launcher-icon">⚡</span>
+    <div class="tour-launcher-content">
+      <span class="tour-launcher-title">Tur Demo SaaS</span>
+      <span class="tour-launcher-sub">Panduan Interaktif 6 Pilar</span>
+    </div>
+    <span class="tour-launcher-badge">PLAY DEMO</span>
+  </button>
+
+  <div class="saas-tour-overlay is-hidden" id="saasTourOverlay" role="dialog" aria-modal="true" aria-labelledby="tourCardTitle">
+    <div class="saas-tour-hole" id="saasTourHole">
+      <div class="saas-tour-pulse-ring"></div>
+    </div>
+
+    <div class="saas-tour-card" id="saasTourCard">
+      <div class="tour-card-header">
+        <div class="tour-badge-row">
+          <span class="tour-step-badge" id="tourStepBadge">PILAR 1 / 6</span>
+          <span class="tour-role-badge">B2B SAAS DEMO</span>
+        </div>
+        <button class="tour-close-btn" id="btnExitTour" type="button" aria-label="Tutup Tur Demo">✕</button>
+      </div>
+
+      <div class="tour-card-body">
+        <h4 class="tour-card-title" id="tourCardTitle">Judul Langkah Tur</h4>
+        <p class="tour-card-desc" id="tourCardDesc">Deskripsi penjelasan fitur.</p>
+        
+        <div class="tour-action-zone" id="tourActionZone">
+          <button class="tour-action-btn" id="btnTourAction" type="button">
+            <span id="tourActionLabel">Uji Fitur Ini ↗</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="tour-card-footer">
+        <div class="tour-progress-dots" id="tourProgressDots">
+          <span class="tour-dot active"></span>
+          <span class="tour-dot"></span>
+          <span class="tour-dot"></span>
+          <span class="tour-dot"></span>
+          <span class="tour-dot"></span>
+          <span class="tour-dot"></span>
+        </div>
+
+        <div class="tour-nav-btns">
+          <button class="tour-nav-btn tour-btn-prev" id="btnTourPrev" type="button">← Kembali</button>
+          <button class="tour-nav-btn tour-btn-next" id="btnTourNext" type="button">Lanjut →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="saas-modal-backdrop is-hidden" id="modalTourFinish" role="dialog" aria-modal="true">
+    <div class="saas-modal-card tour-finish-card">
+      <div class="tour-finish-header">
+        <span class="tour-finish-trophy">🎉</span>
+        <h3 class="modal-ticket-title">Demo SaaS Selesai!</h3>
+        <p class="modal-ticket-sub">Anda telah menjelajahi 6 pilar utama ekosistem digital Trash2Cash: mulai dari Edge AI Vision, Barcode QR, IoT Smart Scales, Payout Instan, hingga Laporan Kepatuhan ESG Scope 3.</p>
+      </div>
+      <div class="tour-finish-recap-grid">
+        <div class="recap-pill">✓ Edge Computer Vision</div>
+        <div class="recap-pill">✓ Barcode Penyetoran QR</div>
+        <div class="recap-pill">✓ Sensor Timbangan IoT</div>
+        <div class="recap-pill">✓ Otomatisasi Payout & Gamifikasi</div>
+        <div class="recap-pill">✓ Double-Entry Scrap Ledger</div>
+        <div class="recap-pill">✓ Kepatuhan ESG ISO 14064-1</div>
+      </div>
+      <div class="tour-finish-actions">
+        <button class="modal-btn-secondary" id="btnRestartTour" type="button">↺ Ulangi Tur</button>
+        <button class="modal-btn-primary" id="btnCloseTourFinish" type="button">Jelajahi Mandiri →</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Guided Interactive SaaS Tour Engine -->
+  <script>
+  (function() {
+    const TOUR_STEPS = [
+      {
+        step: 1,
+        badge: "LANGKAH 1 / 6",
+        targetId: "binContainer",
+        screen: "intro",
+        title: "1. Smart Chute Entry (Pintu Masuk Interaktif)",
+        desc: "Titik temu pertama warga: menyeret sampah ke corong logam cerdas. Sistem mendeteksi lemparan secara fisik dengan haptic & audio feedback sebelum beralih ke pusat kendali SaaS.",
+        actionLabel: "Buka Pusat Kontrol SaaS →",
+        action: function() {
+          goToControlView();
+          setTimeout(function() { saasTour.goToStep(1); }, 300);
+        }
+      },
+      {
+        step: 2,
+        badge: "PILAR 1 / 6",
+        targetId: "pipelineStep1",
+        screen: "control",
+        controlTab: "pipeline",
+        title: "2. Edge Computer Vision (Kamera Pintar AI)",
+        desc: "Kecerdasan buatan mengenali jenis material (Plastik PET, Kaleng, Kardus) secara instan langsung di browser lokal, menghemat 70% latensi server dan mencegah salah klasifikasi.",
+        actionLabel: "Uji Scanner AI Sekarang 📸",
+        action: function() {
+          const btn = document.getElementById("btnTriggerStep1") || document.getElementById("btnFanAction1");
+          if (btn) btn.click();
+        }
+      },
+      {
+        step: 3,
+        badge: "PILAR 2 / 6",
+        targetId: "pipelineStep2",
+        screen: "control",
+        controlTab: "pipeline",
+        title: "3. Barcode QR Penyetoran Digital",
+        desc: "Sistem menerbitkan tiket barcode QR terenkripsi yang memetakan jenis sampah dengan titik penimbangan (Drop Point Hub) mitra terdekat di sekitar RW secara otomatis.",
+        actionLabel: "Buka Tiket QR Digital 🎫",
+        action: function() {
+          const btn = document.getElementById("btnTriggerStep2") || document.getElementById("btnFanAction2");
+          if (btn) btn.click();
+        }
+      },
+      {
+        step: 4,
+        badge: "PILAR 3 / 6",
+        targetId: "pipelineStep3",
+        screen: "control",
+        controlTab: "pipeline",
+        title: "4. Sensor Timbangan Digital IoT",
+        desc: "Beban sampah ditimbang menggunakan timbangan IoT presisi tinggi. Berat diverifikasi dan dicatat otomatis ke pembukuan ganda (double-entry ledger) tanpa celah kecurangan manusia.",
+        actionLabel: "Simulasikan Timbangan IoT ⚖️",
+        action: function() {
+          const btn = document.getElementById("btnTriggerStep3") || document.getElementById("btnFanAction3");
+          if (btn) btn.click();
+        }
+      },
+      {
+        step: 5,
+        badge: "PILAR 4 / 6",
+        targetId: "streakCard",
+        screen: "control",
+        controlTab: "gamification",
+        title: "5. Payout Instan & Gamifikasi Retensi",
+        desc: "Saldo rupiah dicairkan seketika ke dompet digital (GoPay/OVO/BCA) tanpa potongan admin. Sistem streak harian dan perisai proteksi menjaga konsistensi warga untuk terus memilah.",
+        actionLabel: "Lihat Jalur Hadiah Streak 🎁",
+        action: function() {
+          const el = document.getElementById("streakRewardRoad");
+          if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      },
+      {
+        step: 6,
+        badge: "PILAR 5 / 6",
+        targetId: "cardEsg",
+        screen: "control",
+        controlTab: "monitoring",
+        title: "6. B2B ESG & Audit Jejak Karbon Scope 3",
+        desc: "Setiap gram sampah dikonversi menjadi data reduksi emisi karbon (kg CO₂e) berstandar ISO 14064-1 & GHG Protocol, siap diekspor menjadi laporan kepatuhan ESG korporat dan perbankan.",
+        actionLabel: "Lihat Laporan Audit ESG 📄",
+        action: function() {
+          const btn = document.getElementById("btnExportEsg");
+          if (btn) btn.click();
+        }
+      }
+    ];
+
+    function goToControlView() {
+      const intro = document.getElementById("introScreen");
+      const onboard = document.getElementById("onboardingScreen");
+      const auth = document.getElementById("authScreen");
+      const home = document.getElementById("homeScreen");
+      if (intro) { intro.classList.add("is-hidden"); intro.style.display = "none"; }
+      if (onboard) { onboard.classList.add("is-hidden"); onboard.style.display = "none"; }
+      if (auth) { auth.classList.add("is-hidden"); auth.style.display = "none"; }
+      if (home) { home.classList.remove("is-hidden"); home.style.display = ""; }
+      const tabCtrl = document.getElementById("tabControlView");
+      if (tabCtrl) tabCtrl.click();
+    }
+
+    function goToTab(tabName) {
+      if (tabName === "pipeline") {
+        const btn = document.getElementById("tabBtnPipeline");
+        if (btn) btn.click();
+      } else if (tabName === "gamification") {
+        const btn = document.getElementById("tabBtnGamification");
+        if (btn) btn.click();
+      } else if (tabName === "monitoring") {
+        const btn = document.getElementById("tabBtnMonitoring");
+        if (btn) btn.click();
+      }
+    }
+
+    const saasTour = {
+      currentIndex: 0,
+      isActive: false,
+
+      start: function() {
+        this.isActive = true;
+        this.currentIndex = 0;
+        const overlay = document.getElementById("saasTourOverlay");
+        if (overlay) overlay.classList.remove("is-hidden");
+        this.renderStep();
+      },
+
+      goToStep: function(index) {
+        if (index < 0 || index >= TOUR_STEPS.length) return;
+        this.currentIndex = index;
+        this.renderStep();
+      },
+
+      next: function() {
+        if (this.currentIndex < TOUR_STEPS.length - 1) {
+          this.currentIndex++;
+          this.renderStep();
+        } else {
+          this.finish();
+        }
+      },
+
+      prev: function() {
+        if (this.currentIndex > 0) {
+          this.currentIndex--;
+          this.renderStep();
+        }
+      },
+
+      exit: function() {
+        this.isActive = false;
+        const overlay = document.getElementById("saasTourOverlay");
+        if (overlay) overlay.classList.add("is-hidden");
+      },
+
+      finish: function() {
+        this.exit();
+        const modal = document.getElementById("modalTourFinish");
+        if (modal) modal.classList.remove("is-hidden");
+      },
+
+      renderStep: function() {
+        const step = TOUR_STEPS[this.currentIndex];
+        if (!step) return;
+
+        // Manage screens & tabs
+        if (step.screen === "control") {
+          goToControlView();
+          if (step.controlTab) {
+            goToTab(step.controlTab);
+          }
+        }
+
+        setTimeout(() => {
+          const target = document.getElementById(step.targetId);
+          if (!target) return;
+
+          // Scroll into view
+          target.scrollIntoView({ behavior: "smooth", block: "center" });
+
+          // Update Card Elements
+          document.getElementById("tourStepBadge").textContent = step.badge;
+          document.getElementById("tourCardTitle").textContent = step.title;
+          document.getElementById("tourCardDesc").textContent = step.desc;
+          document.getElementById("tourActionLabel").textContent = step.actionLabel;
+
+          const actionBtn = document.getElementById("btnTourAction");
+          actionBtn.onclick = step.action;
+
+          // Progress Dots
+          const dots = document.querySelectorAll(".tour-progress-dots .tour-dot");
+          dots.forEach((d, idx) => {
+            if (idx === this.currentIndex) {
+              d.classList.add("active");
+            } else {
+              d.classList.remove("active");
+            }
+          });
+
+          // Prev / Next button states
+          const prevBtn = document.getElementById("btnTourPrev");
+          const nextBtn = document.getElementById("btnTourNext");
+          prevBtn.style.visibility = this.currentIndex === 0 ? "hidden" : "visible";
+          nextBtn.textContent = this.currentIndex === TOUR_STEPS.length - 1 ? "Selesai 🎉" : "Lanjut →";
+
+          // Position Hole and Card
+          setTimeout(() => {
+            this.reposition(target);
+          }, 250);
+        }, 120);
+      },
+
+      reposition: function(target) {
+        if (!target) return;
+        const rect = target.getBoundingClientRect();
+        const hole = document.getElementById("saasTourHole");
+        const card = document.getElementById("saasTourCard");
+        if (!hole || !card) return;
+
+        const pad = 10;
+        hole.style.top = (rect.top - pad) + "px";
+        hole.style.left = (rect.left - pad) + "px";
+        hole.style.width = (rect.width + pad * 2) + "px";
+        hole.style.height = (rect.height + pad * 2) + "px";
+
+        // Positioning Card
+        const isMobile = window.innerWidth <= 768;
+        if (isMobile) {
+          // Handled via CSS on mobile (fixed to bottom)
+          card.style.top = "";
+          card.style.left = "";
+          return;
+        }
+
+        const cardRect = card.getBoundingClientRect();
+        const cardHeight = cardRect.height || 260;
+        const cardWidth = cardRect.width || 380;
+
+        let cardTop = rect.bottom + 20;
+        let cardLeft = rect.left;
+
+        // If card exceeds bottom of viewport, place above target
+        if (cardTop + cardHeight > window.innerHeight - 20) {
+          cardTop = Math.max(20, rect.top - cardHeight - 20);
+        }
+
+        // Adjust horizontal boundary
+        if (cardLeft + cardWidth > window.innerWidth - 24) {
+          cardLeft = window.innerWidth - cardWidth - 24;
+        }
+        if (cardLeft < 24) cardLeft = 24;
+
+        card.style.top = cardTop + "px";
+        card.style.left = cardLeft + "px";
+      }
+    };
+
+    window.saasTour = saasTour;
+
+    // Attach Event Listeners on DOMContentLoaded / Load
+    function initTourListeners() {
+      const btnLaunch = document.getElementById("btnLaunchSaasTour");
+      if (btnLaunch) btnLaunch.addEventListener("click", () => saasTour.start());
+
+      const btnNext = document.getElementById("btnTourNext");
+      if (btnNext) btnNext.addEventListener("click", () => saasTour.next());
+
+      const btnPrev = document.getElementById("btnTourPrev");
+      if (btnPrev) btnPrev.addEventListener("click", () => saasTour.prev());
+
+      const btnExit = document.getElementById("btnExitTour");
+      if (btnExit) btnExit.addEventListener("click", () => saasTour.exit());
+
+      const btnRestart = document.getElementById("btnRestartTour");
+      if (btnRestart) {
+        btnRestart.addEventListener("click", () => {
+          const modal = document.getElementById("modalTourFinish");
+          if (modal) modal.classList.add("is-hidden");
+          saasTour.start();
+        });
+      }
+
+      const btnCloseFinish = document.getElementById("btnCloseTourFinish");
+      if (btnCloseFinish) {
+        btnCloseFinish.addEventListener("click", () => {
+          const modal = document.getElementById("modalTourFinish");
+          if (modal) modal.classList.add("is-hidden");
+        });
+      }
+
+      window.addEventListener("resize", () => {
+        if (saasTour.isActive) {
+          const step = TOUR_STEPS[saasTour.currentIndex];
+          if (step) {
+            const target = document.getElementById(step.targetId);
+            if (target) saasTour.reposition(target);
+          }
+        }
+      });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initTourListeners);
+    } else {
+      initTourListeners();
+    }
+  })();
+  </script>
+
+</body>
 </html>

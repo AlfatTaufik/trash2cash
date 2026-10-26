@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 280" width="380" height="280">
+  <defs>
+    <marker id="sketchArrow" viewBox="0 0 24 24" refX="20" refY="12" markerWidth="20" markerHeight="20" orient="auto">
+      <path d="M 4 4 L 20 12 L 4 20" fill="none" stroke="#161616" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <style>
+    .curved-pointer-text {
+      font-family: 'Highway Motel Sans Regular', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      fill: #161616;
+      text-transform: none;
+    }
+  </style>
+
+  <!-- The loop stroke shifted to left/center -->
+  <path d="M 180 250 C 182 195 160 145 120 155 C 90 162 95 205 125 205 C 160 205 180 150 145 108 C 115 72 65 75 22 102" 
+        fill="none" stroke="#161616" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#sketchArrow)"/>
+
+  <!-- Text completely outside the loop at the upper-right -->
+  <text class="curved-pointer-text" transform="translate(260, 90) rotate(-48)" text-anchor="middle">
+    Masukan sampahmu kedalam sini
+  </text>
+</svg>

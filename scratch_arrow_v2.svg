@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 260" width="380" height="260">
+  <defs>
+    <!-- Open sketch-style arrowhead like in reference image -->
+    <marker id="sketchArrow" viewBox="0 0 24 24" refX="18" refY="12" markerWidth="18" markerHeight="18" orient="auto">
+      <path d="M 4 5 L 18 12 L 4 19 M 6 12 L 18 12" fill="none" stroke="#161616" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <!-- Path going in reading direction (bottom-right up toward top-left, right-side up) -->
+    <path id="textTrack" d="M 315 220 C 310 160 265 95 195 70 C 140 50 80 55 42 75" fill="none"/>
+  </defs>
+
+  <style>
+    .arrow-text {
+      font-family: 'Highway Motel Sans Regular', 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      fill: #161616;
+    }
+  </style>
+
+  <!-- Looped arrow line -->
+  <path d="M 300 235 C 305 185 275 125 225 100 C 180 80 155 130 190 160 C 225 185 260 135 225 95 C 190 50 105 45 42 78" 
+        fill="none" stroke="#161616" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#sketchArrow)"/>
+
+  <!-- Text along the diagonal entry arm -->
+  <text class="arrow-text" transform="translate(250, 110) rotate(-52)" text-anchor="middle">
+    Masukan sampahmu kedalam sini
+  </text>
+</svg>

@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trash2Cash — Demo Komponen Unified Trash-Ring Loader</title>
+  
+  <!-- Tipografi Grotesk Bersih & Font System -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS Komponen Loader -->
+  <link rel="stylesheet" href="/css/loader.css" />
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #0c0d0e;
+      color: #FFFFFF;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 3vw, 2.5rem);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .demo-header {
+      max-width: 980px;
+      margin: 0 auto 3rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      padding-bottom: 2rem;
+    }
+
+    .demo-badge {
+      display: inline-block;
+      background: #c8ff2e;
+      color: #161616;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+    }
+
+    .demo-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 0.75rem;
+    }
+
+    .demo-desc {
+      font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+      font-weight: 300;
+      color: #a0a0a0;
+      line-height: 1.6;
+      max-width: 760px;
+    }
+
+    .demo-container {
+      max-width: 980px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 2rem;
+    }
+
+    .demo-card {
+      background: #141618;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .demo-card-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mode-pill {
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      color: #c8ff2e;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .demo-card-desc {
+      font-size: 0.88rem;
+      color: #888888;
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+    }
+
+    .demo-preview-stage {
+      min-height: 180px;
+      background: #000000;
+      border-radius: 12px;
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .demo-controls-row {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn {
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: #c8ff2e;
+      color: #121212;
+      border-color: #c8ff2e;
+    }
+
+    .btn-primary:hover {
+      background: #d8ff54;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #FFFFFF;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .select-item {
+      width: 100%;
+      background: #1c1e22;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #FFFFFF;
+      padding: 9px 14px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      outline: none;
+      margin-bottom: 8px;
+    }
+
+    /* Live controls panel */
+    .demo-settings-panel {
+      max-width: 980px;
+      margin: 3rem auto 0;
+      background: #141618;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+
+    .settings-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .setting-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .setting-label {
+      font-size: 0.82rem;
+      color: #a0a0a0;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .setting-input {
+      accent-color: #c8ff2e;
+      width: 100%;
+    }
+
+    .setting-val {
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: #c8ff2e;
+    }
+
+    .back-home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #a0a0a0;
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .back-home-link:hover {
+      color: #c8ff2e;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="demo-header">
+    <a href="/" class="back-home-link">← Kembali ke Halaman Utama EcoPilah</a>
+    <span class="demo-badge">Komponen Reusable Tunggal</span>
+    <h1 class="demo-title">Unified Trash-Ring Loader</h1>
+    <p class="demo-desc">
+      Komponen loading tunggal dengan cincin foto sampah asli bertangensial, efek ekor komet memudar (1.0 &rarr; 0.12), teks "Memuat..", dan latar hitam pekat (#000). Konsisten untuk seluruh website.
+    </p>
+  </header>
+
+  <main class="demo-container">
+
+    <!-- KARTU 1: FULLSCREEN MODE -->
+    <article class="demo-card">
+      <h2 class="demo-card-title">
+        Fullscreen Overlay
+        <span class="mode-pill">Mode Utama</span>
+      </h2>
+      <p class="demo-card-desc">
+        Dipakai saat transisi sampah masuk ke tong, transisi antarhalaman, atau pergantian rute. Mengunci scroll body dan memiliki durasi minimum 1800ms agar halus dan tidak berkedip.
+      </p>
+
+      <div class="demo-preview-stage">
+        <span style="font-size: 12px; color: #666;">[Klik tombol di bawah untuk membuka overlay fullscreen]</span>
+      </div>
+
+      <div class="demo-controls-row">
+        <label for="selectHeadTrash" class="setting-label">Sampah Posisi Kepala:</label>
+        <select id="selectHeadTrash" class="select-item">
+          <option value="cardboard">Kardus Bergelombang</option>
+          <option value="banana-peel">Kulit Pisang Organik</option>
+          <option value="plastic-bottle">Botol Plastik PET</option>
+          <option value="soda-can">Kaleng Minuman</option>
+          <option value="coffee-cup">Gelas Kopi Kertas</option>
+          <option value="crumpled-paper">Kertas Catatan Kusut</option>
+          <option value="battery">Baterai Bekas</option>
+        </select>
+
+        <button class="btn btn-primary" id="btnLaunchFullscreen">
+          ▶ Buka Fullscreen Loader (2.5 Detik)
+        </button>
+      </div>
+    </article>
+
+
+    <!-- KARTU 2: INLINE MODE -->
+    <article class="demo-card">
+      <h2 class="demo-card-title">
+        Inline Container
+        <span class="mode-pill">Mode Konten</span>
+      </h2>
+      <p class="demo-card-desc">
+        Cincin lebih kompak (diameter &plusmn;72&ndash;96px) di dalam kontainer kartu atau galeri gambar yang sedang memuat aset.
+      </p>
+
+      <div class="demo-preview-stage" id="inlinePreviewStage">
+        <div role="status" aria-live="polite" class="t2c-loader-inline" id="staticInlineLoader">
+          <div class="t2c-loader-box">
+            <span class="sr-only">Sedang memuat konten, mohon tunggu…</span>
+            <div class="t2c-loader-ring" style="--loader-count: 12; --loader-duration: 1.2s;">
+              <div class="t2c-loader-item" style="--i: 0; --angle: 0deg;"><div class="t2c-loader-item-inner" style="animation-delay: -1.200s; animation-duration: 1.2s;"><img src="/assets/trash/plastic-bottle.png" alt="" aria-hidden="true" class="t2c-loader-img"></div></div>
+              <div class="t2c-loader-item" style="--i: 1; --angle: 30deg;"><div class="t2c-loader-item-inner" style="animation-delay: -1.100s; animation-duration: 1.2s;"><img src="/assets/trash/soda-can.png" alt="" aria-hidden="true" class="t2c-loader-img"></div></div>
+              <div class="t2c-loader-item" style="--i: 2; --angle: 60deg;"><div class="t2c-loader-item-inner" style="animation-delay: -1.000s; animation-duration: 1.2s;"><img src="/assets/trash/banana-peel.png" alt="" aria-hidden="true" class="t2c-loader-img"></div></div>
+              <div class="t2c-loader-item" style="--i: 3; --angle: 90deg;"><div class="t2c-loader-item-inner" style="animation-delay: -0.900s; animation-duration: 1.2s;"><img src="/assets/trash/cardboard.png" alt="" aria-hidden="true" class="t2c-loader-img"></div></div>
+              <div class="t2c-loader-item" style="--i: 4; --angle: 120deg;"><div class="t2c-loader-item-inner" style="animation-delay: -0.800s; animation-duration: 1.2s;"><img src="/assets/trash/coffee-cup.png" alt="" aria-hidden="true" class="t2c-loader-img"></div></div>
+              <div class="t2c-loader-item" style="--i: 5; --angle: 150deg;"><div class="t2c-loader-item-inner" style="animation-delay: -0.700s; animation-duration: 1.2s;"><img src="/assets/trash/crumpled-paper.png" alt="" aria-hidden="true" class="t2c-loader-img"></div></div>
+              <div class="t2c-loader-item" style="--i: 6; --angle: 180deg;"><div class="t2c-loader-item-inner" style="animation-delay: -0.600s; animation-duration: 1.2s;"><img src="/assets/trash/battery.png" alt="" aria-hidden="true" class="t2c-loader-img"></div></div>
+              <div class="t2c-loader-item" style="--i: 7; --angle: 210deg;"><div class="t2c-loader-item-inner" style="animation-delay: -0.500s; animation-duration: 1.2s;"><img src="/assets/trash/plastic-bottle.png" alt="" aria-hidden="true" class="t2c-loader-img"></div></div>
+              <div class="t2c-loader-item" style="--i: 8; --angle: 240deg;"><div class="t2c-loader-item-inner" style="animation-delay: -0.400s; animation-duration: 1.2s;"><img src="/assets/trash/soda-can.png" alt="" aria-hidden="true" class="t2c-loader-img"></div></div>
+              <div class="t2c-loader-item" style="--i: 9; --angle: 270deg;"><div class="t2c-loader-item-inner" style="animation-delay: -0.300s; animation-duration: 1.2s;"><img src="/assets/trash/banana-peel.png" alt="" aria-hidden="true" class="t2c-loader-img"></div></div>
+              <div class="t2c-loader-item" style="--i: 10; --angle: 300deg;"><div class="t2c-loader-item-inner" style="animation-delay: -0.200s; animation-duration: 1.2s;"><img src="/assets/trash/cardboard.png" alt="" aria-hidden="true" class="t2c-loader-img"></div></div>
+              <div class="t2c-loader-item" style="--i: 11; --angle: 330deg;"><div class="t2c-loader-item-inner" style="animation-delay: -0.100s; animation-duration: 1.2s;"><img src="/assets/trash/coffee-cup.png" alt="" aria-hidden="true" class="t2c-loader-img"></div></div>
+            </div>
+            <div class="t2c-loader-content">
+              <div class="t2c-loader-label">
+                <span class="t2c-loader-text">Memuat data</span>
+                <span class="t2c-loader-dots" aria-hidden="true">
+                  <span class="t2c-loader-dot">.</span>
+                  <span class="t2c-loader-dot">.</span>
+                  <span class="t2c-loader-dot">.</span>
+                </span>
+              </div>
+              <div class="t2c-loader-subtext">Menghubungkan ke bank sampah</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-controls-row">
+        <button class="btn btn-outline" id="btnToggleInline">
+          Sembunyikan / Tampilkan Inline Loader
+        </button>
+      </div>
+    </article>
+
+
+    <!-- KARTU 3: SMALL / BUTTON MODE -->
+    <article class="demo-card">
+      <h2 class="demo-card-title">
+        Mini / Small
+        <span class="mode-pill">Mode Tombol</span>
+      </h2>
+      <p class="demo-card-desc">
+        Versi mini (&plusmn;28px, tanpa teks) untuk disematkan di dalam tombol aksi, badge status, atau elemen kecil.
+      </p>
+
+      <div class="demo-preview-stage" style="gap: 16px;">
+        <button class="btn btn-outline" id="demoActionBtn" style="padding: 10px 24px; min-width: 200px;">
+          <span id="btnSmallSlot"></span>
+          <span id="btnTextLabel">Kirim Sampah Sekarang</span>
+        </button>
+      </div>
+
+      <div class="demo-controls-row">
+        <button class="btn btn-outline" id="btnSimulateAction">
+          Simulasikan Aksi Tombol (3 Detik)
+        </button>
+      </div>
+    </article>
+
+  </main>
+
+
+  <!-- PANEL KONTROL PARAMETER TEKNIS -->
+  <section class="demo-settings-panel">
+    <h3 class="settings-title">Konfigurasi Parameter Global (Live Tweak)</h3>
+    <div class="settings-grid">
+      
+      <div class="setting-group">
+        <label class="setting-label" for="sliderCount">Jumlah Objek Cincin: <span class="setting-val" id="valCount">12</span></label>
+        <input type="range" id="sliderCount" class="setting-input" min="6" max="18" step="1" value="12" />
+      </div>
+
+      <div class="setting-group">
+        <label class="setting-label" for="sliderSpeed">Kecepatan Putaran (Detik): <span class="setting-val" id="valSpeed">1.2s</span></label>
+        <input type="range" id="sliderSpeed" class="setting-input" min="0.6" max="3.0" step="0.1" value="1.2" />
+      </div>
+
+      <div class="setting-group">
+        <label class="setting-label" for="sliderSize">Diameter Cincin (px): <span class="setting-val" id="valSize">130px</span></label>
+        <input type="range" id="sliderSize" class="setting-input" min="70" max="220" step="5" value="130" />
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Script Loader Module -->
+  <script type="module">
+    import { showLoader, hideLoader, TrashRingLoader } from '/src/loader.js';
+
+    // 1. Fullscreen Demo
+    const btnLaunchFullscreen = document.getElementById('btnLaunchFullscreen');
+    const selectHeadTrash = document.getElementById('selectHeadTrash');
+
+    btnLaunchFullscreen.addEventListener('click', () => {
+      const selectedHead = selectHeadTrash.value;
+      
+      const loader = showLoader({
+        mode: 'fullscreen',
+        text: 'Memuat',
+        activeItem: selectedHead,
+        subtext: [
+          'Menganalisis jenis sampah…',
+          'Memilah kategori daur ulang…',
+          'Menyiapkan tampilan beranda…'
+        ],
+        minDuration: 2200
+      });
+
+      // Sembunyikan otomatis setelah 2.5 detik
+      setTimeout(() => {
+        loader.hide();
+      }, 2500);
+    });
+
+    // 2. Inline Demo
+    const inlineContainer = document.getElementById('inlinePreviewStage');
+    let inlineLoaderInstance = null;
+
+    function mountInlineLoader() {
+      const staticEl = document.getElementById('staticInlineLoader');
+      if (staticEl) {
+        staticEl.remove();
+      }
+
+      if (inlineLoaderInstance) {
+        inlineLoaderInstance.hide();
+        inlineLoaderInstance = null;
+        return;
+      }
+
+      inlineLoaderInstance = showLoader({
+        mode: 'inline',
+        target: inlineContainer,
+        text: 'Memuat data',
+        subtext: 'Menghubungkan ke bank sampah'
+      });
+    }
+
+    // Enhance static markup into managed dynamic instance
+    mountInlineLoader();
+
+    document.getElementById('btnToggleInline').addEventListener('click', () => {
+      mountInlineLoader();
+    });
+
+    // 3. Small Mode Demo on Button
+    const btnSmallSlot = document.getElementById('btnSmallSlot');
+    const btnTextLabel = document.getElementById('btnTextLabel');
+    const btnSimulateAction = document.getElementById('btnSimulateAction');
+    let smallLoaderInstance = null;
+
+    btnSimulateAction.addEventListener('click', () => {
+      if (smallLoaderInstance) return;
+
+      btnTextLabel.textContent = 'Memproses…';
+      smallLoaderInstance = showLoader({
+        mode: 'small',
+        target: btnSmallSlot
+      });
+
+      setTimeout(() => {
+        if (smallLoaderInstance) {
+          smallLoaderInstance.hide();
+          smallLoaderInstance = null;
+        }
+        btnTextLabel.textContent = '✓ Berhasil Terkirim';
+        setTimeout(() => {
+          btnTextLabel.textContent = 'Kirim Sampah Sekarang';
+        }, 1500);
+      }, 3000);
+    });
+
+    // 4. Live Global Parameter Sliders
+    const sliderCount = document.getElementById('sliderCount');
+    const sliderSpeed = document.getElementById('sliderSpeed');
+    const sliderSize = document.getElementById('sliderSize');
+
+    const valCount = document.getElementById('valCount');
+    const valSpeed = document.getElementById('valSpeed');
+    const valSize = document.getElementById('valSize');
+
+    function applyLiveSettings() {
+      const count = sliderCount.value;
+      const speed = sliderSpeed.value;
+      const size = sliderSize.value;
+
+      valCount.textContent = count;
+      valSpeed.textContent = `${speed}s`;
+      valSize.textContent = `${size}px`;
+
+      document.documentElement.style.setProperty('--t2c-loader-count', count);
+      document.documentElement.style.setProperty('--t2c-loader-duration', `${speed}s`);
+      document.documentElement.style.setProperty('--t2c-loader-size', `${size}px`);
+
+      // Re-render inline loader dengan setting baru
+      if (inlineLoaderInstance) {
+        inlineLoaderInstance.hide().then(() => {
+          inlineLoaderInstance = showLoader({
+            mode: 'inline',
+            target: inlineContainer,
+            count: parseInt(count, 10),
+            duration: parseFloat(speed),
+            text: 'Memuat data'
+          });
+        });
+      }
+    }
+
+    sliderCount.addEventListener('input', applyLiveSettings);
+    sliderSpeed.addEventListener('input', applyLiveSettings);
+    sliderSize.addEventListener('input', applyLiveSettings);
+  </script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EcoPilah — Seni Memilah untuk Masa Depan (Home)</title>
+
+  <!-- Tipografi Grotesk Bersih & Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Unified Stylesheets -->
+  <link rel="stylesheet" href="/css/features.css" />
+  <link rel="stylesheet" href="/src/style.css" />
+
+  <style>
+    /* Styling khusus panggung hero pada contoh home.html */
+    .home-hero-standalone {
+      min-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: clamp(3rem, 8vh, 6rem) clamp(1rem, 4vw, 2.5rem);
+      background: radial-gradient(circle at 50% 20%, #152219 0%, #000000 80%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .home-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(50, 184, 112, 0.15);
+      border: 1px solid rgba(50, 184, 112, 0.4);
+      color: #8DF0A9;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+    }
+
+    .home-hero-title {
+      font-family: 'Space Grotesk', -apple-system, sans-serif;
+      font-size: clamp(2.4rem, 5.5vw, 4.5rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      max-width: 900px;
+      margin-bottom: 1.25rem;
+      color: #FFFFFF;
+    }
+
+    .home-hero-desc {
+      color: #8E8E93;
+      max-width: 650px;
+      font-size: clamp(1rem, 1.3vw, 1.15rem);
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .home-hero-scroll-cue {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #8DF0A9;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      animation: floatVertical 2s ease-in-out infinite;
+    }
+
+    @keyframes floatVertical {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+  </style>
+</head>
+<body style="background-color: #000000; color: #FFFFFF; margin: 0; overflow-x: hidden;">
+
+  <!-- =====================================================
+       1. HERO SECTION (PANGGUNG SAMBUTAN / INTRO)
+       ===================================================== -->
+  <section class="home-hero-standalone" id="heroSection">
+    <div class="home-hero-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00875a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle; margin-right:4px;"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+      <span>PLATFORM REVOLUSI PEMILAHAN SAMPAH MANDIRI</span>
+    </div>
+
+    <h1 class="home-hero-title">
+      Ubah Sampah Jadi Berkah Sirkular.
+    </h1>
+
+    <p class="home-hero-desc">
+      Ekosistem pintar yang mengintegrasikan AI scan sampah, katalog edukasi komprehensif, titik setor bank sampah, dan penghargaan poin bernilai nyata.
+    </p>
+
+    <div class="home-hero-scroll-cue">
+      <span>Jelajahi Fitur Unggulan di Bawah</span>
+      <span>↓</span>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       2. CONTOH PENYISIPAN SEKSI INTERAKTIF "FITUR APLIKASI"
+          (Diletakkan Langsung Setelah Hero Sesuai Permintaan)
+       ===================================================== -->
+  <section class="features-scroll-wrapper" id="featuresSection" aria-label="Fitur Unggulan Aplikasi EcoPilah">
+    <div class="features-stage">
+      
+      <!-- Progres Bar 2px di Tepi Atas -->
+      <div class="features-progress-track" aria-hidden="true">
+        <div class="features-progress-bar"></div>
+      </div>
+
+      <!-- Ambient Light Glow Blobs -->
+      <div class="features-ambient-blobs" aria-hidden="true">
+        <div class="ambient-blob blob-1"></div>
+        <div class="ambient-blob blob-2"></div>
+        <div class="ambient-blob blob-3"></div>
+      </div>
+
+      <!-- Header Fitur: Diam di Atas Tengah, Ruang Kosong Lega -->
+      <header class="features-header">
+        <div class="features-eyebrow">
+          <span class="features-eyebrow-dot"></span>
+          <span>FITUR APLIKASI • PUSAT KONTROL</span>
+        </div>
+        <h2 class="features-title">Fitur yang membuat memilah jadi mudah</h2>
+        <p class="features-subtitle">Teknologi pemilahan presisi dan insentif sirkular dalam genggaman Anda.</p>
+      </header>
+
+      <!-- Panggung Busur Kipas Kartu (Center di Bawah Layar) -->
+      <div class="features-fan-stage">
+        <div class="features-fan-track" id="featuresFanTrack" role="region" aria-label="Koleksi Kartu Fitur Interaktif">
+          <!-- Elemen kartu dimasukkan secara dinamis dari array FEATURES_DATA -->
+        </div>
+      </div>
+
+      <!-- Footer Navigasi & Counter Posisi Kartu Tengah -->
+      <footer class="features-footer-nav">
+        <div class="features-counter" aria-live="polite" aria-atomic="true">
+          <span class="features-counter-current">01</span>
+          <span style="opacity: 0.5;">/</span>
+          <span class="features-counter-total">10</span>
+        </div>
+
+        <div class="features-hints">
+          <span style="font-size: 11px; color: var(--stage-muted); letter-spacing: 0.05em; text-transform: uppercase;">Gunakan Drag / Panah:</span>
+          <button class="nav-hint-btn" id="btnFeaturesPrev" type="button" aria-label="Putar kartu ke kiri" title="Kartu sebelumnya">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <button class="nav-hint-btn" id="btnFeaturesNext" type="button" aria-label="Putar kartu ke kanan" title="Kartu selanjutnya">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </div>
+      </footer>
+
+    </div>
+  </section>
+
+  <!-- =====================================================
+       3. DETAIL MODAL DIALOG (KLIK KARTU TERANGKAT)
+       ===================================================== -->
+  <div class="features-modal-backdrop" id="featuresDetailModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="features-modal-card" id="modalDetailCard">
+      <button class="modal-close-btn" id="btnFeaturesModalClose" type="button" aria-label="Tutup Dialog">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <p class="modal-tagline" id="modalDetailTagline">FITUR UNGGULAN</p>
+      <h3 class="modal-title" id="modalDetailTitle">Judul Fitur</h3>
+      
+      <p class="modal-desc" id="modalDetailDesc">
+        Deskripsi mendalam mengenai kapabilitas fitur ini.
+      </p>
+
+      <button class="modal-action-btn" id="btnFeaturesModalAction" type="button">
+        <span>Buka Fitur Ini</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Inisialisasi Fitur via ES Module -->
+  <script type="module">
+    import { initFeaturesSection } from '/js/features.js';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initFeaturesSection('#featuresSection');
+    });
+  </script>
+
+</body>
+</html>
