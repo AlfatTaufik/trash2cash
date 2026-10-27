@@ -81,11 +81,22 @@
 }
 
 :root {
-  /* Official Krackerz Typography Tokens */
-  --framer-font-family: "Highway Motel Sans Regular", "Highway Motel Sans Regular Placeholder", sans-serif;
-  --font-highway: "Highway Motel Sans Regular", "Highway Motel Sans Regular Placeholder", sans-serif;
+  /* =====================================================
+     TRASH2CASH TYPOGRAPHY SYSTEM
+     Font Display / Brand (All-caps Logo & Vintage Accent): Highway Motel Sans Regular
+     Font Primary (Heading UI / Buttons / Tabs / Titles - Bukan Latin): Space Grotesk, Inter, sans-serif
+     Font Secondary (Body / Form / Input / High Readability): Inter, -apple-system, sans-serif
+     Font Mono (Technical/Data/Saldo/Bobot): DM Sans, Space Grotesk, monospace
+     Font Editorial (Koran/Manifesto/Quotes): PP Editorial Old
+     ===================================================== */
   --font-display: "Highway Motel Sans Regular", "Highway Motel Sans Regular Placeholder", sans-serif;
-  --font-primary: "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-highway: "Highway Motel Sans Regular", "Highway Motel Sans Regular Placeholder", sans-serif;
+  --framer-font-family: "Highway Motel Sans Regular", "Highway Motel Sans Regular Placeholder", sans-serif;
+
+  --font-primary: "Space Grotesk", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-secondary: "Inter", "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: "Inter", "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
   --font-mono: "DM Sans", "Space Grotesk", monospace, sans-serif;
   --font-editorial: "PP Editorial Old", "Times New Roman", Georgia, serif;
 
@@ -135,8 +146,8 @@
 html {
   background-color: var(--bg-pure);
   color: var(--text-main);
-  font-family: var(--font-primary);
-  letter-spacing: -0.02em;
+  font-family: var(--font-secondary);
+  letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
@@ -145,8 +156,13 @@ html {
 body {
   background-color: var(--bg-pure);
   color: var(--text-main);
+  font-family: var(--font-secondary);
   overflow-x: hidden;
   min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-primary);
 }
 
 /* Accessibility helper */
@@ -905,7 +921,7 @@ body {
 }
 
 .brand-center-tagline {
-  font-family: var(--font-primary);
+  font-family: var(--font-secondary);
   font-size: clamp(0.58rem, 0.72vw, 0.68rem);
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -978,10 +994,10 @@ body {
 
 /* 1. Motif Kerutan Kertas & Ornamen Editorial Alami */
 .paper-texture-layer {
-  position: absolute;
+  position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   pointer-events: none;
   background-image: var(--bg-paper-crease);
   background-size: cover;
@@ -993,10 +1009,10 @@ body {
 }
 
 .paper-crease-lines {
-  position: absolute;
+  position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   pointer-events: none;
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(0, 0, 0, 0.03) 35%, rgba(0, 0, 0, 0.08) 36%, rgba(255, 255, 255, 0.35) 37%, transparent 60%),
@@ -1063,7 +1079,7 @@ body {
   opacity: 1;
   visibility: visible;
   transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s ease;
-  font-family: var(--font-primary);
+  font-family: var(--font-secondary);
 }
 
 .home-screen.is-hidden {
@@ -1259,7 +1275,7 @@ body {
 }
 
 .nav-link {
-  font-family: var(--font-primary);
+  font-family: var(--font-secondary);
   font-size: clamp(0.92rem, 1.1vw, 1.05rem);
   font-weight: 600;
   color: var(--text-main);
@@ -2085,7 +2101,7 @@ body {
 }
 
 .card-desc {
-  font-family: var(--font-primary);
+  font-family: var(--font-secondary);
   font-size: 0.88rem;
   color: #525252;
   line-height: 1.4;
@@ -2333,7 +2349,7 @@ body {
   grid-template-columns: 2fr 1fr 1fr;
   padding: 8px 12px;
   align-items: center;
-  font-family: var(--font-primary);
+  font-family: var(--font-secondary);
   font-size: 0.82rem;
   font-weight: 600;
   border-bottom: 1px solid rgba(22, 22, 22, 0.08);
@@ -2677,7 +2693,7 @@ body {
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  font-family: var(--font-primary);
+  font-family: var(--font-secondary);
   font-size: 0.76rem;
   color: #005a3b;
   line-height: 1.4;
@@ -2849,9 +2865,12 @@ body {
   background: #FAF7F2;
   overflow-y: auto;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 1.5rem 1rem;
+  justify-content: flex-start;
+  padding: 2rem 1rem 3rem 1rem;
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .onboarding-screen.is-hidden {
@@ -2873,6 +2892,7 @@ body {
   position: relative;
   overflow: hidden;
   margin: auto;
+  z-index: 10;
 }
 
 .onboard-top-bar {
@@ -3063,7 +3083,7 @@ body {
 }
 
 .card-desc {
-  font-family: var(--font-primary);
+  font-family: var(--font-secondary);
   font-size: 0.8rem;
   color: #525252;
   line-height: 1.34;
@@ -3336,7 +3356,7 @@ body {
 .onboard-skip-link {
   background: transparent;
   border: none;
-  font-family: var(--font-primary);
+  font-family: var(--font-secondary);
   font-size: 0.8rem;
   font-weight: 700;
   color: #737373;
@@ -3361,9 +3381,12 @@ body {
   background: #FAF7F2;
   overflow-y: auto;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 2rem 1rem;
+  justify-content: flex-start;
+  padding: 2.5rem 1rem 3.5rem 1rem;
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .auth-screen.is-hidden {
@@ -3380,6 +3403,7 @@ body {
   padding: 1.8rem 2.2rem;
   position: relative;
   margin: auto;
+  z-index: 10;
 }
 
 .auth-card-header {
@@ -3406,7 +3430,7 @@ body {
 }
 
 .auth-brand-name {
-  font-family: var(--framer-font-family);
+  font-family: var(--font-display);
   font-size: 1.25rem;
   font-weight: 900;
   line-height: 1;
@@ -3414,12 +3438,20 @@ body {
   letter-spacing: -0.01em;
 }
 
+.auth-brand-name .brand-script {
+  font-family: var(--font-display);
+  font-style: normal;
+  text-transform: lowercase;
+  color: #00875a;
+  margin-left: 2px;
+}
+
 .auth-brand-tag {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-family: var(--font-secondary);
+  font-size: 0.65rem;
   font-weight: 800;
   color: #00875a;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
 }
 
 .auth-tabs-toggle {
@@ -3435,9 +3467,9 @@ body {
 .auth-tab-btn {
   background: transparent;
   border: none;
-  font-family: var(--framer-font-family);
-  font-size: 0.82rem;
-  font-weight: 800;
+  font-family: var(--font-primary);
+  font-size: 0.85rem;
+  font-weight: 900;
   color: #161616;
   padding: 6px 14px;
   border-radius: 6px;
@@ -3455,7 +3487,7 @@ body {
 }
 
 .auth-main-title {
-  font-family: var(--framer-font-family);
+  font-family: var(--font-primary);
   font-size: 1.55rem;
   font-weight: 900;
   color: #161616;
@@ -3464,21 +3496,21 @@ body {
 }
 
 .auth-sub-title {
-  font-family: var(--font-primary);
-  font-size: 0.88rem;
-  color: #525252;
-  line-height: 1.4;
+  font-family: var(--font-secondary);
+  font-size: 0.9rem;
+  color: #4a4a4a;
+  line-height: 1.45;
   margin: 0;
 }
 
 /* Role Selection Grid */
 .auth-group-label {
   display: block;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-family: var(--font-secondary);
+  font-size: 0.72rem;
   font-weight: 800;
-  color: #646464;
-  letter-spacing: 0.05em;
+  color: #404040;
+  letter-spacing: 0.04em;
   margin-bottom: 6px;
 }
 
@@ -3537,15 +3569,15 @@ body {
   color: #161616;
   border: 1.5px solid #161616;
   border-radius: 14px;
-  padding: 6px 14px;
-  font-family: var(--framer-font-family);
-  font-size: 0.78rem;
-  font-weight: 800;
+  padding: 7px 14px;
+  font-family: var(--font-secondary);
+  font-size: 0.82rem;
+  font-weight: 700;
   box-shadow: 2px 2px 0px #161616;
   display: flex;
   align-items: center;
   gap: 6px;
-  line-height: 1.3;
+  line-height: 1.35;
 }
 
 .bubble-sparkle {
@@ -3602,25 +3634,26 @@ body {
 }
 
 .role-badge-tag {
-  font-family: var(--font-mono);
-  font-size: 0.58rem;
+  font-family: var(--font-secondary);
+  font-size: 0.62rem;
   font-weight: 800;
   color: #00875a;
+  letter-spacing: 0.04em;
 }
 
 .role-card-name {
-  font-family: var(--framer-font-family);
-  font-size: 1rem;
+  font-family: var(--font-primary);
+  font-size: 1.05rem;
   font-weight: 900;
   color: #161616;
   margin-bottom: 4px;
 }
 
 .role-card-desc {
-  font-family: var(--font-primary);
-  font-size: 0.76rem;
-  color: #646464;
-  line-height: 1.35;
+  font-family: var(--font-secondary);
+  font-size: 0.8rem;
+  color: #4b4b4b;
+  line-height: 1.4;
   margin-bottom: 8px;
   flex: 1;
 }
@@ -3629,8 +3662,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 3px;
-  font-family: var(--font-mono);
-  font-size: 0.64rem;
+  font-family: var(--font-secondary);
+  font-size: 0.72rem;
   font-weight: 700;
   color: #00875a;
   border-top: 1px dashed rgba(22, 22, 22, 0.15);
@@ -3665,22 +3698,23 @@ body {
 }
 
 .auth-field-label {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-family: var(--font-secondary);
+  font-size: 0.72rem;
   font-weight: 800;
-  color: #646464;
+  color: #404040;
+  letter-spacing: 0.02em;
 }
 
 .field-hint {
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  font-weight: 800;
-  color: #737373;
+  font-family: var(--font-secondary);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #646464;
 }
 
 .field-hint.pin-complete {
   color: #00875a;
-  font-weight: 900;
+  font-weight: 800;
 }
 
 .auth-input-wrapper {
@@ -3726,8 +3760,8 @@ body {
   border: 1.5px solid #161616;
   border-radius: 8px;
   padding: 9px 34px 9px 34px;
-  font-family: var(--font-primary);
-  font-size: 0.88rem;
+  font-family: var(--font-secondary);
+  font-size: 0.92rem;
   font-weight: 600;
   color: #161616;
   outline: none;
@@ -3790,17 +3824,17 @@ body {
 }
 
 .preview-badge-title {
-  font-family: var(--framer-font-family);
-  font-size: 0.88rem;
+  font-family: var(--font-primary);
+  font-size: 0.92rem;
   font-weight: 900;
   color: #161616;
 }
 
 .preview-tagline {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  color: #646464;
-  font-weight: 700;
+  font-family: var(--font-secondary);
+  font-size: 0.72rem;
+  color: #525252;
+  font-weight: 600;
 }
 
 /* Interactive Dynamic Waste Simulator */
@@ -3821,16 +3855,16 @@ body {
 }
 
 .slider-label {
-  font-family: var(--font-mono);
-  font-size: 0.64rem;
+  font-family: var(--font-secondary);
+  font-size: 0.68rem;
   font-weight: 800;
-  color: #525252;
+  color: #404040;
 }
 
 .slider-val-badge {
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  font-weight: 900;
+  font-weight: 800;
   color: #ffffff;
   background: #161616;
   padding: 2px 8px;
@@ -3855,8 +3889,8 @@ body {
   border: 1px solid #161616;
   border-radius: 6px;
   padding: 3px 8px;
-  font-family: var(--font-mono);
-  font-size: 0.64rem;
+  font-family: var(--font-secondary);
+  font-size: 0.68rem;
   font-weight: 800;
   color: #161616;
   cursor: pointer;
@@ -3894,15 +3928,15 @@ body {
 }
 
 .preview-stat-label {
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-family: var(--font-secondary);
+  font-size: 0.66rem;
   font-weight: 800;
-  color: #737373;
+  color: #646464;
 }
 
 .preview-stat-val {
-  font-family: var(--framer-font-family);
-  font-size: 1.15rem;
+  font-family: var(--font-primary);
+  font-size: 1.2rem;
   font-weight: 900;
   color: #00875a;
 }
@@ -3912,9 +3946,9 @@ body {
 }
 
 .preview-stat-sub {
-  font-family: var(--font-mono);
-  font-size: 0.64rem;
-  color: #525252;
+  font-family: var(--font-secondary);
+  font-size: 0.7rem;
+  color: #4a4a4a;
   margin-top: 2px;
 }
 
@@ -3928,10 +3962,10 @@ body {
 }
 
 .demo-label {
-  font-family: var(--font-mono);
-  font-size: 0.64rem;
+  font-family: var(--font-secondary);
+  font-size: 0.68rem;
   font-weight: 800;
-  color: #737373;
+  color: #646464;
 }
 
 .auth-demo-pill {
@@ -3939,8 +3973,8 @@ body {
   border: 1px solid #161616;
   border-radius: 999px;
   padding: 4px 12px;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-family: var(--font-secondary);
+  font-size: 0.72rem;
   font-weight: 700;
   color: #161616;
   cursor: pointer;
@@ -3959,8 +3993,8 @@ body {
   color: #ffffff;
   padding: 13px 20px;
   border-radius: 12px;
-  font-family: var(--framer-font-family);
-  font-size: 0.98rem;
+  font-family: var(--font-primary);
+  font-size: 1.05rem;
   font-weight: 900;
   border: 2px solid #161616;
   cursor: pointer;
@@ -4279,7 +4313,7 @@ body {
   background: #ffffff;
   border: 1px solid rgba(22, 22, 22, 0.1);
   border-radius: 6px;
-  font-family: var(--font-primary);
+  font-family: var(--font-secondary);
   font-size: 0.75rem;
   font-weight: 600;
 }
@@ -4416,7 +4450,7 @@ body {
 }
 
 .pipeline-sub {
-  font-family: var(--font-primary);
+  font-family: var(--font-secondary);
   font-size: 0.85rem;
   color: #555555;
   margin: 0;
@@ -4596,7 +4630,7 @@ body {
 }
 
 .step-node-desc {
-  font-family: var(--font-primary);
+  font-family: var(--font-secondary);
   font-size: 0.73rem;
   color: #555555;
   margin: 0 0 10px 0;
@@ -4824,7 +4858,7 @@ body {
 }
 
 .modal-ticket-sub {
-  font-family: var(--font-primary);
+  font-family: var(--font-secondary);
   font-size: 0.82rem;
   color: #555555;
   margin: 0 0 1.25rem 0;
@@ -4893,7 +4927,7 @@ body {
 }
 
 .t-val {
-  font-family: var(--font-primary);
+  font-family: var(--font-secondary);
   font-weight: 700;
   color: #161616;
   text-align: right;
@@ -5165,7 +5199,7 @@ body {
   padding: 5px 8px;
   margin-bottom: 7px;
 }
-.streak-deadline-text { font-family: var(--font-primary); font-size: 0.7rem; font-weight: 600; color: #525252; line-height: 1.25; }
+.streak-deadline-text { font-family: var(--font-secondary); font-size: 0.7rem; font-weight: 600; color: #525252; line-height: 1.25; }
 .streak-countdown {
   font-family: var(--font-mono);
   font-size: 0.8rem;
@@ -5284,7 +5318,7 @@ body {
   border-radius: 6px;
   padding: 6px 8px;
 }
-.lb-overtake-text { font-family: var(--font-primary); font-size: 0.7rem; color: #3f3f3f; margin-bottom: 5px; line-height: 1.3; }
+.lb-overtake-text { font-family: var(--font-secondary); font-size: 0.7rem; color: #3f3f3f; margin-bottom: 5px; line-height: 1.3; }
 .lb-overtake-text b { color: #161616; }
 .lb-progress-track {
   height: 7px;
@@ -5351,7 +5385,7 @@ body {
   margin: 6px 0 3px;
   letter-spacing: -0.01em;
 }
-.reward-road-sub { font-family: var(--font-primary); font-size: 0.8rem; color: #555555; margin: 0; max-width: 620px; line-height: 1.4; }
+.reward-road-sub { font-family: var(--font-secondary); font-size: 0.8rem; color: #555555; margin: 0; max-width: 620px; line-height: 1.4; }
 .reward-road-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
 .reward-next-hint {
   font-family: var(--font-mono);
@@ -5439,7 +5473,7 @@ body {
   50% { box-shadow: 2px 2px 0 #161616, 0 0 0 7px rgba(251, 191, 36, 0); }
 }
 .milestone-day { font-family: var(--framer-font-family); font-size: 0.85rem; font-weight: 900; color: #161616; }
-.milestone-reward { font-family: var(--font-primary); font-size: 0.68rem; color: #525252; line-height: 1.25; min-height: 2.5em; }
+.milestone-reward { font-family: var(--font-secondary); font-size: 0.68rem; color: #525252; line-height: 1.25; min-height: 2.5em; }
 .milestone-lock,
 .milestone-done {
   font-family: var(--font-mono);
