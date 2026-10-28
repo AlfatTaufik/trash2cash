@@ -144,7 +144,7 @@ class FallingLeavesEngine {
       this.images.push(img);
     });
   }
-
+  
   resize() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     this.canvas.width = window.innerWidth * dpr;

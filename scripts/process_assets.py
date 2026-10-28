@@ -113,6 +113,7 @@ def remove_white_bg_flood(img, tolerance=24, feather=1.5):
     return final_img
 
 def process_all():
+    
     print("Processing trash items...")
     trash_mapping = {
         "trash_soda_can": "soda-can.png",

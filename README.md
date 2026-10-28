@@ -86,8 +86,8 @@ Prototype - T2c 3.0/
    ```bash
    npm run dev
    ```
-2. Buka peramban pada alamat lokal:
-   ```
+2. Buka peramban pada alamat lokal:za
+   ```   
    http://localhost:5174/
    ```
 3. **Membangun bundle produksi**:
