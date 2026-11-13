@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Demo Video — Trash 2 Cash</title>
+  <meta name="description" content="Video demo website Trash 2 Cash: pilah sampah dengan AI, setor dengan tiket QR, timbang di Hub Mitra, dan cairkan saldo ke e-wallet." />
+  <meta name="theme-color" content="#00875a" />
+  <link rel="icon" type="image/webp" href="/assets/logo/trash2cash-icon.webp" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400..800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #161616;
+      --paper: #F4F0E8;
+      --card: #FFFFFF;
+      --green: #00875a;
+      --lime: #C8FF2E;
+      --muted: #555555;
+      --font-head: "Space Grotesk", "Inter", system-ui, sans-serif;
+      --font-body: "DM Sans", "Inter", system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+
+    .page {
+      width: 100%;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 20px 16px 56px;
+    }
+
+    /* Header */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 18px;
+      border-bottom: 1.5px solid rgba(22, 22, 22, 0.12);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand img { width: 38px; height: auto; }
+
+    .brand-name {
+      font-family: var(--font-head);
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .brand-name span { color: var(--green); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 10px 18px;
+      border: 2px solid var(--ink);
+      border-radius: 12px;
+      box-shadow: 3px 3px 0 var(--ink);
+      font-family: var(--font-head);
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--ink); }
+    .btn:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 var(--ink); }
+    .btn-light { background: var(--card); }
+    .btn-green { background: var(--green); color: #FFFFFF; }
+
+    /* Judul */
+    .intro { padding: 36px 0 22px; }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 4px 12px;
+      border: 1px solid rgba(0, 135, 90, 0.35);
+      border-radius: 999px;
+      background: rgba(0, 135, 90, 0.1);
+      color: var(--green);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 14px 0 10px;
+      font-family: var(--font-head);
+      font-size: clamp(2rem, 5.5vw, 3.4rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    h1 span { color: var(--green); }
+
+    .lead {
+      max-width: 640px;
+      margin: 0;
+      font-size: clamp(1rem, 1.6vw, 1.12rem);
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    /* Video */
+    .video-frame {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      background: #0F1412;
+      border: 2px solid var(--ink);
+      border-radius: 20px;
+      box-shadow: 6px 6px 0 var(--ink);
+    }
+
+    .video-frame video {
+      display: block;
+      width: 100%;
+      max-height: 78vh;
+      background: #0F1412;
+    }
+
+    .video-placeholder {
+      display: none;
+      aspect-ratio: 16 / 9;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 24px;
+      text-align: center;
+      color: #FFFFFF;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(200, 255, 46, 0.18), transparent 55%),
+        radial-gradient(circle at 80% 90%, rgba(0, 135, 90, 0.45), transparent 60%),
+        #0F1412;
+    }
+
+    .video-placeholder img { width: 72px; height: auto; }
+
+    .video-placeholder strong {
+      font-family: var(--font-head);
+      font-size: clamp(1.2rem, 3vw, 1.6rem);
+    }
+
+    .video-placeholder p {
+      max-width: 420px;
+      margin: 0;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    .video-frame.is-empty video { display: none; }
+    .video-frame.is-empty .video-placeholder { display: flex; }
+
+    /* Fitur */
+    .section-title {
+      margin: 48px 0 16px;
+      font-family: var(--font-head);
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .feature {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 18px;
+      background: var(--card);
+      border: 2px solid var(--ink);
+      border-radius: 16px;
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+
+    .feature-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .feature-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      background: #FAF7F2;
+      border: 1.5px solid var(--ink);
+      border-radius: 14px;
+    }
+
+    .feature-icon img { width: 40px; height: 40px; }
+
+    .feature-num {
+      font-family: var(--font-head);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: rgba(22, 22, 22, 0.25);
+    }
+
+    .feature h3 {
+      margin: 4px 0 0;
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .feature p {
+      margin: 0;
+      font-size: 0.92rem;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    /* QR */
+    .try-card {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: 24px;
+      margin-top: 48px;
+      padding: 24px;
+      background: var(--card);
+      border: 2px solid var(--ink);
+      border-radius: 20px;
+      box-shadow: 6px 6px 0 var(--green);
+    }
+
+    .try-card img.qr {
+      width: 156px;
+      height: 156px;
+      padding: 6px;
+      border: 1.5px solid var(--ink);
+      border-radius: 12px;
+      background: #FFFFFF;
+    }
+
+    .try-card h2 {
+      margin: 0 0 6px;
+      font-family: var(--font-head);
+      font-size: clamp(1.3rem, 3vw, 1.7rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .try-card p {
+      margin: 0 0 16px;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+
+    .try-url {
+      font-weight: 700;
+      color: var(--green);
+      word-break: break-all;
+    }
+
+    .footer {
+      margin-top: 40px;
+      font-size: 0.8rem;
+      color: #777777;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .features { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 560px) {
+      .topbar .btn span { display: none; }
+      .features { grid-template-columns: 1fr; }
+      .try-card { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+      .video-frame { border-radius: 16px; box-shadow: 4px 4px 0 var(--ink); }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <a class="brand" href="/">
+        <img src="/assets/logo/trash2cash-icon.webp" alt="" width="38" height="46" />
+        <span class="brand-name">Trash 2 <span>Cash</span></span>
+      </a>
+      <a class="btn btn-light" href="/" aria-label="Buka website Trash 2 Cash">← <span>Buka Website</span></a>
+    </header>
+
+    <section class="intro">
+      <span class="eyebrow">Video Demo</span>
+      <h1>Lihat cara kerja <span>Trash 2 Cash</span></h1>
+      <p class="lead">Dari memilah sampah di rumah sampai saldo masuk ke e-wallet: tonton alur lengkapnya dalam satu video singkat.</p>
+    </section>
+
+    <!-- Ganti / taruh video di public/video/demo.mp4 -->
+    <div class="video-frame" id="videoFrame">
+      <video id="demoVideo" controls playsinline preload="metadata">
+        <source src="/video/demo.mp4" type="video/mp4" />
+      </video>
+      <div class="video-placeholder" role="status">
+        <img src="/assets/logo/trash2cash-icon.webp" alt="" />
+        <strong>Video demo segera hadir</strong>
+        <p>Sambil menunggu, kamu bisa langsung mencoba websitenya lewat tombol atau QR code di bawah.</p>
+      </div>
+    </div>
+
+    <h2 class="section-title">4 fitur utama</h2>
+    <ul class="features">
+      <li class="feature">
+        <div class="feature-head">
+          <span class="feature-icon"><img src="/assets/icons/feature-scan-ai.svg" alt="" /></span>
+          <span class="feature-num">01</span>
+        </div>
+        <h3>Pilah &amp; Scan AI</h3>
+        <p>Kamera AI mengenali jenis sampah dan memperkirakan nilai serta poinnya.</p>
+      </li>
+      <li class="feature">
+        <div class="feature-head">
+          <span class="feature-icon"><img src="/assets/icons/feature-tiket-qr.svg" alt="" /></span>
+          <span class="feature-num">02</span>
+        </div>
+        <h3>Tiket Setor QR</h3>
+        <p>Dapatkan barcode penimbangan dan rute ke Hub Mitra terdekat.</p>
+      </li>
+      <li class="feature">
+        <div class="feature-head">
+          <span class="feature-icon"><img src="/assets/icons/feature-timbangan-iot.svg" alt="" /></span>
+          <span class="feature-num">03</span>
+        </div>
+        <h3>Validasi Timbangan</h3>
+        <p>Berat ditimbang digital di Hub dan langsung tercatat ke akunmu.</p>
+      </li>
+      <li class="feature">
+        <div class="feature-head">
+          <span class="feature-icon"><img src="/assets/icons/feature-saldo-streak.svg" alt="" /></span>
+          <span class="feature-num">04</span>
+        </div>
+        <h3>Klaim Saldo &amp; Streak</h3>
+        <p>Saldo cair ke e-wallet tanpa potongan admin, plus bonus streak harian.</p>
+      </li>
+    </ul>
+
+    <section class="try-card">
+      <img class="qr" src="/assets/qr/trash2cash-qr.svg" alt="QR code menuju website Trash 2 Cash" width="156" height="156" />
+      <div>
+        <h2>Coba langsung di HP kamu</h2>
+        <p>Scan QR code ini atau buka <span class="try-url">trash2cash-3f2c9.web.app</span></p>
+        <a class="btn btn-green" href="/">Buka Website Trash 2 Cash →</a>
+      </div>
+    </section>
+
+    <p class="footer">© 2026 Trash 2 Cash · Prototipe untuk lomba Business Creativity</p>
+  </div>
+
+  <script>
+    // Tampilkan placeholder bila video belum diunggah atau gagal dimuat
+    (function () {
+      var frame = document.getElementById('videoFrame');
+      var video = document.getElementById('demoVideo');
+      var source = video.querySelector('source');
+      var showEmpty = function () { frame.classList.add('is-empty'); };
+      source.addEventListener('error', showEmpty);
+      video.addEventListener('error', showEmpty);
+      if (video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) showEmpty();
+    })();
+  </script>
+</body>
+</html>

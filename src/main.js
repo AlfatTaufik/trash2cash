@@ -79,10 +79,15 @@ class EcoPilahApp {
     // 1. Home Dashboard Controller
     this.home = new HomeController({
       onReturnToIntro: () => {
+        this.setHash('intro');
         this.showIntro();
       },
       onOpenAuth: () => {
+        this.setHash('auth');
         this.showAuth();
+      },
+      onViewChanged: (view) => {
+        this.setHash(view === 'control' ? 'control' : 'home');
       }
     });
 
@@ -121,7 +126,8 @@ class EcoPilahApp {
 
         setTimeout(() => {
           this.hideAllScreens();
-          this.home.mount(this.lastDroppedItem, userSession);
+          this.home.mount(this.lastDroppedItem, userSession, 'hero');
+          this.setHash('home');
           if (sound.playComplete) sound.playComplete();
           loader.hide();
         }, 1800);
@@ -131,6 +137,7 @@ class EcoPilahApp {
     // 3. Onboarding 3-Step Walkthrough Controller
     this.onboarding = new OnboardingController({
       onComplete: () => {
+        this.setHash('auth');
         this.showAuth();
       }
     });
@@ -139,6 +146,7 @@ class EcoPilahApp {
     this.intro = new IntroController({
       onComplete: (droppedItem, isSkipped) => {
         this.lastDroppedItem = droppedItem;
+        this.setHash('onboarding');
         this.showOnboarding({
           isFromIntro: true,
           activeItem: droppedItem,
@@ -151,75 +159,84 @@ class EcoPilahApp {
       }
     });
 
-    // Support direct navigation via query params or URL hash
-    const urlParams = new URLSearchParams(window.location.search);
-    const targetScreen = urlParams.get('screen') || window.location.hash.replace('#', '');
-
-    if (targetScreen === 'control' || targetScreen === 'dashboard') {
-      this.hideAllScreens();
-      this.home.mount(null, null, 'control');
-    } else if (targetScreen === 'home' || targetScreen === 'welcome' || targetScreen === 'hero') {
-      this.hideAllScreens();
-      this.home.mount(null, null, 'hero');
-      const scrollTo = urlParams.get('scroll');
-      if (scrollTo) {
-        setTimeout(() => {
-          const targetEl = document.getElementById(
-            scrollTo === 'manifesto' ? 'manifestoSection' : 
-            scrollTo === 'steps' ? 'heroStepsSection' : 
-            scrollTo === 'claim' ? 'editorialClaim' : 
-            scrollTo === 'impact' ? 'heroImpactSection' : 'closingSection'
-          );
-          if (targetEl) {
-            const doScroll = () => {
-              if (this.home && this.home.container) {
-                this.home.container.scrollTop = targetEl.offsetTop - 50;
-              }
-              if (this.home && this.home.lenis) {
-                this.home.lenis.scrollTo(targetEl, { immediate: true, offset: -50 });
-              }
-              if (this.home && this.home.updateEditorialStory) {
-                this.home.updateEditorialStory();
-              }
-            };
-            doScroll();
-            setTimeout(doScroll, 350);
-          }
-        }, 120);
-      }
-    } else if (targetScreen === 'onboarding') {
-      this.hideAllScreens();
-      this.onboarding.mount();
-    } else if (targetScreen === 'auth' || targetScreen === 'login') {
-      this.hideAllScreens();
-      this.auth.mount();
-    }
-
-    // Support hash navigation changes dynamically with circular loader
+    // Listen to hashchange events for browser Back / Forward history navigation
     window.addEventListener('hashchange', () => {
-      const hash = window.location.hash.replace('#', '');
-      if (hash === 'control' || hash === 'dashboard') {
-        if (this.home && this.homeScreen && !this.homeScreen.classList.contains('is-hidden')) {
-          this.home.switchToView('control');
-        } else {
-          this.hideAllScreens();
-          this.home.mount(null, null, 'control');
-        }
-      } else if (hash === 'home' || hash === 'hero' || hash === 'welcome') {
-        if (this.home && this.homeScreen && !this.homeScreen.classList.contains('is-hidden')) {
-          this.home.switchToView('hero');
-        } else {
-          this.hideAllScreens();
-          this.home.mount(null, null, 'hero');
-        }
-      } else if (hash === 'auth' || hash === 'login') {
+      const route = this.parseRoute();
+      this.handleRouteChange(route, false);
+    });
+
+    // Initial Route Handling on Page Load / Refresh
+    const initialRoute = this.parseRoute();
+    if (initialRoute && initialRoute !== 'intro') {
+      this.handleRouteChange(initialRoute, true);
+    } else {
+      this.setHash('intro');
+    }
+  }
+
+  setHash(route) {
+    const clean = (route || 'intro').replace(/^#\/?/, '').trim();
+    const formatted = `#/${clean}`;
+    if (window.location.hash !== formatted) {
+      try {
+        window.history.replaceState(null, '', formatted);
+      } catch (e) {
+        window.location.hash = formatted;
+      }
+    }
+  }
+
+  parseRoute() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const queryScreen = urlParams.get('screen');
+    if (queryScreen) return queryScreen.toLowerCase().trim();
+
+    const rawHash = window.location.hash.replace(/^#\/?/, '').toLowerCase().trim();
+    return rawHash || 'intro';
+  }
+
+  handleRouteChange(route, isInitial = false) {
+    const cleanRoute = (route || 'intro').replace(/^#\/?/, '').toLowerCase().trim();
+
+    if (cleanRoute === 'control' || cleanRoute === 'dashboard') {
+      if (this.home && this.homeScreen && !this.homeScreen.classList.contains('is-hidden')) {
+        this.home.switchToView('control');
+      } else {
+        this.hideAllScreens();
+        this.home.mount(null, null, 'control');
+      }
+    } else if (cleanRoute === 'home' || cleanRoute === 'hero' || cleanRoute === 'welcome') {
+      if (this.home && this.homeScreen && !this.homeScreen.classList.contains('is-hidden')) {
+        this.home.switchToView('hero');
+      } else {
+        this.hideAllScreens();
+        this.home.mount(null, null, 'hero');
+      }
+    } else if (cleanRoute === 'auth' || cleanRoute === 'login') {
+      if (isInitial) {
+        this.hideAllScreens();
+        this.auth.mount();
+      } else {
         this.showAuth();
-      } else if (hash === 'onboarding') {
+      }
+    } else if (cleanRoute === 'onboarding') {
+      if (isInitial) {
+        this.hideAllScreens();
+        this.onboarding.mount();
+      } else {
         this.showOnboarding();
-      } else if (hash === 'intro') {
+      }
+    } else if (cleanRoute === 'intro') {
+      if (isInitial) {
+        this.hideAllScreens();
+        if (this.introScreen) {
+          this.introScreen.style.display = '';
+          this.introScreen.classList.remove('is-hidden');
+        }
+      } else {
         this.showIntro();
       }
-    });
+    }
   }
 
   hideAllScreens() {
@@ -233,6 +250,7 @@ class EcoPilahApp {
   }
 
   showOnboarding(options = {}) {
+    this.setHash('onboarding');
     const minDuration = options.duration !== undefined ? options.duration : 1350;
     if (sound.playGrab) sound.playGrab();
 
@@ -257,6 +275,7 @@ class EcoPilahApp {
   }
 
   showAuth(options = {}) {
+    this.setHash('auth');
     const minDuration = options.duration !== undefined ? options.duration : 1800;
     if (sound.playGrab) sound.playGrab();
 
@@ -281,6 +300,7 @@ class EcoPilahApp {
   }
 
   showIntro() {
+    this.setHash('intro');
     if (sound.playGrab) sound.playGrab();
 
     const loader = showLoader({

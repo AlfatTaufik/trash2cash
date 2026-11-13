@@ -55,6 +55,7 @@ export class HomeController {
     this.container = document.getElementById('homeScreen');
     this.onReturnToIntro = options.onReturnToIntro || (() => {});
     this.onOpenAuth = options.onOpenAuth || (() => {});
+    this.onViewChanged = options.onViewChanged || (() => {});
     
     // Multi-Page View State ('hero' | 'control')
     this.currentView = 'hero';
@@ -75,28 +76,28 @@ export class HomeController {
       {
         name: 'PET_BOTTLE_CLEAR',
         confidence: '96.8%',
-        img: '/assets/trash/plastic-bottle.png',
+        img: '/assets/trash/plastic-bottle.webp',
         focus: '98.4% (OPTIMAL)',
         audit: 'PASSED ✓'
       },
       {
         name: 'ALUMINUM_SODA_CAN',
         confidence: '98.2%',
-        img: '/assets/trash/soda-can.png',
+        img: '/assets/trash/soda-can.webp',
         focus: '97.6% (OPTIMAL)',
         audit: 'PASSED ✓'
       },
       {
         name: 'CORRUGATED_CARDBOARD',
         confidence: '94.5%',
-        img: '/assets/trash/cardboard.png',
+        img: '/assets/trash/cardboard.webp',
         focus: '95.8% (OPTIMAL)',
         audit: 'PASSED ✓'
       },
       {
         name: 'ORGANIC_BANANA_PEEL',
         confidence: '99.1%',
-        img: '/assets/trash/banana-peel.png',
+        img: '/assets/trash/banana-peel.webp',
         focus: '96.9% (OPTIMAL)',
         audit: 'PASSED ✓'
       }
@@ -381,7 +382,9 @@ export class HomeController {
         curTransX += (targetTransX - curTransX) * 0.08;
         curTransY += (targetTransY - curTransY) * 0.08;
 
-        mascotWrap.style.transform = `translate(calc(-50% + ${curTransX}px), calc(-50% + ${curTransY}px)) rotate(${curRotY}deg) scale(1.02)`;
+        // Maskot hanya dipusatkan dengan translate(-50%) saat absolute (layout lama); di grid desktop ia mengalir normal
+        const base = getComputedStyle(mascotWrap).position === 'absolute' ? '-50%' : '0px';
+        mascotWrap.style.transform = `translate(calc(${base} + ${curTransX}px), calc(${base} + ${curTransY}px)) rotate(${curRotY}deg) scale(1.02)`;
 
         if (Math.abs(targetRotX - curRotX) > 0.01 || Math.abs(targetTransX - curTransX) > 0.01) {
           rafId = requestAnimationFrame(updateParallax);
@@ -1980,6 +1983,10 @@ export class HomeController {
     window.scrollTo({ top: 0, behavior: 'instant' });
     if (this.container) this.container.scrollTop = 0;
     if (this.lenis) this.lenis.scrollTo(0, { immediate: true });
+
+    if (typeof this.onViewChanged === 'function') {
+      this.onViewChanged(viewName);
+    }
   }
 
   /**
@@ -2551,22 +2558,22 @@ export class HomeController {
       1: {
         tag: '✦ LANGKAH 1 • PILAH & SCAN',
         speech: 'Sampah terpilah terdeteksi! Siap lanjut ambil tiket?',
-        img: '/assets/mascot/card-mascot-1.png'
+        img: '/assets/mascot/card-mascot-1.webp'
       },
       2: {
         tag: '✦ LANGKAH 2 • TIKET SETOR QR',
         speech: 'Tiket QR resmi siap! Bawa ke Drop Point Hub Mitra terdekat ya!',
-        img: '/assets/mascot/card-mascot-2.png'
+        img: '/assets/mascot/card-mascot-2.webp'
       },
       3: {
         tag: '✦ LANGKAH 3 • VALIDASI TIMBANGAN',
         speech: 'Timbangan IoT membaca 2.40 kg akurat! Verifikasi ledger sukses!',
-        img: '/assets/mascot/card-mascot-3.png'
+        img: '/assets/mascot/card-mascot-3.webp'
       },
       4: {
         tag: '✦ LANGKAH 4 • KLAIM SALDO & DUIT',
         speech: 'Hore! Saldo Rp 148.500 langsung cair & streak 6 hari berturut-turut!',
-        img: '/assets/mascot/card-mascot-4.png'
+        img: '/assets/mascot/card-mascot-4.webp'
       }
     };
 

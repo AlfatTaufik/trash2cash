@@ -105,7 +105,7 @@
   /* Putih kertas alami (warm unbleached paper) */
   --bg-paper: #F4F0E8;
   --bg-paper-warm: #EFE9DC;
-  --bg-paper-crease: url('/assets/textures/paper-crease.jpg');
+  --bg-paper-crease: url('/assets/textures/paper-crease.webp');
   --bg-surface: #FFFFFF;
   --bg-card: #FFFFFF;
   --bg-card-hover: #FDFDFC;
@@ -1378,46 +1378,19 @@ h1, h2, h3, h4, h5, h6 {
   box-sizing: border-box;
 }
 
-/* Architectural Grid Lines (Kertas Garis Koordinat Bersih) */
+/* Architectural Grid Lines - Hidden for clean unified paper texture */
 .blueprint-grid {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  pointer-events: none;
-  z-index: 1;
-  border-left: 1px solid rgba(22, 22, 22, 0.05);
-  border-right: 1px solid rgba(22, 22, 22, 0.05);
+  display: none !important;
 }
 
-.blueprint-grid .grid-col {
-  border-right: 1px solid rgba(22, 22, 22, 0.05);
-  height: 100%;
-}
-
-/* Horizontal Subtle Coordinate line */
+/* Horizontal Coordinate line - Hidden */
 .home-editorial-stage::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: rgba(22, 22, 22, 0.05);
-  pointer-events: none;
-  z-index: 1;
+  display: none !important;
 }
 
-/* 4. HAND-DRAWN ANNOTATIONS (Sirkular Ekonomi & Archival) */
+/* 4. HAND-DRAWN ANNOTATIONS - Hidden to remove floating small text clutter */
 .pencil-annotations-layer {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 5;
-  font-family: "Caveat", cursive, sans-serif;
-  color: #4b5563;
-  font-size: clamp(1.2rem, 1.8vw, 1.6rem);
-  font-weight: 600;
+  display: none !important;
 }
 
 .pencil-note {
@@ -3430,7 +3403,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .auth-brand-name {
-  font-family: var(--font-display);
+  font-family: var(--font-primary);
   font-size: 1.25rem;
   font-weight: 900;
   line-height: 1;
@@ -3439,7 +3412,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .auth-brand-name .brand-script {
-  font-family: var(--font-display);
+  font-family: var(--font-primary);
   font-style: normal;
   text-transform: lowercase;
   color: #00875a;
@@ -6285,10 +6258,17 @@ h1, h2, h3, h4, h5, h6 {
 
 .fcollectible-item {
   position: absolute;
-  pointer-events: none;
+  pointer-events: auto;
   user-select: none;
   -webkit-user-select: none;
-  transition: transform 0.4s ease;
+  transition: transform 0.4s ease, opacity 0.3s ease, filter 0.3s ease;
+  opacity: 0.48;
+  filter: saturate(0.85);
+}
+
+.fcollectible-item:hover {
+  opacity: 0.95;
+  filter: saturate(1);
 }
 
 .fcollectible-wrapper {
@@ -6379,6 +6359,12 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: space-between;
   transform: rotate(14deg) rotateX(10deg);
   box-shadow: 0 16px 30px rgba(194, 24, 91, 0.35), 0 4px 10px rgba(0, 0, 0, 0.2);
+  opacity: 0.72;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.banknote-tactile-card:hover {
+  opacity: 1;
 }
 
 .banknote-header {
@@ -7444,94 +7430,24 @@ h1, h2, h3, h4, h5, h6 {
    Archival Grid, Scrub-Reveal Manifesto, Outlined Slogan Fill, & Vertical Compass
    ========================================================================== */
 
-/* 1. Architectural Millimeter Grid */
+/* 1. Architectural Millimeter Grid - Hidden for clean unified paper texture */
 .editorial-grid-bg {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  background-size: 32px 32px, 160px 160px;
-  background-image: 
-    linear-gradient(to right, rgba(22, 22, 22, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(22, 22, 22, 0.035) 1px, transparent 1px),
-    linear-gradient(to right, rgba(22, 22, 22, 0.07) 1.2px, transparent 1.2px),
-    linear-gradient(to bottom, rgba(22, 22, 22, 0.07) 1.2px, transparent 1.2px);
-  mask-image: radial-gradient(ellipse at 50% 50%, #000 60%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, #000 60%, transparent 100%);
+  display: none !important;
 }
 
-/* 2. Vertical Compass Scroll Indicator */
+/* 2. Vertical Compass Scroll Indicator - Hidden */
 .editorial-compass {
-  position: fixed;
-  right: clamp(14px, 2.2vw, 36px);
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 92;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  pointer-events: none;
-  opacity: 0.85;
-  transition: opacity 0.3s ease;
+  display: none !important;
 }
 
-.compass-letter {
-  font-family: var(--font-mono, monospace);
-  font-size: 11px;
-  font-weight: 800;
-  color: #161616;
-  opacity: 0.6;
-  letter-spacing: 0.05em;
-}
-
-.compass-track {
-  width: 2px;
-  height: clamp(80px, 14vh, 130px);
-  background: rgba(22, 22, 22, 0.12);
-  position: relative;
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.compass-fill {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 0%;
-  background: #00875a;
-  border-radius: 999px;
-  box-shadow: 0 0 8px rgba(0, 135, 90, 0.4);
-  transition: height 0.06s ease-out;
-}
-
-.compass-pct {
-  font-family: var(--font-mono, monospace);
-  font-size: 9.5px;
-  font-weight: 800;
-  color: #00875a;
-  letter-spacing: 0.04em;
-}
-
-/* 3. Coordinate Stamps */
+/* 3. Coordinate Stamps - Hidden to remove floating small text clutter */
 .editorial-decor-coords {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2;
+  display: none !important;
 }
 
-.t2c-coord {
-  position: absolute;
-  font-family: var(--font-mono, monospace);
-  font-size: clamp(0.6rem, 0.75vw, 0.72rem);
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: rgba(22, 22, 22, 0.35);
-  pointer-events: none;
-  user-select: none;
-  text-transform: uppercase;
+/* 4. Home Screen Corner Ornaments - Hidden to keep hero canvas clean */
+.home-screen .paper-corner-ornament {
+  display: none !important;
 }
 
 /* 4. Movement 1: Hero Typography Enhancements */
@@ -9115,18 +9031,37 @@ html, body {
     font-size: 0.82rem;
   }
 
-  /* Auth Screen */
+  /* Auth Screen Mobile Responsive */
+  .auth-screen {
+    padding: 1.25rem 0.75rem 2.5rem 0.75rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .auth-card-stage {
-    padding: 16px 14px;
-    width: 95vw;
+    padding: 18px 14px;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 18px;
+    box-shadow: 4px 6px 0px #161616;
+    margin: 0 auto;
+  }
+
+  .auth-role-cards-grid {
+    grid-template-columns: 1fr !important;
+    gap: 10px;
   }
 
   .auth-role-select-card {
-    padding: 12px 14px;
+    padding: 10px 12px;
+  }
+
+  .auth-input-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
 
   .role-card-name {
-    font-size: 1.05rem;
+    font-size: 1rem;
   }
 
   .role-card-desc {
@@ -9187,3 +9122,564 @@ html, body {
 }
 
 
+
+/* ==========================================================================
+   ANDROID HOME — LAYAR PERTAMA (Header Akun + Hero Maskot)
+   Header 3 baris rapi (brand+streak / akun+saldo / tab), dan judul raksasa
+   TRASH 2 CASH utuh terbaca dengan maskot berdiri di bawahnya.
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* Header: grid 2 kolom, pill akun & saldo sama lebar */
+  #homeScreen .home-editorial-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "brand  streak"
+      "user   wallet"
+      "tabs   tabs";
+    align-items: center;
+    gap: 10px 8px;
+    padding: 12px 16px 14px;
+  }
+
+  #homeScreen .nav-action-right {
+    display: contents;
+  }
+
+  #homeScreen .nav-brand-left { grid-area: brand; min-width: 0; }
+  #homeScreen .nav-streak-pill { grid-area: streak; justify-self: end; }
+  #homeScreen .nav-user-profile-chip { grid-area: user; }
+  #homeScreen .nav-balance-pill { grid-area: wallet; }
+  #homeScreen .nav-view-switcher { grid-area: tabs; }
+
+  /* Tab Panggung/Kontrol: label tetap satu baris */
+  #homeScreen .nav-view-tab {
+    gap: 6px;
+    padding: 10px 8px;
+    white-space: nowrap;
+  }
+
+  #homeScreen .nav-brand-logo {
+    width: 36px;
+    height: auto;
+  }
+
+  #homeScreen .nav-brand-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  #homeScreen .nav-brand-title {
+    font-size: 1.15rem;
+    white-space: nowrap;
+  }
+
+  #homeScreen .nav-brand-edition {
+    font-size: 0.6rem;
+    padding: 2px 6px;
+  }
+
+  /* Streak: chip ringkas di kanan atas */
+  #homeScreen .nav-streak-pill {
+    padding: 4px 12px 4px 4px;
+    gap: 6px;
+  }
+
+  #homeScreen .streak-flame-circle {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+  }
+
+  #homeScreen .streak-counter {
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
+  /* Pill akun & saldo: tinggi seragam, teks satu baris */
+  #homeScreen .nav-user-profile-chip,
+  #homeScreen .nav-balance-pill {
+    width: 100%;
+    min-width: 0;
+    height: 52px;
+    padding: 6px 12px 6px 6px;
+    gap: 8px;
+    border-radius: 16px;
+    box-shadow: 2px 2px 0 #161616;
+  }
+
+  #homeScreen .user-chip-avatar {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    font-size: 0.95rem;
+  }
+
+  #homeScreen .user-chip-meta {
+    min-width: 0;
+    gap: 4px;
+  }
+
+  #homeScreen .user-chip-name {
+    font-size: 1rem;
+    line-height: 1.1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  #homeScreen .user-chip-switch-action {
+    font-size: 0.62rem;
+    padding: 2px 7px;
+    white-space: nowrap;
+    align-self: flex-start;
+  }
+
+  #homeScreen .nav-balance-pill {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 8px;
+    row-gap: 3px;
+    align-content: center;
+    padding-left: 10px;
+  }
+
+  #homeScreen .nav-balance-pill .wallet-icon-svg {
+    grid-row: 1 / span 2;
+    font-size: 1.35rem;
+    line-height: 1;
+  }
+
+  #homeScreen .nav-balance-pill .balance-val {
+    font-size: 1.05rem;
+    line-height: 1.05;
+    white-space: nowrap;
+  }
+
+  #homeScreen .nav-balance-pill .balance-pts {
+    justify-self: start;
+    font-size: 0.62rem;
+    line-height: 1.2;
+    padding: 1px 6px;
+  }
+
+  /* Hero: judul utuh dulu, maskot di bawahnya */
+  #homeScreen .hero-eyebrow-container {
+    margin-bottom: 0.4rem !important;
+  }
+
+  #homeScreen .giant-title-container {
+    min-height: 0 !important;
+    margin: 0.4rem auto 0 !important;
+    justify-content: flex-start !important;
+  }
+
+  #homeScreen .giant-line {
+    transform: none !important;
+  }
+
+  #homeScreen .line-trash { order: 1; margin-bottom: 0.04em !important; }
+  #homeScreen .line-cash { order: 2; }
+
+  #homeScreen .giant-word,
+  #homeScreen .giant-digit-green {
+    font-size: clamp(4.4rem, 23vw, 7.5rem) !important;
+  }
+
+  #homeScreen .mascot-centerpiece-wrap {
+    order: 3;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    width: clamp(170px, 46vw, 230px) !important;
+    margin: -24px auto 0 !important;
+  }
+
+  #homeScreen .mascot-centerpiece-wrap:hover {
+    transform: scale(1.02) !important;
+  }
+
+  /* Balon ucapan di bawah maskot, ekor menunjuk ke atas */
+  #homeScreen .mascot-centerpiece-img { order: 1; }
+
+  #homeScreen .hero-mascot-speech-bubble {
+    order: 2;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin-top: 14px;
+    max-width: min(88vw, 340px) !important;
+    font-size: 0.85rem !important;
+    text-wrap: balance;
+  }
+
+  #homeScreen .hero-mascot-speech-bubble::after {
+    top: -8px !important;
+    bottom: auto !important;
+    border-top: 2px solid #161616 !important;
+    border-left: 2px solid #161616 !important;
+    border-bottom: none !important;
+    border-right: none !important;
+  }
+}
+
+@media (max-width: 380px) {
+  #homeScreen .nav-view-tab .view-tab-icon {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   KETERBACAAN FONT
+   Huruf kecil "Highway Motel Sans" berbentuk tulisan sambung dan sulit dibaca.
+   Highway tetap dipakai untuk teks KAPITAL (judul raksasa, marquee, logo);
+   teks huruf campuran dialihkan ke Space Grotesk.
+   ========================================================================== */
+:root {
+  --font-readable: "Space Grotesk", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.onboard-text-btn,
+.onboard-btn-primary,
+.onboard-btn-secondary,
+.onboard-btn-secondary span,
+#onboardNextBtnText,
+.card-title,
+.speech-bubble-bubble,
+.nav-view-tab,
+.nav-view-tab span,
+.user-chip-name,
+.balance-val,
+.fcard-title,
+.fcard-action-btn,
+.fcard-action-btn span,
+.im-lbl,
+.c-tab-title,
+.pipeline-heading,
+.step-node-title,
+.user-greeting-name,
+#homeUserDisplayName,
+.metric-val,
+.reward-road-title,
+.payout-amount,
+.log-stat-val,
+.modal-ticket-title,
+.w-bal-val,
+.milestone-day {
+  font-family: var(--font-readable) !important;
+  font-style: normal !important;
+  letter-spacing: -0.01em;
+}
+
+.nav-view-tab span,
+.user-chip-name,
+.balance-val,
+.fcard-title,
+.c-tab-title,
+.pipeline-heading,
+.step-node-title,
+.card-title,
+.modal-ticket-title,
+.reward-road-title {
+  font-weight: 700 !important;
+}
+
+/* ==========================================================================
+   TATANAN HALAMAN HOME (SEMUA UKURAN)
+   ========================================================================== */
+
+/* Ikon fitur di Alur Penyetoran */
+.step-node-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #FAF7F2;
+}
+
+.step-node-icon img {
+  width: 30px;
+  height: 30px;
+  display: block;
+}
+
+.pipeline-step-node.active .step-node-icon {
+  background: #E6F6EE;
+  border-color: #00875a;
+}
+
+/* Judul testimoni: baris serif tidak lagi menabrak baris di atasnya */
+.impact-main-headline .editorial-title-serif {
+  display: block;
+  margin: 0.12em 0 0;
+  font-size: clamp(2.4rem, 6vw, 5.2rem);
+  line-height: 1;
+}
+
+/* Kartu testimoni: badge di baris sendiri, nama tidak terpotong */
+.testi-card-header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: 12px;
+  row-gap: 14px;
+}
+
+.testi-pill-badge {
+  order: -1;
+  grid-column: 1 / -1;
+  justify-self: start;
+}
+
+.testi-author-info {
+  min-width: 0;
+}
+
+.tstat-lbl {
+  line-height: 1.3;
+}
+
+/* Footer: QR menuju website */
+.footer-col-qr {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-qr-img {
+  width: 72px;
+  height: 72px;
+  padding: 4px;
+  background: #FFFFFF;
+  border: 1.5px solid #161616;
+  border-radius: 10px;
+  box-shadow: 2px 2px 0 #161616;
+}
+
+.footer-qr-text {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #161616;
+}
+
+/* ==========================================================================
+   HERO DESKTOP (>= 1024px): dua kolom, judul utuh di kiri, maskot di kanan
+   ========================================================================== */
+@media (min-width: 1024px) {
+  #homeScreen .hero-typography-canvas {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    grid-template-areas:
+      "eyebrow mascot"
+      "trash   mascot"
+      "cash    mascot"
+      "byline  mascot"
+      "actions mascot"
+      "ticker  ticker";
+    align-items: center;
+    align-content: center;
+    column-gap: clamp(2rem, 4vw, 4.5rem);
+    max-width: 1240px;
+    margin: 0 auto;
+    text-align: left;
+  }
+
+  #homeScreen .giant-title-container {
+    display: contents !important;
+  }
+
+  #homeScreen .hero-eyebrow-container {
+    grid-area: eyebrow;
+    align-items: flex-start;
+    margin-bottom: 0.6rem;
+  }
+
+  #homeScreen .line-trash { grid-area: trash; }
+  #homeScreen .line-cash { grid-area: cash; }
+
+  #homeScreen .giant-line {
+    position: static !important;
+    transform: none !important;
+    justify-content: flex-start !important;
+  }
+
+  #homeScreen .giant-word,
+  #homeScreen .giant-digit-green {
+    font-size: clamp(6rem, 12.5vw, 13rem) !important;
+  }
+
+  #homeScreen .mascot-centerpiece-wrap {
+    grid-area: mascot;
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    justify-self: center;
+    width: clamp(280px, 27vw, 420px);
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #homeScreen .mascot-centerpiece-wrap:hover {
+    transform: scale(1.02);
+  }
+
+  #homeScreen .hero-mascot-speech-bubble {
+    position: relative;
+    top: auto;
+    right: auto;
+    max-width: 320px;
+    margin-bottom: 18px;
+  }
+
+  #homeScreen .hero-mascot-speech-bubble::after {
+    top: auto;
+    bottom: -8px;
+    left: 50%;
+    margin-left: -6px;
+    border-left: none;
+    border-bottom: 2px solid #161616;
+    border-right: 2px solid #161616;
+  }
+
+  #homeScreen .hero-byline {
+    grid-area: byline;
+    text-align: left;
+    margin-top: 1.4rem;
+  }
+
+  #homeScreen .hero-actions-dual-wrap {
+    grid-area: actions;
+    justify-content: flex-start;
+  }
+
+  #homeScreen .hero-editorial-scroll {
+    display: none;
+  }
+
+  #homeScreen .hero-live-ticker {
+    grid-area: ticker;
+    justify-self: center;
+    margin-top: 2.2rem;
+  }
+}
+
+/* ==========================================================================
+   TATANAN HOME MOBILE (<= 768px)
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* Stiker dekoratif melayang menutupi teks di layar kecil */
+  .fixed-floating-collectibles-layer {
+    display: none !important;
+  }
+
+  /* Jarak antar-section yang seragam, tanpa ruang kosong besar */
+  #homeScreen .editorial-manifesto-section {
+    margin: 0 auto;
+    padding: 40px 16px;
+  }
+
+  #homeScreen .editorial-claim-block {
+    margin-top: 2.5rem;
+  }
+
+  #homeScreen .hero-steps-section {
+    min-height: 0;
+    padding: 40px 0;
+  }
+
+  #homeScreen .editorial-impact-section {
+    margin: 40px auto;
+    padding: 0 16px;
+  }
+
+  #homeScreen .editorial-closing-section {
+    margin: 0 auto 24px;
+    padding: 24px 16px;
+  }
+
+  #homeScreen .steps-header-block {
+    padding: 0 16px;
+  }
+
+  /* Kartu alur 01-04: carousel geser horizontal, tidak terpotong */
+  #homeScreen .hero-fandeck-track {
+    justify-content: flex-start;
+    align-items: flex-end;
+    gap: 14px;
+    height: auto;
+    margin: 0;
+    padding: 112px 16px 28px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 16px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    perspective: none;
+  }
+
+  #homeScreen .hero-fandeck-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  #homeScreen .fandeck-card {
+    --fcard-w: min(64vw, 250px);
+    flex: 0 0 var(--fcard-w);
+    margin: 0;
+    transform: none;
+    scroll-snap-align: center;
+  }
+
+  #homeScreen .fandeck-card.is-active {
+    transform: translateY(-10px) !important;
+  }
+
+  #homeScreen .fandeck-card:not(.is-locked):hover {
+    transform: translateY(-10px);
+  }
+
+  #homeScreen .fcard-peeking-mascot {
+    top: -84px;
+    width: 140px;
+    height: 160px;
+  }
+
+  /* Testimoni & statistik */
+  #homeScreen .testi-card {
+    padding: 1.4rem;
+  }
+
+  #homeScreen .summary-audit-stamp {
+    align-items: flex-start;
+  }
+
+  /* Footer */
+  #homeScreen .editorial-page-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  #homeScreen .return-chute-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Stiker dekoratif melayang menabrak teks rata kiri; disembunyikan agar bacaan bersih */
+.fixed-floating-collectibles-layer {
+  display: none !important;
+}
+
+.hero-byline strong {
+  white-space: nowrap;
+}

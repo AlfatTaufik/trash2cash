@@ -40,7 +40,7 @@ export class AuthController {
         divertedKg: 34.8,
         earningsFormula: 'Berdasarkan estimasi bursa Rp 4.500 / kg',
         mascotQuote: 'Hai Warga Hebat! Selamat datang di Trash 2 Cash!',
-        mascotImg: '/assets/mascot/mesh-bin-mascot.png',
+        mascotImg: '/assets/mascot/mesh-bin-mascot.webp',
         primaryColor: '#00875a'
       },
       mitra: {
@@ -59,7 +59,7 @@ export class AuthController {
         divertedKg: 1240.0,
         earningsFormula: 'Margin bursa komoditas daur ulang & bagi hasil kas Mitra',
         mascotQuote: 'Halo Rekan Mitra! Mari kelola bursa daur ulang bersama Trash 2 Cash!',
-        mascotImg: '/assets/mascot/bottle-mascot.png',
+        mascotImg: '/assets/mascot/bottle-mascot.webp',
         primaryColor: '#0080FF'
       }
     };
@@ -209,6 +209,23 @@ export class AuthController {
       pinInput.addEventListener('blur', () => {
         const profile = this.roleProfiles[this.selectedRole];
         if (profile) this.setMascotQuote(profile.mascotQuote);
+      });
+    }
+
+    // Input sanitization and length limits
+    const nameInput = document.getElementById('authInputName');
+    if (nameInput) {
+      nameInput.addEventListener('input', (e) => {
+        if (e.target.value.length > 40) {
+          e.target.value = e.target.value.slice(0, 40);
+        }
+      });
+    }
+
+    const phoneInput = document.getElementById('authInputPhone');
+    if (phoneInput) {
+      phoneInput.addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/[^\d+\-\s]/g, '').slice(0, 16);
       });
     }
 
@@ -538,9 +555,50 @@ export class AuthController {
     const pinInput = document.getElementById('authInputPin');
 
     const profile = this.roleProfiles[this.selectedRole];
-    const userName = (nameInput && nameInput.value.trim()) || profile.defaultName;
-    const userPhone = (phoneInput && phoneInput.value.trim()) || profile.defaultPhone;
-    const userPin = (pinInput && pinInput.value.trim()) || profile.defaultPin;
+    let userName = (nameInput && nameInput.value.trim()) || profile.defaultName;
+    let userPhone = (phoneInput && phoneInput.value.trim()) || profile.defaultPhone;
+    let userPin = (pinInput && pinInput.value.trim()) || profile.defaultPin;
+
+    // Strict validation
+    userName = userName.slice(0, 40);
+    if (userName.length < 2) {
+      Toastify({
+        text: 'Nama lengkap minimal 2 karakter.',
+        className: 'toast-warning',
+        duration: 3000,
+        gravity: 'top',
+        position: 'center'
+      }).showToast();
+      if (nameInput) nameInput.focus();
+      return;
+    }
+
+    const digitsOnlyPhone = userPhone.replace(/\D/g, '');
+    if (digitsOnlyPhone.length < 9 || digitsOnlyPhone.length > 16) {
+      Toastify({
+        text: 'Nomor WhatsApp / HP tidak valid (9 s/d 16 digit).',
+        className: 'toast-warning',
+        duration: 3000,
+        gravity: 'top',
+        position: 'center'
+      }).showToast();
+      if (phoneInput) phoneInput.focus();
+      return;
+    }
+
+    const digitsOnlyPin = userPin.replace(/\D/g, '');
+    if (digitsOnlyPin.length !== 6) {
+      Toastify({
+        text: 'PIN keamanan harus tepat 6 digit angka.',
+        className: 'toast-warning',
+        duration: 3000,
+        gravity: 'top',
+        position: 'center'
+      }).showToast();
+      if (pinInput) pinInput.focus();
+      return;
+    }
+    userPin = digitsOnlyPin;
 
     const userSession = {
       name: userName,

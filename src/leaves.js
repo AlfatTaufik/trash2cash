@@ -5,9 +5,9 @@
  */
 
 const LEAF_IMAGE_PATHS = [
-  '/assets/leaves/leaf-green.png',
-  '/assets/leaves/leaf-autumn.png',
-  '/assets/leaves/leaf-willow.png'
+  '/assets/leaves/leaf-green.webp',
+  '/assets/leaves/leaf-autumn.webp',
+  '/assets/leaves/leaf-willow.webp'
 ];
 
 class LeafParticle {

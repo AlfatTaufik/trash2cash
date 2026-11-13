@@ -9,13 +9,13 @@
 
 // Sumber aset foto sampah asli (sama dengan intro)
 export const DEFAULT_TRASH_ASSETS = [
-  { id: 'plastic-bottle', name: 'Botol Plastik', image: '/assets/trash/plastic-bottle.png' },
-  { id: 'soda-can', name: 'Kaleng Minuman', image: '/assets/trash/soda-can.png' },
-  { id: 'banana-peel', name: 'Kulit Pisang', image: '/assets/trash/banana-peel.png' },
-  { id: 'cardboard', name: 'Kardus', image: '/assets/trash/cardboard.png' },
-  { id: 'coffee-cup', name: 'Gelas Kopi', image: '/assets/trash/coffee-cup.png' },
-  { id: 'crumpled-paper', name: 'Kertas Kusut', image: '/assets/trash/crumpled-paper.png' },
-  { id: 'battery', name: 'Baterai Bekas', image: '/assets/trash/battery.png' }
+  { id: 'plastic-bottle', name: 'Botol Plastik', image: '/assets/trash/plastic-bottle.webp' },
+  { id: 'soda-can', name: 'Kaleng Minuman', image: '/assets/trash/soda-can.webp' },
+  { id: 'banana-peel', name: 'Kulit Pisang', image: '/assets/trash/banana-peel.webp' },
+  { id: 'cardboard', name: 'Kardus', image: '/assets/trash/cardboard.webp' },
+  { id: 'coffee-cup', name: 'Gelas Kopi', image: '/assets/trash/coffee-cup.webp' },
+  { id: 'crumpled-paper', name: 'Kertas Kusut', image: '/assets/trash/crumpled-paper.webp' },
+  { id: 'battery', name: 'Baterai Bekas', image: '/assets/trash/battery.webp' }
 ];
 
 // Konstanta Konfigurasi Default
