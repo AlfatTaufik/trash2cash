@@ -71,13 +71,7 @@
   <rect class="box" x="630" y="88" width="140" height="44"/>
   <text x="700" y="103.5">Validasi hasil survei</text>
   <text x="700" y="116.5">dan informasi</text>
-  <path class="a" d="M700,132 V175"/>
-
-  <rect class="box" x="630" y="175" width="140" height="50"/>
-  <text x="700" y="187">Mendapatkan informasi</text>
-  <text x="700" y="200">kebutuhan pengguna</text>
-  <text x="700" y="213" font-style="italic">(Empathy Map)</text>
-  <path class="a" d="M700,225 V245 H465 V275"/>
+  <path class="a" d="M700,132 V245 H465 V275"/>
 
   <!-- ===== DEFINE ===== -->
   <rect class="box" x="370" y="275" width="190" height="44"/>
